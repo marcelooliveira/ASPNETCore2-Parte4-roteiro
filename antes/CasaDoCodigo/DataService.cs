@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace CasaDoCodigo
 {
@@ -19,22 +20,19 @@ namespace CasaDoCodigo
             this.produtoRepository = produtoRepository;
         }
 
-        public void InicializaDB()
+        public async Task InicializaDBAsync()
         {
-            contexto.Database.Migrate();
+            await contexto.Database.MigrateAsync();
 
-            List<Livro> livros = GetLivros();
+            List<Livro> livros = await GetLivrosAsync();
 
-            produtoRepository.SaveProdutos(livros);
+            await produtoRepository.SaveProdutosAsync(livros);
         }
 
-        private static List<Livro> GetLivros()
+        private static async Task<List<Livro>> GetLivrosAsync()
         {
-            var json = File.ReadAllText("livros.json");
-            var livros = JsonConvert.DeserializeObject<List<Livro>>(json);
-            return livros;
+            var json = await File.ReadAllTextAsync("livros.json");
+            return JsonConvert.DeserializeObject<List<Livro>>(json);
         }
     }
-
-
 }

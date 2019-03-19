@@ -1,7 +1,6 @@
 ﻿using CasaDoCodigo.Models;
 using CasaDoCodigo.Models.ViewModels;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,9 +9,9 @@ namespace CasaDoCodigo.Repositories
 {
     public interface IProdutoRepository
     {
-        void SaveProdutos(List<Livro> livros);
-        IList<Produto> GetProdutos();
-        BuscaProdutosViewModel GetProdutos(string pesquisa);
+        Task SaveProdutosAsync(List<Livro> livros);
+        Task<IList<Produto>> GetProdutosAsync();
+        Task<BuscaProdutosViewModel> GetProdutosAsync(string pesquisa);
     }
 
     public class ProdutoRepository : BaseRepository<Produto>, IProdutoRepository
@@ -25,14 +24,14 @@ namespace CasaDoCodigo.Repositories
             this.categoriaRepository = categoriaRepository;
         }
 
-        public IList<Produto> GetProdutos()
+        public async Task<IList<Produto>> GetProdutosAsync()
         {
-            return dbSet
+            return await dbSet
                 .Include(prod => prod.Categoria)
-            .ToList();
+                .ToListAsync();
         }
 
-        public BuscaProdutosViewModel GetProdutos(string pesquisa)
+        public async Task<BuscaProdutosViewModel> GetProdutosAsync(string pesquisa)
         {
             IQueryable<Produto> query = dbSet;
 
@@ -44,21 +43,21 @@ namespace CasaDoCodigo.Repositories
             query = query
                 .Include(prod => prod.Categoria);
 
-            return new BuscaProdutosViewModel(query.ToList(), pesquisa);
+            return new BuscaProdutosViewModel(await query.ToListAsync(), pesquisa);
         }
 
-        public void SaveProdutos(List<Livro> livros)
+        public async Task SaveProdutosAsync(List<Livro> livros)
         {
             foreach (var livro in livros)
             {
-                var categoria = categoriaRepository.AddCategoria(livro.Categoria);
+                var categoria = await categoriaRepository.AddCategoriaAsync(livro.Categoria);
 
-                if (!dbSet.Where(p => p.Codigo == livro.Codigo).Any())
+                if (!await dbSet.Where(p => p.Codigo == livro.Codigo).AnyAsync())
                 {
-                    dbSet.Add(new Produto(livro.Codigo, livro.Nome, livro.Preco, categoria));
+                    await dbSet.AddAsync(new Produto(livro.Codigo, livro.Nome, livro.Preco, categoria));
                 }
             }
-            contexto.SaveChanges();
+            await contexto.SaveChangesAsync();
         }
     }
 

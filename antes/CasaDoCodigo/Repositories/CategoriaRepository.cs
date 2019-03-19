@@ -1,6 +1,4 @@
 ﻿using CasaDoCodigo.Models;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -8,7 +6,7 @@ namespace CasaDoCodigo.Repositories
 {
     public interface ICategoriaRepository
     {
-        Categoria AddCategoria(string categoriaNome);
+        Task<Categoria> AddCategoriaAsync(string categoriaNome);
     }
 
     public class CategoriaRepository : BaseRepository<Categoria>, ICategoriaRepository
@@ -17,7 +15,7 @@ namespace CasaDoCodigo.Repositories
         {
         }
 
-        public Categoria AddCategoria(string categoriaNome)
+        public async Task<Categoria> AddCategoriaAsync(string categoriaNome)
         {
             var categoriaDB =
                 dbSet
@@ -27,8 +25,8 @@ namespace CasaDoCodigo.Repositories
             if (categoriaDB == null)
             {
                 categoriaDB = new Categoria(categoriaNome);
-                dbSet.Add(categoriaDB);
-                contexto.SaveChanges();
+                await dbSet.AddAsync(categoriaDB);
+                await contexto.SaveChangesAsync();
             }
             return categoriaDB;
         }
