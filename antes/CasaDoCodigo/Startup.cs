@@ -33,7 +33,6 @@ namespace CasaDoCodigo
                 options.UseSqlServer(connectionString)
             );
 
-            services.AddTransient<IDataService, DataService>();
             services.AddTransient<IProdutoRepository, ProdutoRepository>();
             services.AddTransient<IPedidoRepository, PedidoRepository>();
             services.AddTransient<ICadastroRepository, CadastroRepository>();
@@ -66,8 +65,6 @@ namespace CasaDoCodigo
                     name: "default",
                     template: "{controller=Pedido}/{action=BuscaProdutos}/{codigo?}");
             });
-
-            serviceProvider.GetService<IDataService>().InicializaDBAsync().Wait();
         }
     }
 

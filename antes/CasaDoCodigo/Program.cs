@@ -12,9 +12,11 @@ namespace CasaDoCodigo
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
-            BuildWebHost(args).Run();
+            IWebHost webHost = BuildWebHost(args);
+            await DataService.InicializaDBAsync(webHost);
+            webHost.Run();
         }
 
         public static IWebHost BuildWebHost(string[] args) =>
