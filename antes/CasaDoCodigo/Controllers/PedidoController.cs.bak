@@ -19,6 +19,7 @@ namespace CasaDoCodigo.Controllers
         {
             this.produtoRepository = produtoRepository;
             this.pedidoRepository = pedidoRepository;
+            this.itemPedidoRepository = itemPedidoRepository;
         }
 
         public async Task<IActionResult> Carrossel()

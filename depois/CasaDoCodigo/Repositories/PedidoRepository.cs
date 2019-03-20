@@ -19,16 +19,13 @@ namespace CasaDoCodigo.Repositories
     public class PedidoRepository : BaseRepository<Pedido>, IPedidoRepository
     {
         private readonly IHttpContextAccessor contextAccessor;
-        private readonly IItemPedidoRepository itemPedidoRepository;
         private readonly ICadastroRepository cadastroRepository;
 
         public PedidoRepository(ApplicationContext contexto,
             IHttpContextAccessor contextAccessor,
-            IItemPedidoRepository itemPedidoRepository,
             ICadastroRepository cadastroRepository) : base(contexto)
         {
             this.contextAccessor = contextAccessor;
-            this.itemPedidoRepository = itemPedidoRepository;
             this.cadastroRepository = cadastroRepository;
         }
 
@@ -98,7 +95,7 @@ namespace CasaDoCodigo.Repositories
 
         public async Task<UpdateQuantidadeResponse> UpdateQuantidadeAsync(ItemPedido itemPedido)
         {
-            var itemPedidoDB = await itemPedidoRepository.GetItemPedidoAsync(itemPedido.Id);
+            var itemPedidoDB = await GetItemPedidoAsync(itemPedido.Id);
 
             if (itemPedidoDB != null)
             {
@@ -106,7 +103,7 @@ namespace CasaDoCodigo.Repositories
 
                 if (itemPedido.Quantidade == 0)
                 {
-                    await itemPedidoRepository.RemoveItemPedidoAsync(itemPedido.Id);
+                    await RemoveItemPedidoAsync(itemPedido.Id);
                 }
 
                 await contexto.SaveChangesAsync();
@@ -125,6 +122,20 @@ namespace CasaDoCodigo.Repositories
             var pedido = await GetPedidoAsync();
             await cadastroRepository.UpdateAsync(pedido.Cadastro.Id, cadastro);
             return pedido;
+        }
+
+        private async Task<ItemPedido> GetItemPedidoAsync(int itemPedidoId)
+        {
+            return
+            await contexto.Set<ItemPedido>()
+                .Where(ip => ip.Id == itemPedidoId)
+                .SingleOrDefaultAsync();
+        }
+
+        private async Task RemoveItemPedidoAsync(int itemPedidoId)
+        {
+            contexto.Set<ItemPedido>()
+                .Remove(await GetItemPedidoAsync(itemPedidoId));
         }
     }
 }

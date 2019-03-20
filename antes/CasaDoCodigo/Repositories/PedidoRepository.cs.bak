@@ -117,6 +117,7 @@ namespace CasaDoCodigo.Repositories
             throw new ArgumentException("ItemPedido não encontrado");
         }
 
+
         public async Task<Pedido> UpdateCadastroAsync(Cadastro cadastro)
         {
             var pedido = await GetPedidoAsync();

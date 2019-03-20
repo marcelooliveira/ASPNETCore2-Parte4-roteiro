@@ -59,28 +59,6 @@ namespace CasaDoCodigo.Repositories
             }
             await contexto.SaveChangesAsync();
         }
-
-        private async Task SaveCategorias(List<Livro> livros)
-        {
-            var categorias =
-                livros
-                    .OrderBy(l => l.Categoria)
-                    .Select(l => l.Categoria)
-                    .Distinct();
-
-            foreach (var nomeCategoria in categorias)
-            {
-                var categoriaDB =
-                    await contexto.Set<Categoria>()
-                    .SingleOrDefaultAsync(c => c.Nome == nomeCategoria);
-                if (categoriaDB == null)
-                {
-                    await contexto.Set<Categoria>()
-                        .AddAsync(new Categoria(nomeCategoria));
-                }
-            }
-            await contexto.SaveChangesAsync();
-        }
     }
 
     public class Livro

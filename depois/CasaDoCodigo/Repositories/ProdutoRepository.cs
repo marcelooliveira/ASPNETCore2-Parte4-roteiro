@@ -16,12 +16,8 @@ namespace CasaDoCodigo.Repositories
 
     public class ProdutoRepository : BaseRepository<Produto>, IProdutoRepository
     {
-        private readonly ICategoriaRepository categoriaRepository;
-
-        public ProdutoRepository(ApplicationContext contexto,
-            ICategoriaRepository categoriaRepository) : base(contexto)
+        public ProdutoRepository(ApplicationContext contexto) : base(contexto)
         {
-            this.categoriaRepository = categoriaRepository;
         }
 
         public async Task<IList<Produto>> GetProdutosAsync()
@@ -48,13 +44,39 @@ namespace CasaDoCodigo.Repositories
 
         public async Task SaveProdutosAsync(List<Livro> livros)
         {
+            await SaveCategorias(livros);
+
             foreach (var livro in livros)
             {
-                var categoria = await categoriaRepository.AddCategoriaAsync(livro.Categoria);
+                var categoria =
+                    await contexto.Set<Categoria>()
+                        .SingleAsync(c => c.Nome == livro.Categoria);
 
                 if (!await dbSet.Where(p => p.Codigo == livro.Codigo).AnyAsync())
                 {
                     await dbSet.AddAsync(new Produto(livro.Codigo, livro.Nome, livro.Preco, categoria));
+                }
+            }
+            await contexto.SaveChangesAsync();
+        }
+
+        private async Task SaveCategorias(List<Livro> livros)
+        {
+            var categorias =
+                livros
+                    .OrderBy(l => l.Categoria)
+                    .Select(l => l.Categoria)
+                    .Distinct();
+
+            foreach (var nomeCategoria in categorias)
+            {
+                var categoriaDB =
+                    await contexto.Set<Categoria>()
+                    .SingleOrDefaultAsync(c => c.Nome == nomeCategoria);
+                if (categoriaDB == null)
+                {
+                    await contexto.Set<Categoria>()
+                        .AddAsync(new Categoria(nomeCategoria));
                 }
             }
             await contexto.SaveChangesAsync();
