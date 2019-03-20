@@ -1,0 +1,37 @@
+2019-03-20 13:12:37.592 -03:00 [INF] You are using the in-memory version of the persisted grant store. This will store consent decisions, authorization codes, refresh and reference tokens in memory only. If you are using any of those features in production, you want to switch to a different store implementation.
+2019-03-20 13:12:37.753 -03:00 [INF] Using the default authentication scheme Identity.Application for IdentityServer
+2019-03-20 13:12:37.759 -03:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for authentication
+2019-03-20 13:12:37.759 -03:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-in
+2019-03-20 13:12:37.760 -03:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-out
+2019-03-20 13:12:37.760 -03:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for challenge
+2019-03-20 13:12:37.760 -03:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for forbid
+2019-03-20 13:12:38.698 -03:00 [DBG] Login Url: /Account/Login
+2019-03-20 13:12:38.704 -03:00 [DBG] Login Return Url Parameter: ReturnUrl
+2019-03-20 13:12:38.704 -03:00 [DBG] Logout Url: /Account/Logout
+2019-03-20 13:12:38.705 -03:00 [DBG] ConsentUrl Url: /consent
+2019-03-20 13:12:38.705 -03:00 [DBG] Consent Return Url Parameter: returnUrl
+2019-03-20 13:12:38.705 -03:00 [DBG] Error Url: /home/error
+2019-03-20 13:12:38.705 -03:00 [DBG] Error Id Parameter: errorId
+2019-03-20 13:12:38.725 -03:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2019-03-20 13:12:38.753 -03:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2019-03-20 13:12:43.320 -03:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2019-03-20 13:12:43.321 -03:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2019-03-20 13:12:43.392 -03:00 [INF] AuthenticationScheme: Identity.Application was challenged.
+2019-03-20 13:12:43.405 -03:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2019-03-20 13:12:43.405 -03:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2019-03-20 13:12:47.959 -03:00 [DBG] CORS request made for path: /Account/Login from origin: null but was ignored because path was not for an allowed IdentityServer CORS endpoint
+2019-03-20 13:12:47.963 -03:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2019-03-20 13:12:47.963 -03:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2019-03-20 13:12:48.985 -03:00 [WRN] Invalid password for user 6943387a-d6f3-4c5a-88b8-a88b01d492eb.
+2019-03-20 13:12:48.986 -03:00 [WRN] User 6943387a-d6f3-4c5a-88b8-a88b01d492eb failed to provide the correct password.
+2019-03-20 13:12:49.175 -03:00 [INF] {"Username":"alice","Endpoint":"UI","Category":"Authentication","Name":"User Login Failure","EventType":"Failure","Id":1001,"Message":"invalid credentials","ActivityId":"0HLLD9RFIULFP:00000002","TimeStamp":"2019-03-20T16:12:49.0000000Z","ProcessId":10124,"LocalIpAddress":"127.0.0.1:33151","RemoteIpAddress":"::1","$type":"UserLoginFailureEvent"}
+2019-03-20 13:12:52.611 -03:00 [DBG] CORS request made for path: /Account/Login from origin: null but was ignored because path was not for an allowed IdentityServer CORS endpoint
+2019-03-20 13:12:52.614 -03:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2019-03-20 13:12:52.615 -03:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2019-03-20 13:12:52.916 -03:00 [DBG] Augmenting SignInContext
+2019-03-20 13:12:52.923 -03:00 [DBG] Adding idp claim with value: local
+2019-03-20 13:12:52.923 -03:00 [DBG] Adding amr claim with value: pwd
+2019-03-20 13:12:52.924 -03:00 [DBG] Adding auth_time claim with value: 1553098372
+2019-03-20 13:12:52.932 -03:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2019-03-20 13:12:52.945 -03:00 [INF] AuthenticationScheme: Identity.Application signed in.
+2019-03-20 13:12:52.952 -03:00 [INF] {"Username":"alice","Provider":null,"ProviderUserId":null,"SubjectId":"6943387a-d6f3-4c5a-88b8-a88b01d492eb","DisplayName":"alice","Endpoint":"UI","Category":"Authentication","Name":"User Login Success","EventType":"Success","Id":1000,"Message":null,"ActivityId":"0HLLD9RFIULFP:00000003","TimeStamp":"2019-03-20T16:12:52.0000000Z","ProcessId":10124,"LocalIpAddress":"127.0.0.1:33151","RemoteIpAddress":"::1","$type":"UserLoginSuccessEvent"}
