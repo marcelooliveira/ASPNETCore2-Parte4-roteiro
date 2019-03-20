@@ -36,6 +36,32 @@ namespace CasaDoCodigo
             services.AddTransient<IProdutoRepository, ProdutoRepository>();
             services.AddTransient<IPedidoRepository, PedidoRepository>();
             services.AddTransient<ICadastroRepository, CadastroRepository>();
+
+            services.AddAuthorization();
+            //JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
+            services
+                .AddAuthentication(options =>
+                {
+                    options.DefaultScheme = "Cookies";
+                    options.DefaultChallengeScheme = "oidc";
+                })
+                .AddCookie("Cookies")
+                .AddOpenIdConnect("oidc", options =>
+                {
+                    options.SignInScheme = "Cookies";
+
+                    options.Authority = Configuration["IdentityUrl"];
+                    //options.BackchannelHttpHandler = new HttpClientHandler() { Proxy = new WebProxy() };
+                    options.RequireHttpsMetadata = false;
+
+                    options.ClientId = "CasaDoCodigo.MVC";
+                    options.ClientSecret = "49C1A7E1-0C79-4A89-A3D6-A37998FB86B0";
+                    options.ResponseType = "code id_token";
+
+                    //options.SaveTokens = true;
+                    //options.GetClaimsFromUserInfoEndpoint = true;
+                });
         }
 
 
@@ -54,6 +80,8 @@ namespace CasaDoCodigo
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            app.UseAuthentication();
 
             app.UseStaticFiles();
             app.UseSession();
