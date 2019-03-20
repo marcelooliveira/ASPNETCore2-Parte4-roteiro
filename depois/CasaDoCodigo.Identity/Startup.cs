@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace CasaDoCodigo.Identity
 {
@@ -77,6 +78,7 @@ namespace CasaDoCodigo.Identity
 
         public void Configure(IApplicationBuilder app)
         {
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
             if (Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

@@ -1,6 +1,7 @@
 ﻿using CasaDoCodigo.Models;
 using CasaDoCodigo.Models.ViewModels;
 using CasaDoCodigo.Repositories;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -46,6 +47,7 @@ namespace CasaDoCodigo.Controllers
             return base.View(carrinhoViewModel);
         }
 
+        [Authorize]
         public async Task<IActionResult> Cadastro()
         {
             var pedido = await pedidoRepository.GetPedidoAsync();
@@ -58,6 +60,7 @@ namespace CasaDoCodigo.Controllers
             return View(pedido.Cadastro);
         }
 
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Resumo(Cadastro cadastro)
@@ -69,11 +72,19 @@ namespace CasaDoCodigo.Controllers
             return RedirectToAction("Cadastro");
         }
 
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<UpdateQuantidadeResponse> UpdateQuantidade([FromBody]ItemPedido itemPedido)
         {
             return await pedidoRepository.UpdateQuantidadeAsync(itemPedido);
+        }
+
+        [Authorize]
+        public async Task Logout()
+        {
+            await HttpContext.SignOutAsync("Cookies");
+            await HttpContext.SignOutAsync("oidc");
         }
     }
 }

@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using CasaDoCodigo.Repositories;
 using Microsoft.AspNetCore.Builder;
@@ -38,7 +42,7 @@ namespace CasaDoCodigo
             services.AddTransient<ICadastroRepository, CadastroRepository>();
 
             services.AddAuthorization();
-            //JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
             services
                 .AddAuthentication(options =>
@@ -52,11 +56,16 @@ namespace CasaDoCodigo
                     options.SignInScheme = "Cookies";
 
                     options.Authority = Configuration["IdentityUrl"];
+                    options.BackchannelHttpHandler = new HttpClientHandler() { Proxy = new WebProxy() };
                     options.RequireHttpsMetadata = false;
 
                     options.ClientId = "CasaDoCodigo.MVC";
                     options.ClientSecret = "49C1A7E1-0C79-4A89-A3D6-A37998FB86B0";
                     options.ResponseType = "code id_token";
+                    options.SaveTokens = true;
+                    options.GetClaimsFromUserInfoEndpoint = true;
+                    options.SignedOutCallbackPath = "/Pedido/Carrossel";
+                    options.SignedOutRedirectUri = "/Pedido/Carrossel";
                 });
         }
 
