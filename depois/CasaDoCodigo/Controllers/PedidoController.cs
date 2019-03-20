@@ -79,12 +79,5 @@ namespace CasaDoCodigo.Controllers
         {
             return await pedidoRepository.UpdateQuantidadeAsync(itemPedido);
         }
-
-        [Authorize]
-        public async Task Logout()
-        {
-            await HttpContext.SignOutAsync("Cookies");
-            await HttpContext.SignOutAsync("oidc");
-        }
     }
 }
