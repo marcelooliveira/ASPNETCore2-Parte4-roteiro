@@ -7120,3 +7120,85 @@
 2019-03-21 16:14:26.339 -03:00 [DBG] Scopes in access token: openid profile
 2019-03-21 16:14:26.350 -03:00 [INF] Profile service returned the following claim types: sub name given_name family_name website preferred_username
 2019-03-21 16:14:26.350 -03:00 [DBG] End userinfo request
+2019-03-21 17:09:11.912 -03:00 [INF] You are using the in-memory version of the persisted grant store. This will store consent decisions, authorization codes, refresh and reference tokens in memory only. If you are using any of those features in production, you want to switch to a different store implementation.
+2019-03-21 17:09:12.025 -03:00 [INF] Using the default authentication scheme Identity.Application for IdentityServer
+2019-03-21 17:09:12.035 -03:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for authentication
+2019-03-21 17:09:12.038 -03:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-in
+2019-03-21 17:09:12.039 -03:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-out
+2019-03-21 17:09:12.039 -03:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for challenge
+2019-03-21 17:09:12.040 -03:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for forbid
+2019-03-21 17:09:12.591 -03:00 [DBG] Login Url: /Account/Login
+2019-03-21 17:09:12.595 -03:00 [DBG] Login Return Url Parameter: ReturnUrl
+2019-03-21 17:09:12.595 -03:00 [DBG] Logout Url: /Account/Logout
+2019-03-21 17:09:12.595 -03:00 [DBG] ConsentUrl Url: /consent
+2019-03-21 17:09:12.596 -03:00 [DBG] Consent Return Url Parameter: returnUrl
+2019-03-21 17:09:12.596 -03:00 [DBG] Error Url: /home/error
+2019-03-21 17:09:12.596 -03:00 [DBG] Error Id Parameter: errorId
+2019-03-21 17:10:02.028 -03:00 [INF] You are using the in-memory version of the persisted grant store. This will store consent decisions, authorization codes, refresh and reference tokens in memory only. If you are using any of those features in production, you want to switch to a different store implementation.
+2019-03-21 17:10:02.093 -03:00 [INF] Using the default authentication scheme Identity.Application for IdentityServer
+2019-03-21 17:10:02.098 -03:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for authentication
+2019-03-21 17:10:02.099 -03:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-in
+2019-03-21 17:10:02.099 -03:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-out
+2019-03-21 17:10:02.099 -03:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for challenge
+2019-03-21 17:10:02.099 -03:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for forbid
+2019-03-21 17:10:02.598 -03:00 [DBG] Login Url: /Account/Login
+2019-03-21 17:10:02.601 -03:00 [DBG] Login Return Url Parameter: ReturnUrl
+2019-03-21 17:10:02.601 -03:00 [DBG] Logout Url: /Account/Logout
+2019-03-21 17:10:02.601 -03:00 [DBG] ConsentUrl Url: /consent
+2019-03-21 17:10:02.601 -03:00 [DBG] Consent Return Url Parameter: returnUrl
+2019-03-21 17:10:02.601 -03:00 [DBG] Error Url: /home/error
+2019-03-21 17:10:02.601 -03:00 [DBG] Error Id Parameter: errorId
+2019-03-21 17:14:57.362 -03:00 [INF] You are using the in-memory version of the persisted grant store. This will store consent decisions, authorization codes, refresh and reference tokens in memory only. If you are using any of those features in production, you want to switch to a different store implementation.
+2019-03-21 17:14:57.484 -03:00 [INF] Using the default authentication scheme Identity.Application for IdentityServer
+2019-03-21 17:14:57.496 -03:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for authentication
+2019-03-21 17:14:57.496 -03:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-in
+2019-03-21 17:14:57.496 -03:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-out
+2019-03-21 17:14:57.496 -03:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for challenge
+2019-03-21 17:14:57.496 -03:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for forbid
+2019-03-21 17:14:58.164 -03:00 [DBG] Login Url: /Account/Login
+2019-03-21 17:14:58.168 -03:00 [DBG] Login Return Url Parameter: ReturnUrl
+2019-03-21 17:14:58.169 -03:00 [DBG] Logout Url: /Account/Logout
+2019-03-21 17:14:58.170 -03:00 [DBG] ConsentUrl Url: /consent
+2019-03-21 17:14:58.170 -03:00 [DBG] Consent Return Url Parameter: returnUrl
+2019-03-21 17:14:58.170 -03:00 [DBG] Error Url: /home/error
+2019-03-21 17:14:58.170 -03:00 [DBG] Error Id Parameter: errorId
+2019-03-21 17:15:13.726 -03:00 [INF] You are using the in-memory version of the persisted grant store. This will store consent decisions, authorization codes, refresh and reference tokens in memory only. If you are using any of those features in production, you want to switch to a different store implementation.
+2019-03-21 17:15:13.787 -03:00 [INF] Using the default authentication scheme Identity.Application for IdentityServer
+2019-03-21 17:15:13.792 -03:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for authentication
+2019-03-21 17:15:13.792 -03:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-in
+2019-03-21 17:15:13.792 -03:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-out
+2019-03-21 17:15:13.792 -03:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for challenge
+2019-03-21 17:15:13.792 -03:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for forbid
+2019-03-21 17:15:14.301 -03:00 [DBG] Login Url: /Account/Login
+2019-03-21 17:15:14.305 -03:00 [DBG] Login Return Url Parameter: ReturnUrl
+2019-03-21 17:15:14.305 -03:00 [DBG] Logout Url: /Account/Logout
+2019-03-21 17:15:14.306 -03:00 [DBG] ConsentUrl Url: /consent
+2019-03-21 17:15:14.306 -03:00 [DBG] Consent Return Url Parameter: returnUrl
+2019-03-21 17:15:14.306 -03:00 [DBG] Error Url: /home/error
+2019-03-21 17:15:14.306 -03:00 [DBG] Error Id Parameter: errorId
+2019-03-21 17:15:14.348 -03:00 [DBG] Request path /.well-known/openid-configuration matched to endpoint type Discovery
+2019-03-21 17:15:14.451 -03:00 [DBG] Endpoint enabled: Discovery, successfully created handler: IdentityServer4.Endpoints.DiscoveryEndpoint
+2019-03-21 17:15:14.451 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.DiscoveryEndpoint for /.well-known/openid-configuration
+2019-03-21 17:15:14.457 -03:00 [DBG] Start discovery request
+2019-03-21 17:15:14.809 -03:00 [DBG] Request path /.well-known/openid-configuration/jwks matched to endpoint type Discovery
+2019-03-21 17:15:14.812 -03:00 [DBG] Endpoint enabled: Discovery, successfully created handler: IdentityServer4.Endpoints.DiscoveryKeyEndpoint
+2019-03-21 17:15:14.812 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.DiscoveryKeyEndpoint for /.well-known/openid-configuration/jwks
+2019-03-21 17:15:14.820 -03:00 [DBG] Start key discovery request
+2019-03-21 17:15:15.711 -03:00 [DBG] Request path /connect/endsession matched to endpoint type Endsession
+2019-03-21 17:15:15.716 -03:00 [DBG] Endpoint enabled: Endsession, successfully created handler: IdentityServer4.Endpoints.EndSessionEndpoint
+2019-03-21 17:15:15.716 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.EndSessionEndpoint for /connect/endsession
+2019-03-21 17:15:15.733 -03:00 [DBG] Processing signout request for 14990af0-c6f9-4f5c-a089-3a7dd4ed0cd0
+2019-03-21 17:15:15.745 -03:00 [DBG] Start end session request validation
+2019-03-21 17:15:15.757 -03:00 [DBG] Start identity token validation
+2019-03-21 17:15:15.812 -03:00 [DBG] client configuration validation for client CasaDoCodigo.MVC succeeded.
+2019-03-21 17:15:15.812 -03:00 [DBG] Client found: CasaDoCodigo.MVC / Casa do Código MVC
+2019-03-21 17:15:15.915 -03:00 [DBG] Calling into custom token validator: IdentityServer4.Validation.DefaultCustomTokenValidator
+2019-03-21 17:15:15.930 -03:00 [DBG] Token validation success
+{"ClientId":"CasaDoCodigo.MVC","ClientName":"Casa do Código MVC","ValidateLifetime":false,"AccessTokenType":null,"ExpectedScope":null,"TokenHandle":null,"JwtId":null,"Claims":{"nbf":1553195666,"exp":1553195966,"iss":"http://localhost:5000","aud":"CasaDoCodigo.MVC","nonce":"636887924622153464.NjExNjljNGQtOGNlYy00MTBjLThhZDYtZWE3YjIxOTFiYmE0YzU4NTRkYzgtNzY1ZS00NWYyLWEwNzctYjAxODAzYjFjNGUz","iat":1553195666,"at_hash":"mHTioCMSCxiAv2Yyal7cew","sid":"5091a2fdcbb1bf1854b3122204bcd398","sub":"14990af0-c6f9-4f5c-a089-3a7dd4ed0cd0","auth_time":1553195666,"idp":"local","amr":"pwd"},"$type":"TokenValidationLog"}
+2019-03-21 17:15:15.960 -03:00 [INF] End session request validation success
+{"ClientId":"CasaDoCodigo.MVC","ClientName":"Casa do Código MVC","SubjectId":"14990af0-c6f9-4f5c-a089-3a7dd4ed0cd0","PostLogOutUri":"http://localhost:5001/signout-callback-oidc","State":"CfDJ8HJUPcmp6VtIqNduejmxXT636LylGrc4DDYo6JYS1SRGd6oHJGTcwyff0WHacpYC-EE0vkkc5p4IYerdPhMNcgKfnzXkzUfJvwjGqAIBoL6Vmriah_5qdJNXEF1XG-Sa_jhjjXZtNl4_PYYKoWxoxcbcBxe4jTmwb_YIzEiBBIdM","Raw":{"post_logout_redirect_uri":"http://localhost:5001/signout-callback-oidc","id_token_hint":"eyJhbGciOiJSUzI1NiIsImtpZCI6ImRkNWY2OGJmYzc1M2IzMGIzZGU0MTIzZDA4OTY2ZDBkIiwidHlwIjoiSldUIn0.eyJuYmYiOjE1NTMxOTU2NjYsImV4cCI6MTU1MzE5NTk2NiwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo1MDAwIiwiYXVkIjoiQ2FzYURvQ29kaWdvLk1WQyIsIm5vbmNlIjoiNjM2ODg3OTI0NjIyMTUzNDY0Lk5qRXhOamxqTkdRdE9HTmxZeTAwTVRCakxUaGhaRFl0WldFM1lqSXhPVEZpWW1FMFl6VTROVFJrWXpndE56WTFaUzAwTldZeUxXRXdOemN0WWpBeE9EQXpZakZqTkdVeiIsImlhdCI6MTU1MzE5NTY2NiwiYXRfaGFzaCI6Im1IVGlvQ01TQ3hpQXYyWXlhbDdjZXciLCJzaWQiOiI1MDkxYTJmZGNiYjFiZjE4NTRiMzEyMjIwNGJjZDM5OCIsInN1YiI6IjE0OTkwYWYwLWM2ZjktNGY1Yy1hMDg5LTNhN2RkNGVkMGNkMCIsImF1dGhfdGltZSI6MTU1MzE5NTY2NiwiaWRwIjoibG9jYWwiLCJhbXIiOlsicHdkIl19.Awx2SL6wbEtCSbev-b7lUMhqPUtoBHuVh2bbP-epVlI2DtXxW200zcSoooY1WWDx7oSJpkO0m3nw8qsLeGcQTA2WwqdwVNr0dvgh3G5LSbKBEqPV4OJRSgI_zgq7JGncP8x5p7ZAYJ75TzlONAh4TCEChEre4KvF1yZ69VEllOHch2Nve8ItF_AY3hROqW4xqhXj8xeld0ElcBMa1KmBcsUaJANZ73BoQZTAOnHofifeSjBsVNIVyvje6nHY7otWUFyhEZPy2JQhBz1DXVeqGPr-EGsVlPa6i40era3I4jTxnWPW0AdzqieJc6SgUUwlb50dk0I6y2OcHsbulIlxgg","state":"CfDJ8HJUPcmp6VtIqNduejmxXT636LylGrc4DDYo6JYS1SRGd6oHJGTcwyff0WHacpYC-EE0vkkc5p4IYerdPhMNcgKfnzXkzUfJvwjGqAIBoL6Vmriah_5qdJNXEF1XG-Sa_jhjjXZtNl4_PYYKoWxoxcbcBxe4jTmwb_YIzEiBBIdM","x-client-SKU":"ID_NETSTANDARD1_4","x-client-ver":"5.2.0.0"},"$type":"EndSessionRequestValidationLog"}
+2019-03-21 17:15:15.961 -03:00 [DBG] Success validating end session request from CasaDoCodigo.MVC
+2019-03-21 17:15:16.212 -03:00 [INF] AuthenticationScheme: Identity.Application signed out.
+2019-03-21 17:15:16.213 -03:00 [INF] AuthenticationScheme: Identity.External signed out.
+2019-03-21 17:15:16.214 -03:00 [INF] AuthenticationScheme: Identity.TwoFactorUserId signed out.
+2019-03-21 17:15:16.227 -03:00 [INF] {"SubjectId":"14990af0-c6f9-4f5c-a089-3a7dd4ed0cd0","DisplayName":"Bob Smith","Category":"Authentication","Name":"User Logout Success","EventType":"Success","Id":1002,"Message":null,"ActivityId":"0HLLE77MOTES3:00000004","TimeStamp":"2019-03-21T20:15:16.0000000Z","ProcessId":3524,"LocalIpAddress":"127.0.0.1:12090","RemoteIpAddress":"::1","$type":"UserLogoutSuccessEvent"}
