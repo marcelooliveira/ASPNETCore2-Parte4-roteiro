@@ -93,6 +93,11 @@ namespace CasaDoCodigo.Repositories
             contextAccessor.HttpContext.Session.SetInt32("pedidoId", pedidoId);
         }
 
+        private void ResetPedidoId()
+        {
+            contextAccessor.HttpContext.Session.Remove("pedidoId");
+        }
+
         public async Task<UpdateQuantidadeResponse> UpdateQuantidadeAsync(ItemPedido itemPedido, string clienteId)
         {
             var itemPedidoDB = await GetItemPedidoAsync(itemPedido.Id);
@@ -121,6 +126,7 @@ namespace CasaDoCodigo.Repositories
         {
             var pedido = await GetPedidoAsync(clienteId);
             await cadastroRepository.UpdateAsync(pedido.Cadastro.Id, cadastro);
+            ResetPedidoId();
             return pedido;
         }
 
