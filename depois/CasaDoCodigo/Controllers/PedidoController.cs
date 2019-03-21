@@ -1,6 +1,7 @@
 ﻿using CasaDoCodigo.Models;
 using CasaDoCodigo.Models.ViewModels;
 using CasaDoCodigo.Repositories;
+using IdentityModel;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace CasaDoCodigo.Controllers
@@ -40,10 +42,10 @@ namespace CasaDoCodigo.Controllers
         {
             if (!string.IsNullOrEmpty(codigo))
             {
-                await pedidoRepository.AddItemAsync(codigo);
+                await pedidoRepository.AddItemAsync(codigo, GetUserId());
             }
 
-            var pedido = await pedidoRepository.GetPedidoAsync();
+            var pedido = await pedidoRepository.GetPedidoAsync(GetUserId());
             List<ItemPedido> itens = pedido.Itens;
             CarrinhoViewModel carrinhoViewModel = new CarrinhoViewModel(itens);
             return base.View(carrinhoViewModel);
@@ -52,7 +54,7 @@ namespace CasaDoCodigo.Controllers
         [Authorize]
         public async Task<IActionResult> Cadastro()
         {
-            var pedido = await pedidoRepository.GetPedidoAsync();
+            var pedido = await pedidoRepository.GetPedidoAsync(GetUserId());
 
             if (pedido == null)
             {
@@ -69,7 +71,7 @@ namespace CasaDoCodigo.Controllers
         {
             if (ModelState.IsValid)
             {
-                return View(await pedidoRepository.UpdateCadastroAsync(cadastro));
+                return View(await pedidoRepository.UpdateCadastroAsync(cadastro, GetUserId()));
             }
             return RedirectToAction("Cadastro");
         }
@@ -79,13 +81,28 @@ namespace CasaDoCodigo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<UpdateQuantidadeResponse> UpdateQuantidade([FromBody]ItemPedido itemPedido)
         {
-            return await pedidoRepository.UpdateQuantidadeAsync(itemPedido);
+            return await pedidoRepository.UpdateQuantidadeAsync(itemPedido, GetUserId());
         }
 
+        [Authorize]
         public async Task Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             await HttpContext.SignOutAsync(OpenIdConnectDefaults.AuthenticationScheme);
+        }
+
+        private string GetUserId()
+        {
+            var userIdClaim = User.Claims.FirstOrDefault(x
+                => new[] {
+                    JwtClaimTypes.Subject, ClaimTypes.NameIdentifier
+                }.Contains(x.Type)
+                && !string.IsNullOrWhiteSpace(x.Value));
+
+            if (userIdClaim != null)
+                return userIdClaim.Value;
+
+            return null;
         }
     }
 }

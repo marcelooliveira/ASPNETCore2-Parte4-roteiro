@@ -98,7 +98,8 @@ namespace CasaDoCodigo.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("CadastroId");
+                    b.Property<int?>("CadastroId")
+                        .IsRequired();
 
                     b.Property<string>("ClienteId")
                         .IsRequired();
