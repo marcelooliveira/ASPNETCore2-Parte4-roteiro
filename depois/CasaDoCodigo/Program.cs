@@ -15,7 +15,7 @@ namespace CasaDoCodigo
         public static async Task Main(string[] args)
         {
             IWebHost webHost = BuildWebHost(args);
-            await DataService.InicializaDBAsync(webHost);
+            //await DataService.InicializaDBAsync(webHost);
             webHost.Run();
         }
 

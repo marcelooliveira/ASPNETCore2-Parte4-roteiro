@@ -7,6 +7,8 @@ using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using CasaDoCodigo.Repositories;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -47,25 +49,23 @@ namespace CasaDoCodigo
             services
                 .AddAuthentication(options =>
                 {
-                    options.DefaultScheme = "Cookies";
-                    options.DefaultChallengeScheme = "oidc";
+                    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
                 })
-                .AddCookie("Cookies")
-                .AddOpenIdConnect("oidc", options =>
+                .AddCookie(setup => setup.ExpireTimeSpan = TimeSpan.FromHours(2))
+                .AddOpenIdConnect(options =>
                 {
-                    options.SignInScheme = "Cookies";
+                    options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
 
                     options.Authority = Configuration["IdentityUrl"];
                     options.BackchannelHttpHandler = new HttpClientHandler() { Proxy = new WebProxy() };
                     options.RequireHttpsMetadata = false;
-
                     options.ClientId = "CasaDoCodigo.MVC";
                     options.ClientSecret = "49C1A7E1-0C79-4A89-A3D6-A37998FB86B0";
                     options.ResponseType = "code id_token";
                     options.SaveTokens = true;
                     options.GetClaimsFromUserInfoEndpoint = true;
-                    options.SignedOutCallbackPath = "/Pedido/Carrossel";
-                    options.SignedOutRedirectUri = "/Pedido/Carrossel";
+                    options.SignedOutRedirectUri = Configuration["CallbackUrl"];
                 });
         }
 
