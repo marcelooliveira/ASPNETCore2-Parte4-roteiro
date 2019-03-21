@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CasaDoCodigo.MVC", "depois\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CasaDoCodigo.Identity", "depois\CasaDoCodigo.Identity\CasaDoCodigo.Identity.csproj", "{2C3CE09A-DBFE-4748-82CC-0AB04137970C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Item01 - IdentityServer4", "Item01 - IdentityServer4", "{DD362FF8-163A-4195-88C0-F52E81F281D3}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Item01 - Criando o Projeto IdentityServer4", "Item01 - Criando o Projeto IdentityServer4", "{DD362FF8-163A-4195-88C0-F52E81F281D3}"
 	ProjectSection(SolutionItems) = preProject
 		Readme.md = Readme.md
 	EndProjectSection
@@ -21,6 +21,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CasaDoCodigo.MVC", "Item01\CasaDoCodigo\CasaDoCodigo.MVC.csproj", "{0A5BFD38-4CAE-432A-997D-CEFFDCAA1AA9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CasaDoCodigo.Identity", "Item01\CasaDoCodigo.Identity\CasaDoCodigo.Identity.csproj", "{E3872969-8CB7-4B5A-B557-F4EC898D8A4E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Item02 - Autorizando o Cliente", "Item02 - Autorizando o Cliente", "{7EBF8D25-89C7-4962-A14B-516827396AB2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
