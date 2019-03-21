@@ -62,7 +62,7 @@ namespace CasaDoCodigo.Repositories
 
         public async Task<Pedido> GetPedidoAsync(string clienteId)
         {
-            var pedidoId = GetPedidoId();
+            var pedidoId = GetPedidoId(clienteId);
             var pedido = 
                 await dbSet
                 .Include(p => p.Itens)
@@ -77,25 +77,25 @@ namespace CasaDoCodigo.Repositories
                 pedido = new Pedido(clienteId, new Cadastro());
                 await dbSet.AddAsync(pedido);
                 await contexto.SaveChangesAsync();
-                SetPedidoId(pedido.Id);
+                SetPedidoId(clienteId, pedido.Id);
             }
 
             return pedido;
         }
 
-        private int? GetPedidoId()
+        private int? GetPedidoId(string clienteId)
         {
-            return contextAccessor.HttpContext.Session.GetInt32("pedidoId");
+            return contextAccessor.HttpContext.Session.GetInt32($"pedidoId_{clienteId}");
         }
 
-        private void SetPedidoId(int pedidoId)
+        private void SetPedidoId(string clienteId, int pedidoId)
         {
-            contextAccessor.HttpContext.Session.SetInt32("pedidoId", pedidoId);
+            contextAccessor.HttpContext.Session.SetInt32($"pedidoId_{clienteId}", pedidoId);
         }
 
-        private void ResetPedidoId()
+        private void ResetPedidoId(string clienteId)
         {
-            contextAccessor.HttpContext.Session.Remove("pedidoId");
+            contextAccessor.HttpContext.Session.Remove($"pedidoId_{clienteId}");
         }
 
         public async Task<UpdateQuantidadeResponse> UpdateQuantidadeAsync(ItemPedido itemPedido, string clienteId)
@@ -126,7 +126,7 @@ namespace CasaDoCodigo.Repositories
         {
             var pedido = await GetPedidoAsync(clienteId);
             await cadastroRepository.UpdateAsync(pedido.Cadastro.Id, cadastro);
-            ResetPedidoId();
+            ResetPedidoId(clienteId);
             return pedido;
         }
 
