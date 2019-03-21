@@ -199,7 +199,7 @@ namespace IdentityServer4.Quickstart.UI
                 return SignOut(new AuthenticationProperties { RedirectUri = url }, vm.ExternalAuthenticationScheme);
             }
 
-            return View("LoggedOut", vm);
+            return Redirect(vm.PostLogoutRedirectUri);// View("LoggedOut", vm);
         }
 
 
