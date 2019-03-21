@@ -18,12 +18,17 @@ namespace CasaDoCodigo
             {
                 var provider = scope.ServiceProvider;
                 var contexto = provider.GetService<ApplicationContext>();
-                var produtoRepository = provider.GetService<IProdutoRepository>();
 
                 await contexto.Database.MigrateAsync();
 
+                if (await contexto.Set<Produto>().AnyAsync())
+                {
+                    return;
+                }
+
                 List<Livro> livros = await GetLivrosAsync();
 
+                var produtoRepository = provider.GetService<IProdutoRepository>();
                 await produtoRepository.SaveProdutosAsync(livros);
             }
         }
