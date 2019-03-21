@@ -1,4 +1,22 @@
 ﻿@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
+
+@using System.Linq;
+@using System.Security.Claims;
+@{
+    string name = null;
+    string clienteId = null;
+    if (!true.Equals(ViewData["signed-out"]))
+    {
+        name = @User.FindFirst("name")?.Value;
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            name = @User.FindFirst("email")?.Value;
+        }
+
+        clienteId = @User.FindFirst("sub")?.Value;
+    }
+}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,6 +26,7 @@
 
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link href="~/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
     <environment names="Staging,Production">
@@ -31,6 +50,36 @@
                 <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand"></a>
             </div>
             <div class="navbar-collapse collapse">
+                @if (!string.IsNullOrWhiteSpace(name))
+                {
+                    <ul class="nav navbar-nav pull-right">
+                        <li>
+                            <ul class="nav navbar-nav">
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle text-white" data-toggle="dropdown">
+                                        <span style="color: #fff;">@name</span>
+                                        <b class="caret"></b>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a asp-action="Logout" asp-controller="Pedido">Sair</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        @if (!true.Equals(ViewData["signed-out"]))
+                        {
+                            <li>
+                                <div class="container-notification">
+                                    <a asp-action="carrinho" asp-controller="pedido"
+                                       asp-route-codigo=""
+                                       title="Carrinho">
+                                        <div class="user-count userbasket"></div>
+                                    </a>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                }
             </div>
         </div>
     </nav>

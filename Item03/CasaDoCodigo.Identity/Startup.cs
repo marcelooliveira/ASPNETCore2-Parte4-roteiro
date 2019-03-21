@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace CasaDoCodigo.Identity
 {
@@ -51,7 +52,7 @@ namespace CasaDoCodigo.Identity
             })
                 .AddInMemoryIdentityResources(Config.GetIdentityResources())
                 .AddInMemoryApiResources(Config.GetApis())
-                .AddInMemoryClients(Config.GetClients())
+            	.AddInMemoryClients(Config.GetClients(Configuration["CallbackUrl"]))
                 .AddAspNetIdentity<ApplicationUser>();
 
             if (Environment.IsDevelopment())
@@ -76,6 +77,7 @@ namespace CasaDoCodigo.Identity
 
         public void Configure(IApplicationBuilder app)
         {
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
             if (Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

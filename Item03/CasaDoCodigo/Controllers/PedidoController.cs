@@ -1,11 +1,15 @@
 ﻿using CasaDoCodigo.Models;
 using CasaDoCodigo.Models.ViewModels;
 using CasaDoCodigo.Repositories;
+using IdentityModel;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace CasaDoCodigo.Controllers
@@ -77,6 +81,27 @@ namespace CasaDoCodigo.Controllers
         public async Task<UpdateQuantidadeResponse> UpdateQuantidade([FromBody]ItemPedido itemPedido)
         {
             return await pedidoRepository.UpdateQuantidadeAsync(itemPedido);
+        }
+
+        [Authorize]
+        public async Task Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            await HttpContext.SignOutAsync(OpenIdConnectDefaults.AuthenticationScheme);
+        }
+
+        private string GetUserId()
+        {
+            var userIdClaim = User.Claims.FirstOrDefault(x
+                => new[] {
+                    JwtClaimTypes.Subject, ClaimTypes.NameIdentifier
+                }.Contains(x.Type)
+                && !string.IsNullOrWhiteSpace(x.Value));
+
+            if (userIdClaim != null)
+                return userIdClaim.Value;
+
+            return null;
         }
     }
 }

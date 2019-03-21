@@ -26,7 +26,7 @@ namespace CasaDoCodigo.Identity
             };
         }
 
-        public static IEnumerable<Client> GetClients()
+        public static IEnumerable<Client> GetClients(string callbackUrl)
         {
             return new[]
             {
@@ -35,13 +35,13 @@ namespace CasaDoCodigo.Identity
                 {
                     ClientId = "CasaDoCodigo.MVC",
                     ClientName = "Casa do Código MVC",
-
+                    RequireConsent = false,
                     AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
                     ClientSecrets = { new Secret("49C1A7E1-0C79-4A89-A3D6-A37998FB86B0".Sha256()) },
 
-                    RedirectUris = { "http://localhost:5001/signin-oidc" },
-                    FrontChannelLogoutUri = "http://localhost:5001/signout-oidc",
-                    PostLogoutRedirectUris = { "http://localhost:5001/signout-callback-oidc" },
+                    RedirectUris = { callbackUrl + "/signin-oidc" },
+                    FrontChannelLogoutUri = callbackUrl + "/signout-oidc",
+                    PostLogoutRedirectUris = { callbackUrl + "/signout-callback-oidc" },
 
                     AllowOfflineAccess = true,
                     AllowedScopes = { "openid", "profile", "api1" }
