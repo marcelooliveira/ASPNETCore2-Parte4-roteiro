@@ -43,7 +43,7 @@ namespace CasaDoCodigo.Identity
                     RedirectUris = { callbackUrl + "/signin-oidc" },
                     PostLogoutRedirectUris = { callbackUrl + "/signout-callback-oidc" },
                     
-                    AllowedScopes = { "openid", "profile", "api1" },
+                    AllowedScopes = { "openid", "profile", "api1" }
                 }
             };
         }
