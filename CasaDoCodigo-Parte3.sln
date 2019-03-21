@@ -13,6 +13,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CasaDoCodigo.MVC", "depois\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CasaDoCodigo.Identity", "depois\CasaDoCodigo.Identity\CasaDoCodigo.Identity.csproj", "{2C3CE09A-DBFE-4748-82CC-0AB04137970C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Item01 - IdentityServer4", "Item01 - IdentityServer4", "{DD362FF8-163A-4195-88C0-F52E81F281D3}"
+	ProjectSection(SolutionItems) = preProject
+		Readme.md = Readme.md
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CasaDoCodigo.MVC", "Item01\CasaDoCodigo\CasaDoCodigo.MVC.csproj", "{0A5BFD38-4CAE-432A-997D-CEFFDCAA1AA9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +38,10 @@ Global
 		{2C3CE09A-DBFE-4748-82CC-0AB04137970C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2C3CE09A-DBFE-4748-82CC-0AB04137970C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2C3CE09A-DBFE-4748-82CC-0AB04137970C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A5BFD38-4CAE-432A-997D-CEFFDCAA1AA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A5BFD38-4CAE-432A-997D-CEFFDCAA1AA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A5BFD38-4CAE-432A-997D-CEFFDCAA1AA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A5BFD38-4CAE-432A-997D-CEFFDCAA1AA9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -39,6 +50,7 @@ Global
 		{5D35C4F1-F53A-465D-B429-2EFB2FCAEC07} = {3E418209-2ACE-49D8-B8F7-D192AFD2546D}
 		{1B4C9684-46FD-4133-93D4-D667630DF20C} = {573C10E8-C03D-448F-AA44-7772766FA322}
 		{2C3CE09A-DBFE-4748-82CC-0AB04137970C} = {573C10E8-C03D-448F-AA44-7772766FA322}
+		{0A5BFD38-4CAE-432A-997D-CEFFDCAA1AA9} = {DD362FF8-163A-4195-88C0-F52E81F281D3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {20E41BAB-D5FC-4044-B5CE-6E66ACD13B35}
