@@ -8,13 +8,19 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace CasaDoCodigo
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly ILoggerFactory _loggerFactory;
+
+        public Startup(ILoggerFactory loggerFactory,
+            IConfiguration configuration)
         {
+            _loggerFactory = loggerFactory;
             Configuration = configuration;
         }
 
@@ -23,6 +29,7 @@ namespace CasaDoCodigo
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog(dispose: true));
             services.AddMvc();
             services.AddDistributedMemoryCache();
             services.AddSession();
@@ -33,6 +40,7 @@ namespace CasaDoCodigo
                 options.UseSqlServer(connectionString)
             );
 
+            services.AddTransient<IHttpHelper, HttpHelper>();
             services.AddTransient<IProdutoRepository, ProdutoRepository>();
             services.AddTransient<IPedidoRepository, PedidoRepository>();
             services.AddTransient<ICadastroRepository, CadastroRepository>();
@@ -44,6 +52,7 @@ namespace CasaDoCodigo
         public void Configure(IApplicationBuilder app, IHostingEnvironment env,
             IServiceProvider serviceProvider)
         {
+            _loggerFactory.AddSerilog();
 
             if (env.IsDevelopment())
             {

@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace CasaDoCodigo
 {
-    public class SessionHelper : ISessionHelper
+    public class HttpHelper : IHttpHelper
     {
         private readonly IHttpContextAccessor contextAccessor;
         public IConfiguration Configuration { get; }
 
-        public SessionHelper(IHttpContextAccessor contextAccessor, IConfiguration configuration)
+        public HttpHelper(IHttpContextAccessor contextAccessor, IConfiguration configuration)
         {
             this.contextAccessor = contextAccessor;
             Configuration = configuration;

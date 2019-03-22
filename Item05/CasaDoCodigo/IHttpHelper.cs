@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace CasaDoCodigo
 {
-    public interface ISessionHelper
+    public interface IHttpHelper
     {
         IConfiguration Configuration { get; }
 

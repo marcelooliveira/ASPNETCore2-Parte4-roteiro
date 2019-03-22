@@ -24,18 +24,18 @@ namespace CasaDoCodigo.Repositories
     public class PedidoRepository : BaseRepository<Pedido>, IPedidoRepository
     {
         private readonly IHttpContextAccessor contextAccessor;
+        private readonly IHttpHelper httpHelper;
         private readonly ICadastroRepository cadastroRepository;
-        private readonly ISessionHelper sessionHelper;
 
         public PedidoRepository(IConfiguration configuration,
             ApplicationContext contexto,
             IHttpContextAccessor contextAccessor,
             ICadastroRepository cadastroRepository,
-            ISessionHelper sessionHelper) : base(configuration, contexto)
+            IHttpHelper sessionHelper) : base(configuration, contexto)
         {
             this.contextAccessor = contextAccessor;
             this.cadastroRepository = cadastroRepository;
-            this.sessionHelper = sessionHelper;
+            this.httpHelper = sessionHelper;
         }
 
         public async Task AddItemAsync(string codigo, string clienteId)
@@ -71,7 +71,7 @@ namespace CasaDoCodigo.Repositories
 
         public async Task<Pedido> GetPedidoAsync(string clienteId)
         {
-            var pedidoId = sessionHelper.GetPedidoId(clienteId);
+            var pedidoId = httpHelper.GetPedidoId(clienteId);
             var pedido =
                 await dbSet
                 .Include(p => p.Itens)
@@ -86,7 +86,7 @@ namespace CasaDoCodigo.Repositories
                 pedido = new Pedido(clienteId, new Cadastro());
                 await dbSet.AddAsync(pedido);
                 await contexto.SaveChangesAsync();
-                sessionHelper.SetPedidoId(clienteId, pedido.Id);
+                httpHelper.SetPedidoId(clienteId, pedido.Id);
             }
 
             return pedido;
@@ -127,12 +127,12 @@ namespace CasaDoCodigo.Repositories
             await cadastroRepository.UpdateAsync(pedido.Cadastro.Id, cadastro);
             ResetPedidoId(clienteId);
 
-            await EnviarRelatorio(pedido);
+            await GerarRelatorio(pedido);
 
             return pedido;
         }
 
-        private async Task EnviarRelatorio(Pedido pedido)
+        private async Task GerarRelatorio(Pedido pedido)
         {
             using (HttpClient httpClient = new HttpClient())
             {
@@ -167,7 +167,7 @@ $@"
                 var json = JsonConvert.SerializeObject(sb.ToString());
                 using (HttpContent content = new StringContent(json, Encoding.UTF8, "application/json"))
                 {
-                    var accessToken = await sessionHelper.GetAccessToken("CasaDoCodigo.Relatorio");
+                    var accessToken = await httpHelper.GetAccessToken("CasaDoCodigo.Relatorio");
                     httpClient.SetBearerToken(accessToken);
                     var httpResponseMessage = await httpClient.PostAsync(new Uri(uriBase, "api/values"), content);
                 }
