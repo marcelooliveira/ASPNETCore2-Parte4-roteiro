@@ -97,3 +97,23 @@ Itens:
 =============================================
 
 
+
+=============================================
+No. Pedido: 06024
+Cliente: 
+    Nome: aaaaaaaaaaaa
+    Endereco: aaa@bbb.ccc aaa@bbb.ccc  aaa@bbb.ccc  aaa@bbb.ccc  SP
+    Fone: aaa@bbb.ccc
+    Email: aaa@bbb.ccc
+    Total: R$49,90
+Itens:
+
+
+    Código: 180
+    Preco Unitário: 00050
+    Descrição: Scrum: Gestão ágil para projetos de sucesso
+    Quantidade: 001
+    Subtotal: R$49,90
+=============================================
+
+
