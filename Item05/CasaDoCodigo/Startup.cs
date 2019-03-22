@@ -31,6 +31,7 @@ namespace CasaDoCodigo
 
             string connectionString = Configuration.GetConnectionString("Default");
 
+            services.AddTransient<ISessionHelper, SessionHelper>();
             services.AddDbContext<ApplicationContext>(options =>
                 options.UseSqlServer(connectionString)
             );

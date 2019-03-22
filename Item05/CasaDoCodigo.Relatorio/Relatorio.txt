@@ -15,3 +15,85 @@ Itens:
     Subtotal: R$49,90
 
 
+
+=============================================
+No. Pedido: 03019
+Cliente: 
+    Nome: Bob Smith
+    Endereco: r bob smith 123 fundos   vila mariana  s paulo  SP
+    Fone: 12345
+    Email: bob@smith.com
+    Total: R$299,40
+Itens:
+
+
+    Código: 077
+    Preco Unitário: 00050
+    Descrição: Construindo APIs REST com Node.js
+    Quantidade: 001
+    Subtotal: R$49,90
+
+
+    Código: 089
+    Preco Unitário: 00050
+    Descrição: Primeiros passos com Node.js
+    Quantidade: 002
+    Subtotal: R$99,80
+
+
+    Código: 073
+    Preco Unitário: 00050
+    Descrição: Mean: Full stack JavaScript para aplicações web com MongoDB, Express, Angular e Node
+    Quantidade: 003
+    Subtotal: R$149,70
+
+=============================================
+
+
+22/03/2019 14:05  ALICE SMITH     0000000001     0123456      LIVRO DE PROGRAMAÇÃO              123,45        02         246,90
+
+=============================================
+No. Pedido: 05024
+Cliente: 
+    Nome: aaa@bbb.ccc
+    Endereco: aaa@bbb.ccc aaa@bbb.ccc  aaa@bbb.ccc  aaa@bbb.ccc  SP
+    Fone: aaa@bbb.ccc
+    Email: aaa@bbb.ccc
+    Total: R$49,90
+Itens:
+
+
+    Código: 003
+    Preco Unitário: 00050
+    Descrição: Scratch: Um jeito divertido de aprender programação
+    Quantidade: 001
+    Subtotal: R$49,90
+=============================================
+
+
+
+=============================================
+No. Pedido: 05025
+Cliente: 
+    Nome: Alicinha Smith
+    Endereco: r das flores, 234 fundos  v mariana  s paulo  SP
+    Fone: 1234567
+    Email: alice@smith.com
+    Total: R$149,70
+Itens:
+
+
+    Código: 001
+    Preco Unitário: 00050
+    Descrição: Lógica de Programação: Crie seus primeiros programas usando Javascript e HTML
+    Quantidade: 001
+    Subtotal: R$49,90
+
+    Código: 008
+    Preco Unitário: 00050
+    Descrição: Java SE 8 Programmer I: O guia para sua certificação Oracle Certified Associate
+    Quantidade: 002
+    Subtotal: R$99,80
+=============================================
+
+

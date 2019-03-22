@@ -25,14 +25,17 @@ namespace CasaDoCodigo.Repositories
     {
         private readonly IHttpContextAccessor contextAccessor;
         private readonly ICadastroRepository cadastroRepository;
+        private readonly ISessionHelper sessionHelper;
 
         public PedidoRepository(IConfiguration configuration,
             ApplicationContext contexto,
             IHttpContextAccessor contextAccessor,
-            ICadastroRepository cadastroRepository) : base(configuration, contexto)
+            ICadastroRepository cadastroRepository,
+            ISessionHelper sessionHelper) : base(configuration, contexto)
         {
             this.contextAccessor = contextAccessor;
             this.cadastroRepository = cadastroRepository;
+            this.sessionHelper = sessionHelper;
         }
 
         public async Task AddItemAsync(string codigo, string clienteId)
@@ -68,7 +71,7 @@ namespace CasaDoCodigo.Repositories
 
         public async Task<Pedido> GetPedidoAsync(string clienteId)
         {
-            var pedidoId = GetPedidoId(clienteId);
+            var pedidoId = sessionHelper.GetPedidoId(clienteId);
             var pedido =
                 await dbSet
                 .Include(p => p.Itens)
@@ -83,20 +86,10 @@ namespace CasaDoCodigo.Repositories
                 pedido = new Pedido(clienteId, new Cadastro());
                 await dbSet.AddAsync(pedido);
                 await contexto.SaveChangesAsync();
-                SetPedidoId(clienteId, pedido.Id);
+                sessionHelper.SetPedidoId(clienteId, pedido.Id);
             }
 
             return pedido;
-        }
-
-        private int? GetPedidoId(string clienteId)
-        {
-            return contextAccessor.HttpContext.Session.GetInt32($"pedidoId_{clienteId}");
-        }
-
-        private void SetPedidoId(string clienteId, int pedidoId)
-        {
-            contextAccessor.HttpContext.Session.SetInt32($"pedidoId_{clienteId}", pedidoId);
         }
 
         private void ResetPedidoId(string clienteId)
@@ -167,14 +160,15 @@ $@"
     Preco Unitário: {i.PrecoUnitario:00000}
     Descrição: {i.Produto.Nome}
     Quantidade: {i.Quantidade:000}
-    Subtotal: {i.Subtotal:C2}
-");
+    Subtotal: {i.Subtotal:C2}");
                 }
                 sb.AppendLine($@"=============================================
 ");
                 var json = JsonConvert.SerializeObject(sb.ToString());
                 using (HttpContent content = new StringContent(json, Encoding.UTF8, "application/json"))
                 {
+                    var accessToken = await sessionHelper.GetAccessToken("CasaDoCodigo.Relatorio");
+                    httpClient.SetBearerToken(accessToken);
                     var httpResponseMessage = await httpClient.PostAsync(new Uri(uriBase, "api/values"), content);
                 }
             }

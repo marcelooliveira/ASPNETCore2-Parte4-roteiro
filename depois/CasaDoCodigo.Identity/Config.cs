@@ -36,7 +36,7 @@ namespace CasaDoCodigo.Identity
                     ClientId = "CasaDoCodigo.MVC",
                     ClientName = "Casa do Código MVC",
 
-                    AllowedGrantTypes = GrantTypes.Hybrid,
+                    AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
                     RequireConsent = false,
                     ClientSecrets = { new Secret("49C1A7E1-0C79-4A89-A3D6-A37998FB86B0".Sha256()) },
                     
