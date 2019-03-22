@@ -446,3 +446,10 @@
 2019-03-22 00:58:39.318 -03:00 [DBG] Scopes in access token: openid profile
 2019-03-22 00:58:39.326 -03:00 [INF] Profile service returned the following claim types: sub name given_name family_name website preferred_username
 2019-03-22 00:58:39.327 -03:00 [DBG] End userinfo request
+2019-03-22 11:11:10.858 -03:00 [INF] You are using the in-memory version of the persisted grant store. This will store consent decisions, authorization codes, refresh and reference tokens in memory only. If you are using any of those features in production, you want to switch to a different store implementation.
+2019-03-22 11:11:11.252 -03:00 [INF] Using the default authentication scheme Identity.Application for IdentityServer
+2019-03-22 11:11:11.260 -03:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for authentication
+2019-03-22 11:11:11.260 -03:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-in
+2019-03-22 11:11:11.261 -03:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-out
+2019-03-22 11:11:11.261 -03:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for challenge
+2019-03-22 11:11:11.261 -03:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for forbid
