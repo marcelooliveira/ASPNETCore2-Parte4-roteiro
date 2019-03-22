@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
-namespace CasaDoCodigo.Carrinho.Controllers
+namespace CasaDoCodigo.Relatorio.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -13,9 +14,9 @@ namespace CasaDoCodigo.Carrinho.Controllers
     {
         // GET api/values
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Livro>>> GetAsync()
+        public async Task<ActionResult<IEnumerable<string>>> Get()
         {
-            return Ok(await GetLivrosAsync());
+            return await System.IO.File.ReadAllLinesAsync("Relatorio.txt");
         }
 
         // GET api/values/5
@@ -27,8 +28,14 @@ namespace CasaDoCodigo.Carrinho.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task PostAsync([FromBody] string value)
         {
+            //Formato do item do relatório
+            //============================
+            //DATA E HORA       CLIENTE PEDIDO         COD PRODUTO  DESCRIÇÃO PRODUTO         PRECO UNITARIO        QTD TOTAL ITEM
+            //22/03/2019 14:05  ALICE SMITH     0000000001     0123456      LIVRO DE PROGRAMAÇÃO              123,45        02         246,90
+
+            await System.IO.File.AppendAllLinesAsync("Relatorio.txt", new string[] { value });
         }
 
         // PUT api/values/5
@@ -41,21 +48,6 @@ namespace CasaDoCodigo.Carrinho.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-        }
-
-        private static async Task<IEnumerable<Livro>> GetLivrosAsync()
-        {
-            var json = await System.IO.File.ReadAllTextAsync("livros.json");
-            return JsonConvert.DeserializeObject<List<Livro>>(json);
-        }
-
-        public class Livro
-        {
-            public string Codigo { get; set; }
-            public string Nome { get; set; }
-            public string Categoria { get; set; }
-            public string Subcategoria { get; set; }
-            public decimal Preco { get; set; }
         }
     }
 }

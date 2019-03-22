@@ -2,8 +2,13 @@
 using CasaDoCodigo.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using System;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace CasaDoCodigo.Repositories
@@ -21,9 +26,10 @@ namespace CasaDoCodigo.Repositories
         private readonly IHttpContextAccessor contextAccessor;
         private readonly ICadastroRepository cadastroRepository;
 
-        public PedidoRepository(ApplicationContext contexto,
+        public PedidoRepository(IConfiguration configuration,
+            ApplicationContext contexto,
             IHttpContextAccessor contextAccessor,
-            ICadastroRepository cadastroRepository) : base(contexto)
+            ICadastroRepository cadastroRepository) : base(configuration, contexto)
         {
             this.contextAccessor = contextAccessor;
             this.cadastroRepository = cadastroRepository;
@@ -63,7 +69,7 @@ namespace CasaDoCodigo.Repositories
         public async Task<Pedido> GetPedidoAsync(string clienteId)
         {
             var pedidoId = GetPedidoId(clienteId);
-            var pedido = 
+            var pedido =
                 await dbSet
                 .Include(p => p.Itens)
                     .ThenInclude(i => i.Produto)
@@ -127,7 +133,51 @@ namespace CasaDoCodigo.Repositories
             var pedido = await GetPedidoAsync(clienteId);
             await cadastroRepository.UpdateAsync(pedido.Cadastro.Id, cadastro);
             ResetPedidoId(clienteId);
+
+            await EnviarRelatorio(pedido);
+
             return pedido;
+        }
+
+        private async Task EnviarRelatorio(Pedido pedido)
+        {
+            using (HttpClient httpClient = new HttpClient())
+            {
+                Uri uriBase = new Uri(configuration["RelatorioUrl"]);
+
+                StringBuilder sb = new StringBuilder();
+                sb.AppendLine(
+$@"
+=============================================
+No. Pedido: {pedido.Id:00000}
+Cliente: 
+    Nome: {pedido.Cadastro.Nome}
+    Endereco: {pedido.Cadastro.Endereco} {pedido.Cadastro.Complemento}  {pedido.Cadastro.Bairro}  {pedido.Cadastro.Municipio}  {pedido.Cadastro.UF}
+    Fone: {pedido.Cadastro.Telefone}
+    Email: {pedido.Cadastro.Email}
+    Total: {pedido.Itens.Sum(i => i.Subtotal):C2}
+Itens:
+");
+
+                foreach (var i in pedido.Itens)
+                {
+                    sb.AppendLine(
+$@"
+    Código: {i.Produto.Codigo:00000}
+    Preco Unitário: {i.PrecoUnitario:00000}
+    Descrição: {i.Produto.Nome}
+    Quantidade: {i.Quantidade:000}
+    Subtotal: {i.Subtotal:C2}
+");
+                }
+                sb.AppendLine($@"=============================================
+");
+                var json = JsonConvert.SerializeObject(sb.ToString());
+                using (HttpContent content = new StringContent(json, Encoding.UTF8, "application/json"))
+                {
+                    var httpResponseMessage = await httpClient.PostAsync(new Uri(uriBase, "api/values"), content);
+                }
+            }
         }
 
         private async Task<ItemPedido> GetItemPedidoAsync(int itemPedidoId)

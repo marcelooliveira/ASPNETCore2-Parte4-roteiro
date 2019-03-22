@@ -1,0 +1,17 @@
+﻿
+No. Pedido: 03018
+Cliente: 
+    Nome: Bob Smith
+    Endereco: eeeeee cccccc  bbbbbbbb  mmmmmm  SP
+    Fone: 123456
+    Email: bob@gmail.com
+    Total: R$49,90
+Itens:
+
+    Código: 002,
+    Preco Unitário: 00050,
+    Descrição: Introdução à Computação: Da Lógica aos jogos com Ruby,
+    Quantidade: 001,
+    Subtotal: R$49,90
+
+
