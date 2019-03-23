@@ -2,8 +2,12 @@
 using CasaDoCodigo.Models.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using System;
 using System.Linq;
+using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace CasaDoCodigo.Repositories
@@ -19,13 +23,17 @@ namespace CasaDoCodigo.Repositories
     public class PedidoRepository : BaseRepository<Pedido>, IPedidoRepository
     {
         private readonly IHttpContextAccessor contextAccessor;
+        private readonly IHttpHelper httpHelper;
         private readonly ICadastroRepository cadastroRepository;
 
-        public PedidoRepository(ApplicationContext contexto,
+        public PedidoRepository(IConfiguration configuration,
+            ApplicationContext contexto,
             IHttpContextAccessor contextAccessor,
-            ICadastroRepository cadastroRepository) : base(contexto)
+            IHttpHelper sessionHelper,
+            ICadastroRepository cadastroRepository) : base(configuration, contexto)
         {
             this.contextAccessor = contextAccessor;
+            this.httpHelper = sessionHelper;
             this.cadastroRepository = cadastroRepository;
         }
 
@@ -62,7 +70,7 @@ namespace CasaDoCodigo.Repositories
 
         public async Task<Pedido> GetPedidoAsync(string clienteId)
         {
-            var pedidoId = GetPedidoId(clienteId);
+            var pedidoId = httpHelper.GetPedidoId(clienteId);
             var pedido = 
                 await dbSet
                 .Include(p => p.Itens)
@@ -77,7 +85,7 @@ namespace CasaDoCodigo.Repositories
                 pedido = new Pedido(clienteId, new Cadastro());
                 await dbSet.AddAsync(pedido);
                 await contexto.SaveChangesAsync();
-                SetPedidoId(clienteId, pedido.Id);
+                httpHelper.SetPedidoId(clienteId, pedido.Id);
             }
 
             return pedido;
@@ -126,7 +134,8 @@ namespace CasaDoCodigo.Repositories
         {
             var pedido = await GetPedidoAsync(clienteId);
             await cadastroRepository.UpdateAsync(pedido.Cadastro.Id, cadastro);
-            ResetPedidoId(clienteId);
+            httpHelper.ResetPedidoId(clienteId);
+            await GerarRelatorio(pedido);
             return pedido;
         }
 
@@ -142,6 +151,44 @@ namespace CasaDoCodigo.Repositories
         {
             contexto.Set<ItemPedido>()
                 .Remove(await GetItemPedidoAsync(itemPedidoId));
+        }
+
+        private async Task GerarRelatorio(Pedido pedido)
+        {
+            using (HttpClient httpClient = new HttpClient())
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.AppendLine(
+$@"
+=============================================
+No. Pedido: {pedido.Id:00000}
+Cliente: 
+    Nome: {pedido.Cadastro.Nome}
+    Endereco: {pedido.Cadastro.Endereco} {pedido.Cadastro.Complemento}  {pedido.Cadastro.Bairro}  {pedido.Cadastro.Municipio}  {pedido.Cadastro.UF}
+    Fone: {pedido.Cadastro.Telefone}
+    Email: {pedido.Cadastro.Email}
+    Total: {pedido.Itens.Sum(i => i.Subtotal):C2}
+Itens:
+");
+
+                foreach (var i in pedido.Itens)
+                {
+                    sb.AppendLine(
+$@"
+    Código: {i.Produto.Codigo:00000}
+    Preco Unitário: {i.PrecoUnitario:00000}
+    Descrição: {i.Produto.Nome}
+    Quantidade: {i.Quantidade:000}
+    Subtotal: {i.Subtotal:C2}");
+                }
+                sb.AppendLine($@"=============================================
+");
+                var json = JsonConvert.SerializeObject(sb.ToString());
+                using (HttpContent content = new StringContent(json, Encoding.UTF8, "application/json"))
+                {
+                    await System.IO.File.AppendAllLinesAsync("Relatorio.txt", new string[] { sb.ToString() });
+                }
+            }
         }
     }
 }

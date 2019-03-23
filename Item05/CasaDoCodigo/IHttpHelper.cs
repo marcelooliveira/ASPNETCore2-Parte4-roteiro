@@ -6,10 +6,10 @@ namespace CasaDoCodigo
     public interface IHttpHelper
     {
         IConfiguration Configuration { get; }
-
         Task<string> GetAccessToken(string scope);
-        int? GetPedidoId(string clienteId);
         void SetAccessToken(string accessToken);
+        int? GetPedidoId(string clienteId);
         void SetPedidoId(string clienteId, int pedidoId);
+        void ResetPedidoId(string clienteId);
     }
 }

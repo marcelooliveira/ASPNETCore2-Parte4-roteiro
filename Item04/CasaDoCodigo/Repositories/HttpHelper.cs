@@ -19,15 +19,19 @@ namespace CasaDoCodigo
             return contextAccessor.HttpContext.Session.GetInt32("pedidoId");
         }
 
-        public void SetPedidoId(int pedidoId)
+        public int? GetPedidoId(string clienteId)
         {
-            contextAccessor.HttpContext.Session.SetInt32("pedidoId", pedidoId);
+            return contextAccessor.HttpContext.Session.GetInt32($"pedidoId_{clienteId}");
         }
 
-        public void ResetPedidoId()
+        public void SetPedidoId(string clienteId, int pedidoId)
+        {
+            contextAccessor.HttpContext.Session.SetInt32($"pedidoId_{clienteId}", pedidoId);
+        }
+
+        public void ResetPedidoId(string clienteId)
         {
             contextAccessor.HttpContext.Session.Remove("pedidoId");
         }
     }
-
 }
