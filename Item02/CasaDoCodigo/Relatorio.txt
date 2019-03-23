@@ -1,0 +1,32 @@
+
+=============================================
+No. Pedido: 00002
+Cliente: 
+    Nome: Bob Smith
+    Endereco: eeeeeee cccccccc  bbbbbb  mmmmm  SP
+    Fone: 111111
+    Email: aaa@bbb.ccc
+    Total: R$299,40
+Itens:
+
+
+    Código: 180
+    Preco Unitário: 00050
+    Descrição: Scrum: Gestão ágil para projetos de sucesso
+    Quantidade: 001
+    Subtotal: R$49,90
+
+    Código: 002
+    Preco Unitário: 00050
+    Descrição: Introdução à Computação: Da Lógica aos jogos com Ruby
+    Quantidade: 002
+    Subtotal: R$99,80
+
+    Código: 008
+    Preco Unitário: 00050
+    Descrição: Java SE 8 Programmer I: O guia para sua certificação Oracle Certified Associate
+    Quantidade: 003
+    Subtotal: R$149,70
+=============================================
+
+

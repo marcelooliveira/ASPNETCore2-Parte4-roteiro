@@ -1,0 +1,20 @@
+
+=============================================
+No. Pedido: 00001
+Cliente: 
+    Nome: aaaaaaaa
+    Endereco: eeeeeee cccccccc  bbbbbbbb  mmmmm  BA
+    Fone: 111111
+    Email: aaa@bbb.ccc
+    Total: R$49,90
+Itens:
+
+
+    Código: 002
+    Preco Unitário: 00050
+    Descrição: Introdução à Computação: Da Lógica aos jogos com Ruby
+    Quantidade: 001
+    Subtotal: R$49,90
+=============================================
+
+
