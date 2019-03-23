@@ -330,3 +330,4 @@ ASALocalRun/
 .mfractor/
 identityserver4_log.txt
 identityserver4_log.txt
+*.txt
