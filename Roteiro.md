@@ -23,41 +23,57 @@ Também vamos utilizar nossa web app em conjunto com um novo projeto web api simp
 
 Se você só precisa de uma tabela de usuários com recursos de login de senha e um perfil de usuário, então ASP.NET Identity é perfeito.
 
-Mas sua web app precisa acessar APIs, uma autoridade independente para proteger e validar tokens de identidade e acesso faz sentido.
+A Alura já possui os cursos abaixo, que utilizam ASP.NET Identity para deixar suas aplicações seguras:
+
+* **ASP.NET Identity parte 1: Gerencie contas de usuários**
+(https://www.alura.com.br/curso-online-csharp-aspnet-identity-pt1)
+
+* **ASP.NET Identity parte 2: Autenticação, segurança com lockout**
+(https://www.alura.com.br/curso-online-csharp-aspnet-identity-pt2)
+
+* **ASP.NET Identity parte 3: Autorização, autenticação externa com redes sociais**
+(https://www.alura.com.br/curso-online-csharp-aspnet-identity-pt3)
+
+* **ASP.NET Identity parte 4: Autenticação mais segura com 2 fatores**
+(https://www.alura.com.br/curso-online-csharp-aspnet-identity-pt4)
+
+Entretanto, se sua web app precisa acessar web APIs, você poderá utilizar uma autoridade independente para proteger e validar tokens de identidade e acesso entre os serviços.
 
 Por esse motivo, iremos utilizar IdentityServer4 como uma **autoridade externa de login**. Dessa forma, a mesma autenticação e autorização funcionarão tanto para a web app quanto para as web apis.
 
 ## O Novo Projeto CasaDoCodigo.Identity
 
-Copiar o projeto "CasaDoCodigo" da pasta **antes** para **Item01**
+Os passos abaixo são necessários para criar um novo projeto **IdentityServer4**:
 
-Abrir Developer Command Prompt for VS 2017
+- Copiar o projeto "CasaDoCodigo" da pasta **antes** para **Item01**
 
-Ir para a pasta Item01:
+- Abrir Developer Command Prompt for VS 2017
+
+- Ir para a pasta Item01:
 
 ```
 cd **ASPNETCore2-Parte3\Item01**
 ```
 
-Criar a pasta **CasaDoCodigo.Identity**
+- Criar a pasta **CasaDoCodigo.Identity**
 
 ```
 md CasaDoCodigo.Identity
 ```
 
-Mudar para a pasta **CasaDoCodigo.Identity**
+- Mudar para a pasta **CasaDoCodigo.Identity**
 
 ```
 cd CasaDoCodigo.Identity
 ```
 
-Instalar templates IdentityServer4
+- Instalar templates IdentityServer4
 
 ```
 dotnet new -i identityserver4.templates
 ```
 
-Criar novo projeto ASP.NET Identity for user management:
+- Criar novo projeto ASP.NET Identity for user management:
 
 
 ```
@@ -76,13 +92,186 @@ Y
 Executando o comando 'dotnet run /seed'...
 O comando foi bem-sucedido.
 
-Adicionar o novo projeto à solução, na pasta Item01
+- Adicionar o novo projeto à solução, na pasta Item01
 
-Definir 2 projetos iniciais: \Item01\CasaDoCodigo e \Item01\CasaDoCodigo.Identity.
+- Mudar o endereço para http://localhost:5000
 
+- Definir 2 projetos iniciais: \Item01\CasaDoCodigo e \Item01\CasaDoCodigo.Identity.
 
+- Executar os 2 projetos
+
+- Fazer login como Alice Smith e Bob Smith
 
 # Item02 - Autorizando o Cliente MVC
+
+```csharp
+public static class Config
+{
+    public static IEnumerable<IdentityResource> GetIdentityResources()
+    {
+        return new IdentityResource[]
+        {
+            new IdentityResources.OpenId(),
+            new IdentityResources.Profile(),
+        };
+    }
+
+    public static IEnumerable<ApiResource> GetApis()
+    {
+        return new ApiResource[]
+        {
+            new ApiResource("api1", "My API #1")
+        };
+    }
+
+    public static IEnumerable<Client> GetClients()
+    {
+        return new[]
+        {
+            // client credentials flow client
+            new Client
+            {
+                ClientId = "client",
+                ClientName = "Client Credentials Client",
+
+                AllowedGrantTypes = GrantTypes.ClientCredentials,
+                ClientSecrets = { new Secret("511536EF-F270-4058-80CA-1C89C192F69A".Sha256()) },
+
+                AllowedScopes = { "api1" }
+            },
+
+            // MVC client using hybrid flow
+            new Client
+            {
+                ClientId = "mvc",
+                ClientName = "MVC Client",
+
+                AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
+                ClientSecrets = { new Secret("49C1A7E1-0C79-4A89-A3D6-A37998FB86B0".Sha256()) },
+
+                RedirectUris = { "http://localhost:5001/signin-oidc" },
+                FrontChannelLogoutUri = "http://localhost:5001/signout-oidc",
+                PostLogoutRedirectUris = { "http://localhost:5001/signout-callback-oidc" },
+
+                AllowOfflineAccess = true,
+                AllowedScopes = { "openid", "profile", "api1" }
+            },
+
+            // SPA client using implicit flow
+            new Client
+            {
+                ClientId = "spa",
+                ClientName = "SPA Client",
+                ClientUri = "http://identityserver.io",
+
+                AllowedGrantTypes = GrantTypes.Implicit,
+                AllowAccessTokensViaBrowser = true,
+
+                RedirectUris =
+                {
+                    "http://localhost:5002/index.html",
+                    "http://localhost:5002/callback.html",
+                    "http://localhost:5002/silent.html",
+                    "http://localhost:5002/popup.html",
+                },
+
+                PostLogoutRedirectUris = { "http://localhost:5002/index.html" },
+                AllowedCorsOrigins = { "http://localhost:5002" },
+
+                AllowedScopes = { "openid", "profile", "api1" }
+            }
+        };
+    }
+}
+```
+
+
+```csharp
+public class Startup
+{
+    public IConfiguration Configuration { get; }
+    public IHostingEnvironment Environment { get; }
+
+    public Startup(IConfiguration configuration, IHostingEnvironment environment)
+    {
+        Configuration = configuration;
+        Environment = environment;
+    }
+
+    public void ConfigureServices(IServiceCollection services)
+    {
+        services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+
+        services.AddIdentity<ApplicationUser, IdentityRole>()
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();
+
+        services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1);
+
+        services.Configure<IISOptions>(iis =>
+        {
+            iis.AuthenticationDisplayName = "Windows";
+            iis.AutomaticAuthentication = false;
+        });
+
+        var builder = services.AddIdentityServer(options =>
+        {
+            options.Events.RaiseErrorEvents = true;
+            options.Events.RaiseInformationEvents = true;
+            options.Events.RaiseFailureEvents = true;
+            options.Events.RaiseSuccessEvents = true;
+        })
+            .AddInMemoryIdentityResources(Config.GetIdentityResources())
+            .AddInMemoryApiResources(Config.GetApis())
+            .AddInMemoryClients(Config.GetClients())
+            .AddAspNetIdentity<ApplicationUser>();
+
+        if (Environment.IsDevelopment())
+        {
+            builder.AddDeveloperSigningCredential();
+        }
+        else
+        {
+            throw new Exception("need to configure key material");
+        }
+
+        services.AddAuthentication()
+            .AddGoogle(options =>
+            {
+                // register your IdentityServer with Google at https://console.developers.google.com
+                // enable the Google+ API
+                // set the redirect URI to http://localhost:5000/signin-google
+                options.ClientId = "copy client ID from Google here";
+                options.ClientSecret = "copy client secret from Google here";
+            });
+    }
+
+    public void Configure(IApplicationBuilder app)
+    {
+        if (Environment.IsDevelopment())
+        {
+            app.UseDeveloperExceptionPage();
+            app.UseDatabaseErrorPage();
+        }
+        else
+        {
+            app.UseExceptionHandler("/Home/Error");
+        }
+
+        app.UseStaticFiles();
+        app.UseIdentityServer();
+        app.UseMvcWithDefaultRoute();
+    }
+}
+
+```
+
+![Asp Net Users](AspNetUsers.png)
+
+![Asp Net User Claims](AspNetUserClaims.png)
+
+
 
 # Item03 - Fluxo de Logout
 
