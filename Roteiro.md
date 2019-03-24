@@ -21,7 +21,7 @@ Nesta parte 3 do curso, iremos utilizar um sistema de login e garantir que nossa
 
 Também vamos utilizar nossa web app em conjunto com um novo projeto web api simples.
 
-Se você só precisa de uma tabela de usuários com recursos de login de senha e um perfil de usuário, então ASP.NET Identity é perfeito.
+Se você só precisa de uma tabela de usuários com recursos de login de senha e um perfil de usuário, então **ASP.NET Identity** é a melhor opção para você.
 
 A Alura já possui os cursos abaixo, que utilizam ASP.NET Identity para deixar suas aplicações seguras:
 
@@ -37,9 +37,26 @@ A Alura já possui os cursos abaixo, que utilizam ASP.NET Identity para deixar su
 * **ASP.NET Identity parte 4: Autenticação mais segura com 2 fatores**
 (https://www.alura.com.br/curso-online-csharp-aspnet-identity-pt4)
 
-Entretanto, se sua web app precisa acessar web APIs, você poderá utilizar uma autoridade independente para proteger e validar tokens de identidade e acesso entre os serviços.
+Entretanto, se você tiver múltiplos clientes, que precisam acessar diferentes web APIs, você poderá utilizar um **servidor de token de segurança (STS)** para proteger e validar tokens de identidade e acesso entre os serviços.
 
 Por esse motivo, iremos utilizar IdentityServer4 como uma **autoridade externa de login**. Dessa forma, a mesma autenticação e autorização funcionarão tanto para a web app quanto para as web apis.
+
+![](https://openid.net/wordpress-content/uploads/2014/09/openid-r-logo-900x360.png)
+
+Algumas características do **IdentityServer4** são:
+
+- **Autenticação como serviço**:
+Lógica de login e fluxo de trabalho centralizados para todos os seus aplicativos (web, nativo, móvel, serviços). O IdentityServer é uma implementação oficialmente certificada do OpenID Connect.
+- **Single Sign-on / Sign-out**:
+Logon e logout único em vários tipos de aplicativos.
+- **Controle de acesso para APIs**:
+Emitir tokens de acesso para APIs para vários tipos de clientes, por exemplo servidor para servidor, aplicativos da Web, SPAs e aplicativos nativos / móveis.
+- **Gateway de Federação**:
+Suporte para provedores de identidade externos, como o Azure Active Directory, o Google, o Facebook, etc. Isso protege seus aplicativos dos detalhes de como conectar-se a esses provedores externos.
+- **Foco na personalização**:
+A parte mais importante - muitos aspectos do IdentityServer podem ser personalizados para atender às suas necessidades. Como o IdentityServer é uma estrutura e não um produto em caixa ou um SaaS, você pode escrever código para adaptar o sistema da maneira que fizer sentido para seus cenários.
+- **Open Source Maduro**:
+O IdentityServer usa a licença permissiva do Apache 2, que permite criar produtos comerciais sobre ela. Também faz parte da Fundação .NET, que fornece governança e suporte legal.
 
 ## O Novo Projeto CasaDoCodigo.Identity
 
