@@ -117,7 +117,7 @@ O comando foi bem-sucedido.
 
 - Executar os 2 projetos
 
-- Fazer login como Alice Smith e Bob Smith
+- Fazer login como **Alice Smith** e **Bob Smith**
 
 # Item02 - Autorizando o Cliente MVC
 
@@ -287,7 +287,6 @@ public class Startup
 ![Asp Net Users](AspNetUsers.png)
 
 ![Asp Net User Claims](AspNetUserClaims.png)
-
 
 
 # Item03 - Fluxo de Logout
