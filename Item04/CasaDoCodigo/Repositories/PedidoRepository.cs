@@ -91,16 +91,6 @@ namespace CasaDoCodigo.Repositories
             return pedido;
         }
 
-        private int? GetPedidoId(string clienteId)
-        {
-            return contextAccessor.HttpContext.Session.GetInt32($"pedidoId_{clienteId}");
-        }
-
-        private void SetPedidoId(string clienteId, int pedidoId)
-        {
-            contextAccessor.HttpContext.Session.SetInt32($"pedidoId_{clienteId}", pedidoId);
-        }
-
         private void ResetPedidoId(string clienteId)
         {
             contextAccessor.HttpContext.Session.Remove($"pedidoId_{clienteId}");

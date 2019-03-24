@@ -38,11 +38,11 @@ namespace CasaDoCodigo
 
             string connectionString = Configuration.GetConnectionString("Default");
 
-            services.AddTransient<IHttpHelper, HttpHelper>();
             services.AddDbContext<ApplicationContext>(options =>
                 options.UseSqlServer(connectionString)
             );
 
+            services.AddTransient<IHttpHelper, HttpHelper>();
             services.AddTransient<IProdutoRepository, ProdutoRepository>();
             services.AddTransient<IPedidoRepository, PedidoRepository>();
             services.AddTransient<ICadastroRepository, CadastroRepository>();

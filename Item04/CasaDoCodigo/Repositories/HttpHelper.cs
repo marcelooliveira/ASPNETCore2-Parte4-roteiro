@@ -14,11 +14,6 @@ namespace CasaDoCodigo
             Configuration = configuration;
         }
 
-        public int? GetPedidoId()
-        {
-            return contextAccessor.HttpContext.Session.GetInt32("pedidoId");
-        }
-
         public int? GetPedidoId(string clienteId)
         {
             return contextAccessor.HttpContext.Session.GetInt32($"pedidoId_{clienteId}");

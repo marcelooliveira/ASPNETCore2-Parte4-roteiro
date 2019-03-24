@@ -17,7 +17,8 @@ namespace CasaDoCodigo.Repositories
 
     public class ProdutoRepository : BaseRepository<Produto>, IProdutoRepository
     {
-        public ProdutoRepository(IConfiguration configuration, ApplicationContext contexto) : base(configuration, contexto)
+        public ProdutoRepository(IConfiguration configuration,
+            ApplicationContext contexto) : base(configuration, contexto)
         {
         }
 
