@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using Serilog;
 
@@ -34,6 +36,7 @@ namespace CasaDoCodigo
             services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog(dispose: true));
 
             services.AddMvc();
+            services.AddHttpContextAccessor();
             services.AddDistributedMemoryCache();
             services.AddSession();
 
@@ -94,6 +97,20 @@ namespace CasaDoCodigo
                     name: "default",
                     template: "{controller=Pedido}/{action=BuscaProdutos}/{codigo?}");
             });
+        }
+    }
+
+    static class ServiceCollection
+    {
+        public static IServiceCollection AddHttpContextAccessor(this IServiceCollection services)
+        {
+            if (services == null)
+            {
+                throw new ArgumentNullException(nameof(services));
+            }
+
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            return services;
         }
     }
 
