@@ -1,7 +1,8 @@
 # Da Parte 2 para a Parte 3: diferenças
 
 Começamos a parte 3 deste curso com o código que usamos no final último curso,
-**ASP.NET Core parte 2: Um e-Commerce com MVC e EF Core** (https://cursos.alura.com.br/course/aspnet-core-2-validacoes-seguranca)
+**ASP.NET Core parte 2: Um e-Commerce com MVC e EF Core** 
+(https://cursos.alura.com.br/course/aspnet-core-2-validacoes-seguranca)
 
 Porém, algumas alterações e atualizações foram necessárias.
 
