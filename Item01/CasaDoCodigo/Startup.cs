@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CasaDoCodigo.Repositories;
+﻿using CasaDoCodigo.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using Serilog;
+using System;
 
 namespace CasaDoCodigo
 {
@@ -31,6 +30,7 @@ namespace CasaDoCodigo
         {
             services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog(dispose: true));
             services.AddMvc();
+            services.AddHttpContextAccessor();
             services.AddDistributedMemoryCache();
             services.AddSession();
 
@@ -75,4 +75,17 @@ namespace CasaDoCodigo
         }
     }
 
+    static class ServiceCollection
+    {
+        public static IServiceCollection AddHttpContextAccessor(this IServiceCollection services)
+        {
+            if (services == null)
+            {
+                throw new ArgumentNullException(nameof(services));
+            }
+
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            return services;
+        }
+    }
 }
