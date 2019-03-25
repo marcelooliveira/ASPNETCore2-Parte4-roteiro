@@ -111,7 +111,11 @@ O comando foi bem-sucedido.
 
 - Adicionar o novo projeto à solução, na pasta Item01
 
-- Mudar o endereço para http://localhost:5000
+- Mudar o endereço do projeto Identity para http://localhost:5000
+
+- Mudar o endereço do projeto MVC para http://localhost:5001
+
+- Mudar o nome do projeto MVC para CasaDoCodigo.MVC
 
 - Definir 2 projetos iniciais: \Item01\CasaDoCodigo e \Item01\CasaDoCodigo.Identity.
 
@@ -121,168 +125,141 @@ O comando foi bem-sucedido.
 
 # Item02 - Autorizando o Cliente MVC
 
+## Protegendo recursos
+
+Agora que temos o projeto Identity, começaremos a proteger nosso projeto MVC contra acesso não-autenticado.
+Com isso, garantiremos que somente usuários que entraram com login e senha válidos possam ter acesso a recursos protegidos do sistema.
+
+Mas quais recursos deverão ser protegidos?
+
+|Action|Protegido?|
+|--|--|
+|Carrossel|NÃO|
+|BuscaProdutos|NÃO|
+|Carrinho|SIM|
+|Cadastro|SIM|
+|Resumo|SIM|
+|UpdateQuantidade|SIM|
+
+Note que tanto a Carrossel e BuscaProdutos ficarão desprotegidos.
+Por quê? Queremos permitir que usuários possam navegar pela busca de produtos do site livremente, sem obrigá-los a fazer login com a senha.
+Já os outros actions são todas protegidas, pois envolvem a manipulação de pedidos, que só podem ser feito por clientes.
+
+Como protegeremos esses recursos? Devemos marcar cada action com um atributo de autorização:
+
 ```csharp
-public static class Config
+[Authorize]
+public async Task<IActionResult> Carrinho(string codigo)
+```
+
+> O atributo `[Authorize]` especifica que o acesso a um controlador ou método de ação é restrito a usuários que atendem ao requisito de autorização.
+
+Agora que marcamos a autorização, rodamos a solução...
+
+> An unhandled exception occurred while processing the request.
+InvalidOperationException: No authenticationScheme was specified, and there was no DefaultChallengeScheme found.
+Microsoft.AspNetCore.Authentication.AuthenticationService+<ChallengeAsync>d__11.MoveNext()
+
+Por que recebemos esse erro?
+
+Até agora, só dissemos quais actions são autorizadas, porém não definimos o **esquema de autenticação**. 
+
+Vamos fazer isso agora. Mas antes, precisamos entender os papéis desempenhados por cada
+componente nesta arquitetura.
+
+Como vemos na imagem abaixo, o projeto com **IdentityServer4**
+pode ser usado pelos clientes e outros serviços, para garantir a segurança 
+de um sistema.
+
+**Clientes**: app móvel, web app, single page application, etc.
+que exige que o usuário seja autenticado para acessar determinados recursos.
+**IdentityServer4**: servidor de token de segurança. Possui a view para login do usuário. 
+**Relatório Web API**: serviço restrito, que só pode ser acessado por usuários autenticados.
+
+![Client S T S Web A P I](Client_STS_WebAPI.png)
+
+O projeto **IdentityServer4** possui um arquivo `Config.cs`, onde podemos configurar os **clientes**, **apis** e **recursos** usados no fluxo de autenticação/autorização.
+
+Vamos modificar somente o **cliente ** para definir o id e nome do cliente (projeto CasaDoCódigo.MVC)
+
+**arquivo Config.cs (CasaDoCodigo.Identity)**
+```csharp
+// MVC client using hybrid flow
+new Client
 {
-    public static IEnumerable<IdentityResource> GetIdentityResources()
-    {
-        return new IdentityResource[]
-        {
-            new IdentityResources.OpenId(),
-            new IdentityResources.Profile(),
-        };
-    }
+    ClientId = "CasaDoCodigo.MVC",
+    ClientName = "Casa do Código MVC",
+```
 
-    public static IEnumerable<ApiResource> GetApis()
-    {
-        return new ApiResource[]
-        {
-            new ApiResource("api1", "My API #1")
-        };
-    }
+Essa área define quais são os clientes autorizados pelo projeto IdentityServer4.
 
-    public static IEnumerable<Client> GetClients()
-    {
-        return new[]
-        {
-            // client credentials flow client
-            new Client
-            {
-                ClientId = "client",
-                ClientName = "Client Credentials Client",
+Agora precisamos modificar o projeto MVC para habilitar autenticação.
 
-                AllowedGrantTypes = GrantTypes.ClientCredentials,
-                ClientSecrets = { new Secret("511536EF-F270-4058-80CA-1C89C192F69A".Sha256()) },
+Podemos dizer que o serviço de autenticação é um **middleware**.
 
-                AllowedScopes = { "api1" }
-            },
+> O middleware é um software que fornece serviços para aplicações além das já são oferecidas pelo sistema operacional.
 
-            // MVC client using hybrid flow
-            new Client
-            {
-                ClientId = "mvc",
-                ClientName = "MVC Client",
-
-                AllowedGrantTypes = GrantTypes.HybridAndClientCredentials,
-                ClientSecrets = { new Secret("49C1A7E1-0C79-4A89-A3D6-A37998FB86B0".Sha256()) },
-
-                RedirectUris = { "http://localhost:5001/signin-oidc" },
-                FrontChannelLogoutUri = "http://localhost:5001/signout-oidc",
-                PostLogoutRedirectUris = { "http://localhost:5001/signout-callback-oidc" },
-
-                AllowOfflineAccess = true,
-                AllowedScopes = { "openid", "profile", "api1" }
-            },
-
-            // SPA client using implicit flow
-            new Client
-            {
-                ClientId = "spa",
-                ClientName = "SPA Client",
-                ClientUri = "http://identityserver.io",
-
-                AllowedGrantTypes = GrantTypes.Implicit,
-                AllowAccessTokensViaBrowser = true,
-
-                RedirectUris =
-                {
-                    "http://localhost:5002/index.html",
-                    "http://localhost:5002/callback.html",
-                    "http://localhost:5002/silent.html",
-                    "http://localhost:5002/popup.html",
-                },
-
-                PostLogoutRedirectUris = { "http://localhost:5002/index.html" },
-                AllowedCorsOrigins = { "http://localhost:5002" },
-
-                AllowedScopes = { "openid", "profile", "api1" }
-            }
-        };
-    }
+**arquivo Startup.cs (CasaDoCodigo.MVC)**
+```csharp
+public void ConfigureServices(IServiceCollection services)
+{
+    //...
+    services.AddAuthorization();
+    //...
+}
+public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
+{
+    //...
+    app.UseAuthentication();
+    //...
 }
 ```
 
+Os métodos `AddAuthorization` e `UseAuthentication` acrescentam o **middleware** de autorização e autenticação no **pipeline** da aplicação web.
+
+Agora também precisamos adicionar o **esquema de autenticação**. 
+
+Esse esquema necessita de 2 informações:
+
+- O esquema **default**: vamos usar cookies
+- O esquema de **"desafio" default**: vamos usar OpenId 
 
 ```csharp
-public class Startup
+services
+.AddAuthentication(options =>
 {
-    public IConfiguration Configuration { get; }
-    public IHostingEnvironment Environment { get; }
-
-    public Startup(IConfiguration configuration, IHostingEnvironment environment)
-    {
-        Configuration = configuration;
-        Environment = environment;
-    }
-
-    public void ConfigureServices(IServiceCollection services)
-    {
-        services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
-
-        services.AddIdentity<ApplicationUser, IdentityRole>()
-            .AddEntityFrameworkStores<ApplicationDbContext>()
-            .AddDefaultTokenProviders();
-
-        services.AddMvc().SetCompatibilityVersion(Microsoft.AspNetCore.Mvc.CompatibilityVersion.Version_2_1);
-
-        services.Configure<IISOptions>(iis =>
-        {
-            iis.AuthenticationDisplayName = "Windows";
-            iis.AutomaticAuthentication = false;
-        });
-
-        var builder = services.AddIdentityServer(options =>
-        {
-            options.Events.RaiseErrorEvents = true;
-            options.Events.RaiseInformationEvents = true;
-            options.Events.RaiseFailureEvents = true;
-            options.Events.RaiseSuccessEvents = true;
-        })
-            .AddInMemoryIdentityResources(Config.GetIdentityResources())
-            .AddInMemoryApiResources(Config.GetApis())
-            .AddInMemoryClients(Config.GetClients())
-            .AddAspNetIdentity<ApplicationUser>();
-
-        if (Environment.IsDevelopment())
-        {
-            builder.AddDeveloperSigningCredential();
-        }
-        else
-        {
-            throw new Exception("need to configure key material");
-        }
-
-        services.AddAuthentication()
-            .AddGoogle(options =>
-            {
-                // register your IdentityServer with Google at https://console.developers.google.com
-                // enable the Google+ API
-                // set the redirect URI to http://localhost:5000/signin-google
-                options.ClientId = "copy client ID from Google here";
-                options.ClientSecret = "copy client secret from Google here";
-            });
-    }
-
-    public void Configure(IApplicationBuilder app)
-    {
-        if (Environment.IsDevelopment())
-        {
-            app.UseDeveloperExceptionPage();
-            app.UseDatabaseErrorPage();
-        }
-        else
-        {
-            app.UseExceptionHandler("/Home/Error");
-        }
-
-        app.UseStaticFiles();
-        app.UseIdentityServer();
-        app.UseMvcWithDefaultRoute();
-    }
-}
-
+    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+});
 ```
+
+Agora precisamos dizer ao ASP.NET Core para utilizar **cookies** durante a autenticação:
+
+```csharp
+.AddCookie();
+```
+
+A seguir, vamos configurar o sistema de identificação **OpenId** :
+
+- **SignInScheme**: o esquema para fazer o login (por cookies)
+- **Authority**: a "autoridade", ou seja, o endereço do serviço do IdentityServer
+- **ClientId**: o Id do cliente (CasaDoCodigo.MVC)
+- **ClientSecret**: o segredo da autenticação (usamos o mesmo do serviço identity)
+- **ResponseType**: precisa requisitar um código de autorização e um token de identidade
+- **RequireHttpsMetadata**: vamos dispensar a necessidade de HTTPS, pois estamos em modo de desenvolvimento
+
+```csharp
+.AddOpenIdConnect(options =>
+{
+    options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.Authority = "http://localhost:5000";
+    options.ClientId = "CasaDoCodigo.MVC";
+    options.ClientSecret = "49C1A7E1-0C79-4A89-A3D6-A37998FB86B0";
+    options.ResponseType = "code id_token";
+    options.RequireHttpsMetadata = false;
+});
+```
+
 
 ![Asp Net Users](AspNetUsers.png)
 

@@ -54,7 +54,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Roteiro", "Roteiro", "{D931
 		Roteiro.md = Roteiro.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CasaDoCodigo", "Roteiro\CasaDoCodigo\CasaDoCodigo.csproj", "{E9E037CB-8EC9-4F3E-A4B8-462CD5E40D76}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CasaDoCodigo.MVC", "Roteiro\CasaDoCodigo\CasaDoCodigo.MVC.csproj", "{E9E037CB-8EC9-4F3E-A4B8-462CD5E40D76}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CasaDoCodigo.Identity", "Roteiro\CasaDoCodigo.Identity\CasaDoCodigo.Identity.csproj", "{FCAD7159-4D1F-41A5-902B-5915A3DADF43}"
 EndProject
