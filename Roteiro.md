@@ -317,9 +317,277 @@ A seguir, vamos configurar o sistema de identificação **OpenId** :
 
 # Item03 - Fluxo de Logout
 
+## CasaDoCodigo.Identity
 
+(arquivo appsettings.json)
+```
+"CallbackUrl": "http://localhost:5001"
+```
+
+(arquivo Startup.cs)
+```csharp
+.AddInMemoryClients(Config.GetClients(Configuration["CallbackUrl"]))
+```
+
+```csharp
+.AddInMemoryClients(Config.GetClients())
+```
+
+```csharp
+public void Configure(IApplicationBuilder app)
+{
+    JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+            
+```
+
+
+(arquivo Config.cs)
+```csharp
+public static IEnumerable<Client> GetClients(string callbackUrl)
+...
+RequireConsent = false,
+...
+
+```csharp
+RedirectUris = { "http://localhost:5001/signin-oidc" },
+FrontChannelLogoutUri = "http://localhost:5001/signout-oidc",
+PostLogoutRedirectUris = { "http://localhost:5001/signout-callback-oidc" },
+```
+
+```csharp
+RedirectUris = { callbackUrl + "/signin-oidc" },
+FrontChannelLogoutUri = callbackUrl + "/signout-oidc",
+PostLogoutRedirectUris = { callbackUrl + "/signout-callback-oidc" },
+```
+
+
+
+
+## CasaDoCodigo.MVC
+
+- Instalar IdentityModel
+
+(arquivo appsettings.json)
+```
+  "IdentityUrl": "http://localhost:5000",
+  "CallbackUrl": "http://localhost:5001"
+```
+
+(arquivo Startup.cs)
+```csharp
+JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+```
+
+(arquivo PedidoController.cs)
+```csharp
+[Authorize]
+public async Task Logout()
+{
+    await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+    await HttpContext.SignOutAsync(OpenIdConnectDefaults.AuthenticationScheme);
+}
+
+private string GetUserId()
+{
+    var userIdClaim = User.Claims.FirstOrDefault(x
+        => new[] {
+            JwtClaimTypes.Subject, ClaimTypes.NameIdentifier
+        }.Contains(x.Type)
+        && !string.IsNullOrWhiteSpace(x.Value));
+
+    if (userIdClaim != null)
+        return userIdClaim.Value;
+
+    return null;
+}
+```
+
+(arquivo _Layout.cshtml)
+```csharp
+@using System.Linq;
+@using System.Security.Claims;
+@{
+    string name = null;
+    string clienteId = null;
+    if (!true.Equals(ViewData["signed-out"]))
+    {
+        name = @User.FindFirst("name")?.Value;
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            name = @User.FindFirst("email")?.Value;
+        }
+
+        clienteId = @User.FindFirst("sub")?.Value;
+    }
+}
+```
+
+```html
+<link href="~/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+```
+
+```html
+@if (!string.IsNullOrWhiteSpace(name))
+{
+    <ul class="nav navbar-nav pull-right">
+        <li>
+            <ul class="nav navbar-nav">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle text-white" data-toggle="dropdown">
+                        <span style="color: #fff;">@name</span>
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a asp-action="Logout" asp-controller="Pedido">Sair</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        @if (!true.Equals(ViewData["signed-out"]))
+        {
+            <li>
+                <div class="container-notification">
+                    <a asp-action="carrinho" asp-controller="pedido"
+                        asp-route-codigo=""
+                        title="Carrinho">
+                        <div class="user-count userbasket"></div>
+                    </a>
+                </div>
+            </li>
+        }
+    </ul>
+}        
+```
 
 # Item04 - Pedidos de Clientes
+
+(arquivo PedidoController.cs)
+```csharp
+await pedidoRepository.AddItemAsync(codigo, GetUserId());
+```
+
+```csharp
+var pedido = await pedidoRepository.GetPedidoAsync(GetUserId());
+```
+
+```csharp
+var pedido = await pedidoRepository.GetPedidoAsync(GetUserId());
+```
+
+```csharp
+return View(await pedidoRepository.UpdateCadastroAsync(cadastro, GetUserId()));
+```
+
+```csharp
+return await pedidoRepository.UpdateQuantidadeAsync(itemPedido, GetUserId());
+```
+
+```csharp
+public class Pedido : BaseModel
+{
+    public Pedido()
+    {
+        Cadastro = new Cadastro();
+    }
+
+    public Pedido(string clienteId, Cadastro cadastro)
+    {
+        ClienteId = clienteId;
+        Cadastro = cadastro;
+    }
+
+    public List<ItemPedido> Itens { get; private set; } = new List<ItemPedido>();
+
+    [Required]
+    public string ClienteId { get; private set; }
+
+    [ForeignKey("CadastroId")]
+    [Required]
+    public virtual Cadastro Cadastro { get; private set; }
+}
+```
+
+(arquivo HttpHelper.cs)
+```csharp
+public int? GetPedidoId(string clienteId)
+{
+    return contextAccessor.HttpContext.Session.GetInt32($"pedidoId_{clienteId}");
+}
+
+public void SetPedidoId(string clienteId, int pedidoId)
+{
+    contextAccessor.HttpContext.Session.SetInt32($"pedidoId_{clienteId}", pedidoId);
+}
+
+public void ResetPedidoId(string clienteId)
+{
+    contextAccessor.HttpContext.Session.Remove($"pedidoId_{clienteId}");
+}
+```
+
+(arquivo IHttpHelper.cs)
+```csharp
+int? GetPedidoId(string clienteId);
+void SetPedidoId(string clienteId, int pedidoId);
+void ResetPedidoId(string clienteId);
+```
+
+(arquivo IPedidoRepository)
+```csharp
+Task<Pedido> GetPedidoAsync(string clienteId);
+Task AddItemAsync(string codigo, string clienteId);
+Task<UpdateQuantidadeResponse> UpdateQuantidadeAsync(ItemPedido itemPedido, string clienteId);
+Task<Pedido> UpdateCadastroAsync(Cadastro cadastro, string clienteId);
+```
+
+(arquivo PedidoRepository)
+```csharp
+public async Task AddItemAsync(string codigo, string clienteId)
+```
+
+```csharp
+var pedido = await GetPedidoAsync(clienteId);
+```
+
+```csharp
+public async Task<Pedido> GetPedidoAsync(string clienteId)
+{
+    var pedidoId = httpHelper.GetPedidoId(clienteId);
+```
+
+```csharp
+pedido = new Pedido(clienteId, new Cadastro());
+```
+
+```csharp
+httpHelper.SetPedidoId(clienteId, pedido.Id);
+```
+
+```csharp
+private void ResetPedidoId(string clienteId)
+{
+    contextAccessor.HttpContext.Session.Remove($"pedidoId_{clienteId}");
+}
+```
+
+```csharp
+public async Task<UpdateQuantidadeResponse> UpdateQuantidadeAsync(ItemPedido itemPedido, string clienteId)
+```
+
+```csharp
+var pedido = await GetPedidoAsync(clienteId);
+```
+
+```csharp
+public async Task<Pedido> UpdateCadastroAsync(Cadastro cadastro, string clienteId)
+{
+    var pedido = await GetPedidoAsync(clienteId);
+    await cadastroRepository.UpdateAsync(pedido.Cadastro.Id, cadastro);
+    httpHelper.ResetPedidoId(clienteId);
+    await GerarRelatorio(pedido);
+    return pedido;
+}
+```
 
 # Item05 - Autorizando WebAPI
 
