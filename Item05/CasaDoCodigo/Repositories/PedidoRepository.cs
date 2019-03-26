@@ -34,8 +34,8 @@ namespace CasaDoCodigo.Repositories
             ICadastroRepository cadastroRepository) : base(configuration, contexto)
         {
             this.contextAccessor = contextAccessor;
+			this.httpHelper = sessionHelper;
             this.cadastroRepository = cadastroRepository;
-            this.httpHelper = sessionHelper;
         }
 
         public async Task AddItemAsync(string codigo, string clienteId)
@@ -90,11 +90,6 @@ namespace CasaDoCodigo.Repositories
             }
 
             return pedido;
-        }
-
-        private void ResetPedidoId(string clienteId)
-        {
-            contextAccessor.HttpContext.Session.Remove($"pedidoId_{clienteId}");
         }
 
         public async Task<UpdateQuantidadeResponse> UpdateQuantidadeAsync(ItemPedido itemPedido, string clienteId)

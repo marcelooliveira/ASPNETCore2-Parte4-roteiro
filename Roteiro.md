@@ -591,3 +591,48 @@ public async Task<Pedido> UpdateCadastroAsync(Cadastro cadastro, string clienteI
 
 # Item05 - Autorizando WebAPI
 
+(arquivo appsettings.json)
+```json
+"RelatorioUrl": "http://localhost:5002"
+```
+
+(arquivo IHttpHelper.cs)
+```csharp
+Task<string> GetAccessToken(string scope);
+void SetAccessToken(string accessToken);
+```
+
+(arquivo HttpHelper.cs)
+```csharp
+public async Task<string> GetAccessToken(string scope)
+{
+    Uri baseUri = new Uri(Configuration["IdentityUrl"]);
+    var tokenClient = new TokenClient(new Uri(baseUri, "connect/token").ToString(), "CasaDoCodigo.MVC", "49C1A7E1-0C79-4A89-A3D6-A37998FB86B0");
+
+    var tokenResponse = await tokenClient.RequestClientCredentialsAsync(scope);
+    return tokenResponse.AccessToken;
+}
+
+public void SetAccessToken(string accessToken)
+{
+    contextAccessor.HttpContext.Session.SetString("accessToken", accessToken);
+}
+```
+
+(arquivo PedidoRepository.cs)
+```csharp
+Uri uriBase = new Uri(configuration["RelatorioUrl"]);
+```
+
+trocar:
+```csharp
+await System.IO.File.AppendAllLinesAsync("Relatorio.txt", new string[] { sb.ToString() });
+```
+
+por:
+```csharp
+var accessToken = await httpHelper.GetAccessToken("CasaDoCodigo.Relatorio");
+httpClient.SetBearerToken(accessToken);
+var httpResponseMessage = await httpClient.PostAsync(new Uri(uriBase, "api/values"), content);
+```
+
