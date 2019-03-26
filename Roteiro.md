@@ -289,6 +289,23 @@ A seguir, vamos configurar o sistema de identificação **OpenId** :
 });
 ```
 
+![Formulariologin](formulariologin.png)
+
+![Requestingpermission](requestingpermission.png)
+
+![Username](username.png)
+
+![Logoutmenu](logoutmenu.png)
+
+![Actionautorizada](actionautorizada.png)
+
+![Linkgerenciargrants](linkgerenciargrants.png)
+
+![Gerenciargrants](gerenciargrants.png)
+
+![Logoutbutton](logoutbutton.png)
+
+![Deslogado](deslogado.png)
 
 ![Asp Net Users](AspNetUsers.png)
 

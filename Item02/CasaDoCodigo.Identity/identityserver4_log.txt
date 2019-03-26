@@ -669,3 +669,362 @@
 2019-03-23 00:11:10.216 -03:00 [DBG] In addition to an id_token, an access_token was requested. No claims other than sub are included in the id_token. To obtain more user claims, either use the user info endpoint or set AlwaysIncludeUserClaimsInIdToken on the client configuration.
 2019-03-23 00:11:10.224 -03:00 [INF] {"ClientId":"CasaDoCodigo.MVC","ClientName":"Casa do Código MVC","RedirectUri":null,"Endpoint":"Token","SubjectId":null,"Scopes":"openid profile","GrantType":"authorization_code","Tokens":[{"TokenType":"id_token","TokenValue":"****jo9A","$type":"Token"},{"TokenType":"access_token","TokenValue":"****Cdvg","$type":"Token"}],"Category":"Token","Name":"Token Issued Success","EventType":"Success","Id":2000,"Message":null,"ActivityId":"0HLLF7HL82V99:00000008","TimeStamp":"2019-03-23T03:11:10.0000000Z","ProcessId":3452,"LocalIpAddress":"127.0.0.1:31578","RemoteIpAddress":"::1","$type":"TokenIssuedSuccessEvent"}
 2019-03-23 00:11:10.227 -03:00 [DBG] Token request success.
+2019-03-26 13:16:24.493 -03:00 [INF] You are using the in-memory version of the persisted grant store. This will store consent decisions, authorization codes, refresh and reference tokens in memory only. If you are using any of those features in production, you want to switch to a different store implementation.
+2019-03-26 13:16:24.605 -03:00 [INF] Using the default authentication scheme Identity.Application for IdentityServer
+2019-03-26 13:16:24.612 -03:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for authentication
+2019-03-26 13:16:24.612 -03:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-in
+2019-03-26 13:16:24.613 -03:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-out
+2019-03-26 13:16:24.613 -03:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for challenge
+2019-03-26 13:16:24.613 -03:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for forbid
+2019-03-26 13:16:25.925 -03:00 [DBG] Login Url: /Account/Login
+2019-03-26 13:16:25.929 -03:00 [DBG] Login Return Url Parameter: ReturnUrl
+2019-03-26 13:16:25.929 -03:00 [DBG] Logout Url: /Account/Logout
+2019-03-26 13:16:25.930 -03:00 [DBG] ConsentUrl Url: /consent
+2019-03-26 13:16:25.930 -03:00 [DBG] Consent Return Url Parameter: returnUrl
+2019-03-26 13:16:25.930 -03:00 [DBG] Error Url: /home/error
+2019-03-26 13:16:25.930 -03:00 [DBG] Error Id Parameter: errorId
+2019-03-26 13:16:25.958 -03:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2019-03-26 13:16:25.993 -03:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2019-03-26 13:16:29.214 -03:00 [INF] You are using the in-memory version of the persisted grant store. This will store consent decisions, authorization codes, refresh and reference tokens in memory only. If you are using any of those features in production, you want to switch to a different store implementation.
+2019-03-26 13:16:29.301 -03:00 [INF] Using the default authentication scheme Identity.Application for IdentityServer
+2019-03-26 13:16:29.310 -03:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for authentication
+2019-03-26 13:16:29.310 -03:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-in
+2019-03-26 13:16:29.310 -03:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-out
+2019-03-26 13:16:29.311 -03:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for challenge
+2019-03-26 13:16:29.311 -03:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for forbid
+2019-03-26 13:16:59.446 -03:00 [INF] You are using the in-memory version of the persisted grant store. This will store consent decisions, authorization codes, refresh and reference tokens in memory only. If you are using any of those features in production, you want to switch to a different store implementation.
+2019-03-26 13:16:59.576 -03:00 [INF] Using the default authentication scheme Identity.Application for IdentityServer
+2019-03-26 13:16:59.585 -03:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for authentication
+2019-03-26 13:16:59.585 -03:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-in
+2019-03-26 13:16:59.585 -03:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-out
+2019-03-26 13:16:59.585 -03:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for challenge
+2019-03-26 13:16:59.585 -03:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for forbid
+2019-03-26 13:17:00.770 -03:00 [DBG] Login Url: /Account/Login
+2019-03-26 13:17:00.777 -03:00 [DBG] Login Return Url Parameter: ReturnUrl
+2019-03-26 13:17:00.777 -03:00 [DBG] Logout Url: /Account/Logout
+2019-03-26 13:17:00.777 -03:00 [DBG] ConsentUrl Url: /consent
+2019-03-26 13:17:00.777 -03:00 [DBG] Consent Return Url Parameter: returnUrl
+2019-03-26 13:17:00.777 -03:00 [DBG] Error Url: /home/error
+2019-03-26 13:17:00.778 -03:00 [DBG] Error Id Parameter: errorId
+2019-03-26 13:17:00.796 -03:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2019-03-26 13:17:00.835 -03:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2019-03-26 13:17:32.809 -03:00 [DBG] Request path /.well-known/openid-configuration matched to endpoint type Discovery
+2019-03-26 13:17:33.185 -03:00 [DBG] Endpoint enabled: Discovery, successfully created handler: IdentityServer4.Endpoints.DiscoveryEndpoint
+2019-03-26 13:17:33.185 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.DiscoveryEndpoint for /.well-known/openid-configuration
+2019-03-26 13:17:33.191 -03:00 [DBG] Start discovery request
+2019-03-26 13:17:33.456 -03:00 [DBG] Request path /.well-known/openid-configuration/jwks matched to endpoint type Discovery
+2019-03-26 13:17:33.458 -03:00 [DBG] Endpoint enabled: Discovery, successfully created handler: IdentityServer4.Endpoints.DiscoveryKeyEndpoint
+2019-03-26 13:17:33.458 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.DiscoveryKeyEndpoint for /.well-known/openid-configuration/jwks
+2019-03-26 13:17:33.463 -03:00 [DBG] Start key discovery request
+2019-03-26 13:17:33.603 -03:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2019-03-26 13:17:33.603 -03:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2019-03-26 13:17:33.603 -03:00 [DBG] Request path /connect/authorize matched to endpoint type Authorize
+2019-03-26 13:17:33.614 -03:00 [DBG] Endpoint enabled: Authorize, successfully created handler: IdentityServer4.Endpoints.AuthorizeEndpoint
+2019-03-26 13:17:33.615 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.AuthorizeEndpoint for /connect/authorize
+2019-03-26 13:17:33.622 -03:00 [DBG] Start authorize request
+2019-03-26 13:17:33.632 -03:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2019-03-26 13:17:33.641 -03:00 [DBG] No user present in authorize request
+2019-03-26 13:17:33.650 -03:00 [DBG] Start authorize request protocol validation
+2019-03-26 13:17:33.679 -03:00 [DBG] client configuration validation for client CasaDoCodigo.MVC succeeded.
+2019-03-26 13:17:33.686 -03:00 [DBG] Checking for PKCE parameters
+2019-03-26 13:17:33.688 -03:00 [DBG] No PKCE used.
+2019-03-26 13:17:33.741 -03:00 [DBG] Calling into custom validator: IdentityServer4.Validation.DefaultCustomAuthorizeRequestValidator
+2019-03-26 13:17:33.795 -03:00 [INF] ValidatedAuthorizeRequest
+{"ClientId":"CasaDoCodigo.MVC","ClientName":"Casa do Código MVC","RedirectUri":"http://localhost:5001/signin-oidc","AllowedRedirectUris":["http://localhost:5001/signin-oidc"],"SubjectId":"anonymous","ResponseType":"code id_token","ResponseMode":"form_post","GrantType":"hybrid","RequestedScopes":"openid profile","State":"CfDJ8HJUPcmp6VtIqNduejmxXT5rlDStcGNZ5yVQ6QZOTXMPp-snrV4oh_aBQS-KzBAWcsoUm8C6tDMxDkp1yra7gZm-Sp6mIvULjKF_t2moyesyBFcH0_TjiNiudY9mUmQ1EVnxmLV349jPjKVx3k_F46ODvAME20nfvlzvQOd-SNw6ncZ5uLuFdICzza_r0bbMvCaIKsX0oYTga5se5Tr2qq4B3n9cUB2uDdEmh-6lA-ofcXmrz1tSLCj00GZrPqRkD-9XwVgEhuf2VqzWPGbTPgEYOO1BowVPbZOhQGXZahFiSZvVL9Uq2Cg9CWJSxqeWisd0yAch-Z0e9kqzNjJwVKM","UiLocales":null,"Nonce":"636892138535531570.YWJmZDE1MWUtZDE2ZC00ZTIwLWIzY2MtY2E4NTk4YTJiMGI2YjgwYTdiNDEtNzViYi00ZDI3LWI2MmUtN2Q3MmFlZGFhZjVk","AuthenticationContextReferenceClasses":null,"DisplayMode":null,"PromptMode":null,"MaxAge":null,"LoginHint":null,"SessionId":null,"Raw":{"client_id":"CasaDoCodigo.MVC","redirect_uri":"http://localhost:5001/signin-oidc","response_type":"code id_token","scope":"openid profile","response_mode":"form_post","nonce":"636892138535531570.YWJmZDE1MWUtZDE2ZC00ZTIwLWIzY2MtY2E4NTk4YTJiMGI2YjgwYTdiNDEtNzViYi00ZDI3LWI2MmUtN2Q3MmFlZGFhZjVk","state":"CfDJ8HJUPcmp6VtIqNduejmxXT5rlDStcGNZ5yVQ6QZOTXMPp-snrV4oh_aBQS-KzBAWcsoUm8C6tDMxDkp1yra7gZm-Sp6mIvULjKF_t2moyesyBFcH0_TjiNiudY9mUmQ1EVnxmLV349jPjKVx3k_F46ODvAME20nfvlzvQOd-SNw6ncZ5uLuFdICzza_r0bbMvCaIKsX0oYTga5se5Tr2qq4B3n9cUB2uDdEmh-6lA-ofcXmrz1tSLCj00GZrPqRkD-9XwVgEhuf2VqzWPGbTPgEYOO1BowVPbZOhQGXZahFiSZvVL9Uq2Cg9CWJSxqeWisd0yAch-Z0e9kqzNjJwVKM","x-client-SKU":"ID_NET","x-client-ver":"2.1.4.0"},"$type":"AuthorizeRequestValidationLog"}
+2019-03-26 13:17:51.598 -03:00 [INF] Showing login: User is not authenticated
+2019-03-26 13:17:51.621 -03:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2019-03-26 13:17:51.622 -03:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2019-03-26 13:17:51.789 -03:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2019-03-26 13:17:51.789 -03:00 [DBG] Start authorize request protocol validation
+2019-03-26 13:17:51.790 -03:00 [DBG] client configuration validation for client CasaDoCodigo.MVC succeeded.
+2019-03-26 13:17:51.790 -03:00 [DBG] Checking for PKCE parameters
+2019-03-26 13:17:51.790 -03:00 [DBG] No PKCE used.
+2019-03-26 13:17:51.790 -03:00 [DBG] Calling into custom validator: IdentityServer4.Validation.DefaultCustomAuthorizeRequestValidator
+2019-03-26 13:17:51.798 -03:00 [DBG] client configuration validation for client CasaDoCodigo.MVC succeeded.
+2019-03-26 13:17:54.413 -03:00 [DBG] CORS request made for path: /Account/Login from origin: null but was ignored because path was not for an allowed IdentityServer CORS endpoint
+2019-03-26 13:17:54.414 -03:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2019-03-26 13:17:54.414 -03:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2019-03-26 13:17:54.494 -03:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2019-03-26 13:17:54.494 -03:00 [DBG] Start authorize request protocol validation
+2019-03-26 13:17:54.494 -03:00 [DBG] client configuration validation for client CasaDoCodigo.MVC succeeded.
+2019-03-26 13:17:54.494 -03:00 [DBG] Checking for PKCE parameters
+2019-03-26 13:17:54.495 -03:00 [DBG] No PKCE used.
+2019-03-26 13:17:54.495 -03:00 [DBG] Calling into custom validator: IdentityServer4.Validation.DefaultCustomAuthorizeRequestValidator
+2019-03-26 13:17:55.869 -03:00 [DBG] Augmenting SignInContext
+2019-03-26 13:17:55.873 -03:00 [DBG] Adding idp claim with value: local
+2019-03-26 13:17:55.873 -03:00 [DBG] Adding amr claim with value: pwd
+2019-03-26 13:17:55.873 -03:00 [DBG] Adding auth_time claim with value: 1553617075
+2019-03-26 13:17:55.877 -03:00 [INF] Identity.Application was not authenticated. Failure message: Unprotect ticket failed
+2019-03-26 13:18:56.596 -03:00 [INF] AuthenticationScheme: Identity.Application signed in.
+2019-03-26 13:18:56.634 -03:00 [INF] {"Username":"alice","Provider":null,"ProviderUserId":null,"SubjectId":"50c14950-790c-4d2d-8f1c-41717e59c873","DisplayName":"alice","Endpoint":"UI","Category":"Authentication","Name":"User Login Success","EventType":"Success","Id":1000,"Message":null,"ActivityId":"0HLLI0PSSLC98:00000002","TimeStamp":"2019-03-26T16:18:56.0000000Z","ProcessId":15520,"LocalIpAddress":"127.0.0.1:24814","RemoteIpAddress":"::1","$type":"UserLoginSuccessEvent"}
+2019-03-26 13:18:56.637 -03:00 [DBG] client configuration validation for client CasaDoCodigo.MVC succeeded.
+2019-03-26 13:18:56.695 -03:00 [DBG] Request path /connect/authorize/callback matched to endpoint type Authorize
+2019-03-26 13:18:56.696 -03:00 [DBG] Endpoint enabled: Authorize, successfully created handler: IdentityServer4.Endpoints.AuthorizeCallbackEndpoint
+2019-03-26 13:18:56.696 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.AuthorizeCallbackEndpoint for /connect/authorize/callback
+2019-03-26 13:18:56.707 -03:00 [DBG] Start authorize callback request
+2019-03-26 13:18:56.712 -03:00 [DBG] User in authorize request: 50c14950-790c-4d2d-8f1c-41717e59c873
+2019-03-26 13:18:56.713 -03:00 [DBG] Start authorize request protocol validation
+2019-03-26 13:18:56.713 -03:00 [DBG] client configuration validation for client CasaDoCodigo.MVC succeeded.
+2019-03-26 13:18:56.713 -03:00 [DBG] Checking for PKCE parameters
+2019-03-26 13:18:56.713 -03:00 [DBG] No PKCE used.
+2019-03-26 13:18:56.713 -03:00 [DBG] Calling into custom validator: IdentityServer4.Validation.DefaultCustomAuthorizeRequestValidator
+2019-03-26 13:18:56.713 -03:00 [INF] ValidatedAuthorizeRequest
+{"ClientId":"CasaDoCodigo.MVC","ClientName":"Casa do Código MVC","RedirectUri":"http://localhost:5001/signin-oidc","AllowedRedirectUris":["http://localhost:5001/signin-oidc"],"SubjectId":"50c14950-790c-4d2d-8f1c-41717e59c873","ResponseType":"code id_token","ResponseMode":"form_post","GrantType":"hybrid","RequestedScopes":"openid profile","State":"CfDJ8HJUPcmp6VtIqNduejmxXT5rlDStcGNZ5yVQ6QZOTXMPp-snrV4oh_aBQS-KzBAWcsoUm8C6tDMxDkp1yra7gZm-Sp6mIvULjKF_t2moyesyBFcH0_TjiNiudY9mUmQ1EVnxmLV349jPjKVx3k_F46ODvAME20nfvlzvQOd-SNw6ncZ5uLuFdICzza_r0bbMvCaIKsX0oYTga5se5Tr2qq4B3n9cUB2uDdEmh-6lA-ofcXmrz1tSLCj00GZrPqRkD-9XwVgEhuf2VqzWPGbTPgEYOO1BowVPbZOhQGXZahFiSZvVL9Uq2Cg9CWJSxqeWisd0yAch-Z0e9kqzNjJwVKM","UiLocales":null,"Nonce":"636892138535531570.YWJmZDE1MWUtZDE2ZC00ZTIwLWIzY2MtY2E4NTk4YTJiMGI2YjgwYTdiNDEtNzViYi00ZDI3LWI2MmUtN2Q3MmFlZGFhZjVk","AuthenticationContextReferenceClasses":null,"DisplayMode":null,"PromptMode":null,"MaxAge":null,"LoginHint":null,"SessionId":"e57c764dc8e751ddf98d494586960c2a","Raw":{"client_id":"CasaDoCodigo.MVC","redirect_uri":"http://localhost:5001/signin-oidc","response_type":"code id_token","scope":"openid profile","response_mode":"form_post","nonce":"636892138535531570.YWJmZDE1MWUtZDE2ZC00ZTIwLWIzY2MtY2E4NTk4YTJiMGI2YjgwYTdiNDEtNzViYi00ZDI3LWI2MmUtN2Q3MmFlZGFhZjVk","state":"CfDJ8HJUPcmp6VtIqNduejmxXT5rlDStcGNZ5yVQ6QZOTXMPp-snrV4oh_aBQS-KzBAWcsoUm8C6tDMxDkp1yra7gZm-Sp6mIvULjKF_t2moyesyBFcH0_TjiNiudY9mUmQ1EVnxmLV349jPjKVx3k_F46ODvAME20nfvlzvQOd-SNw6ncZ5uLuFdICzza_r0bbMvCaIKsX0oYTga5se5Tr2qq4B3n9cUB2uDdEmh-6lA-ofcXmrz1tSLCj00GZrPqRkD-9XwVgEhuf2VqzWPGbTPgEYOO1BowVPbZOhQGXZahFiSZvVL9Uq2Cg9CWJSxqeWisd0yAch-Z0e9kqzNjJwVKM","x-client-SKU":"ID_NET","x-client-ver":"2.1.4.0"},"$type":"AuthorizeRequestValidationLog"}
+2019-03-26 13:20:07.719 -03:00 [DBG] user_consent grant with value: CasaDoCodigo.MVC|50c14950-790c-4d2d-8f1c-41717e59c873 not found in store.
+2019-03-26 13:20:07.720 -03:00 [DBG] Found no prior consent from consent store, consent is required
+2019-03-26 13:20:07.720 -03:00 [INF] Showing consent: User has not yet consented
+2019-03-26 13:20:07.778 -03:00 [DBG] Start authorize request protocol validation
+2019-03-26 13:20:07.778 -03:00 [DBG] client configuration validation for client CasaDoCodigo.MVC succeeded.
+2019-03-26 13:20:07.779 -03:00 [DBG] Checking for PKCE parameters
+2019-03-26 13:20:07.779 -03:00 [DBG] No PKCE used.
+2019-03-26 13:20:07.779 -03:00 [DBG] Calling into custom validator: IdentityServer4.Validation.DefaultCustomAuthorizeRequestValidator
+2019-03-26 13:20:07.780 -03:00 [DBG] client configuration validation for client CasaDoCodigo.MVC succeeded.
+2019-03-26 13:20:15.910 -03:00 [DBG] CORS request made for path: /consent from origin: null but was ignored because path was not for an allowed IdentityServer CORS endpoint
+2019-03-26 13:20:15.944 -03:00 [DBG] Start authorize request protocol validation
+2019-03-26 13:20:15.944 -03:00 [DBG] client configuration validation for client CasaDoCodigo.MVC succeeded.
+2019-03-26 13:20:15.944 -03:00 [DBG] Checking for PKCE parameters
+2019-03-26 13:20:15.944 -03:00 [DBG] No PKCE used.
+2019-03-26 13:20:16.000 -03:00 [DBG] Calling into custom validator: IdentityServer4.Validation.DefaultCustomAuthorizeRequestValidator
+2019-03-26 13:20:16.004 -03:00 [INF] {"SubjectId":"50c14950-790c-4d2d-8f1c-41717e59c873","ClientId":"CasaDoCodigo.MVC","RequestedScopes":["openid","profile"],"GrantedScopes":["openid","profile"],"ConsentRemembered":true,"Category":"Grants","Name":"Consent granted","EventType":"Information","Id":4000,"Message":null,"ActivityId":"0HLLI0PSSLC98:00000006","TimeStamp":"2019-03-26T16:20:16.0000000Z","ProcessId":15520,"LocalIpAddress":"127.0.0.1:24814","RemoteIpAddress":"::1","$type":"ConsentGrantedEvent"}
+2019-03-26 13:20:16.037 -03:00 [DBG] client configuration validation for client CasaDoCodigo.MVC succeeded.
+2019-03-26 13:20:16.045 -03:00 [DBG] Request path /connect/authorize/callback matched to endpoint type Authorize
+2019-03-26 13:20:16.046 -03:00 [DBG] Endpoint enabled: Authorize, successfully created handler: IdentityServer4.Endpoints.AuthorizeCallbackEndpoint
+2019-03-26 13:20:16.046 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.AuthorizeCallbackEndpoint for /connect/authorize/callback
+2019-03-26 13:20:16.046 -03:00 [DBG] Start authorize callback request
+2019-03-26 13:20:16.058 -03:00 [DBG] User in authorize request: 50c14950-790c-4d2d-8f1c-41717e59c873
+2019-03-26 13:20:16.058 -03:00 [DBG] Start authorize request protocol validation
+2019-03-26 13:20:16.058 -03:00 [DBG] client configuration validation for client CasaDoCodigo.MVC succeeded.
+2019-03-26 13:20:16.058 -03:00 [DBG] Checking for PKCE parameters
+2019-03-26 13:20:16.058 -03:00 [DBG] No PKCE used.
+2019-03-26 13:20:16.058 -03:00 [DBG] Calling into custom validator: IdentityServer4.Validation.DefaultCustomAuthorizeRequestValidator
+2019-03-26 13:20:51.582 -03:00 [INF] ValidatedAuthorizeRequest
+{"ClientId":"CasaDoCodigo.MVC","ClientName":"Casa do Código MVC","RedirectUri":"http://localhost:5001/signin-oidc","AllowedRedirectUris":["http://localhost:5001/signin-oidc"],"SubjectId":"50c14950-790c-4d2d-8f1c-41717e59c873","ResponseType":"code id_token","ResponseMode":"form_post","GrantType":"hybrid","RequestedScopes":"openid profile","State":"CfDJ8HJUPcmp6VtIqNduejmxXT5rlDStcGNZ5yVQ6QZOTXMPp-snrV4oh_aBQS-KzBAWcsoUm8C6tDMxDkp1yra7gZm-Sp6mIvULjKF_t2moyesyBFcH0_TjiNiudY9mUmQ1EVnxmLV349jPjKVx3k_F46ODvAME20nfvlzvQOd-SNw6ncZ5uLuFdICzza_r0bbMvCaIKsX0oYTga5se5Tr2qq4B3n9cUB2uDdEmh-6lA-ofcXmrz1tSLCj00GZrPqRkD-9XwVgEhuf2VqzWPGbTPgEYOO1BowVPbZOhQGXZahFiSZvVL9Uq2Cg9CWJSxqeWisd0yAch-Z0e9kqzNjJwVKM","UiLocales":null,"Nonce":"636892138535531570.YWJmZDE1MWUtZDE2ZC00ZTIwLWIzY2MtY2E4NTk4YTJiMGI2YjgwYTdiNDEtNzViYi00ZDI3LWI2MmUtN2Q3MmFlZGFhZjVk","AuthenticationContextReferenceClasses":null,"DisplayMode":null,"PromptMode":null,"MaxAge":null,"LoginHint":null,"SessionId":"e57c764dc8e751ddf98d494586960c2a","Raw":{"client_id":"CasaDoCodigo.MVC","redirect_uri":"http://localhost:5001/signin-oidc","response_type":"code id_token","scope":"openid profile","response_mode":"form_post","nonce":"636892138535531570.YWJmZDE1MWUtZDE2ZC00ZTIwLWIzY2MtY2E4NTk4YTJiMGI2YjgwYTdiNDEtNzViYi00ZDI3LWI2MmUtN2Q3MmFlZGFhZjVk","state":"CfDJ8HJUPcmp6VtIqNduejmxXT5rlDStcGNZ5yVQ6QZOTXMPp-snrV4oh_aBQS-KzBAWcsoUm8C6tDMxDkp1yra7gZm-Sp6mIvULjKF_t2moyesyBFcH0_TjiNiudY9mUmQ1EVnxmLV349jPjKVx3k_F46ODvAME20nfvlzvQOd-SNw6ncZ5uLuFdICzza_r0bbMvCaIKsX0oYTga5se5Tr2qq4B3n9cUB2uDdEmh-6lA-ofcXmrz1tSLCj00GZrPqRkD-9XwVgEhuf2VqzWPGbTPgEYOO1BowVPbZOhQGXZahFiSZvVL9Uq2Cg9CWJSxqeWisd0yAch-Z0e9kqzNjJwVKM","x-client-SKU":"ID_NET","x-client-ver":"2.1.4.0"},"$type":"AuthorizeRequestValidationLog"}
+2019-03-26 13:20:51.589 -03:00 [DBG] user_consent grant with value: CasaDoCodigo.MVC|50c14950-790c-4d2d-8f1c-41717e59c873 not found in store.
+2019-03-26 13:20:51.589 -03:00 [DBG] Found no prior consent from consent store, consent is required
+2019-03-26 13:20:51.601 -03:00 [INF] User consented to scopes: ["openid","profile"]
+2019-03-26 13:20:51.604 -03:00 [DBG] User indicated to remember consent for scopes: ["openid","profile"]
+2019-03-26 13:20:51.613 -03:00 [DBG] Client allows remembering consent, and consent given. Updating consent store for subject: 50c14950-790c-4d2d-8f1c-41717e59c873
+2019-03-26 13:20:51.649 -03:00 [DBG] Creating Hybrid Flow response.
+2019-03-26 13:20:51.690 -03:00 [DBG] Creating Implicit Flow response.
+2019-03-26 13:20:51.712 -03:00 [DBG] Getting claims for identity token for subject: 50c14950-790c-4d2d-8f1c-41717e59c873 and client: CasaDoCodigo.MVC
+2019-03-26 13:20:51.715 -03:00 [DBG] In addition to an id_token, an access_token was requested. No claims other than sub are included in the id_token. To obtain more user claims, either use the user info endpoint or set AlwaysIncludeUserClaimsInIdToken on the client configuration.
+2019-03-26 13:20:51.939 -03:00 [INF] {"ClientId":"CasaDoCodigo.MVC","ClientName":"Casa do Código MVC","RedirectUri":"http://localhost:5001/signin-oidc","Endpoint":"Authorize","SubjectId":"50c14950-790c-4d2d-8f1c-41717e59c873","Scopes":"openid profile","GrantType":"hybrid","Tokens":[{"TokenType":"id_token","TokenValue":"****eLQA","$type":"Token"},{"TokenType":"code","TokenValue":"****a178","$type":"Token"}],"Category":"Token","Name":"Token Issued Success","EventType":"Success","Id":2000,"Message":null,"ActivityId":"0HLLI0PSSLC98:00000007","TimeStamp":"2019-03-26T16:20:51.0000000Z","ProcessId":15520,"LocalIpAddress":"127.0.0.1:24814","RemoteIpAddress":"::1","$type":"TokenIssuedSuccessEvent"}
+2019-03-26 13:22:11.584 -03:00 [INF] Authorize endpoint response
+{"SubjectId":"50c14950-790c-4d2d-8f1c-41717e59c873","ClientId":"CasaDoCodigo.MVC","RedirectUri":"http://localhost:5001/signin-oidc","State":"CfDJ8HJUPcmp6VtIqNduejmxXT5rlDStcGNZ5yVQ6QZOTXMPp-snrV4oh_aBQS-KzBAWcsoUm8C6tDMxDkp1yra7gZm-Sp6mIvULjKF_t2moyesyBFcH0_TjiNiudY9mUmQ1EVnxmLV349jPjKVx3k_F46ODvAME20nfvlzvQOd-SNw6ncZ5uLuFdICzza_r0bbMvCaIKsX0oYTga5se5Tr2qq4B3n9cUB2uDdEmh-6lA-ofcXmrz1tSLCj00GZrPqRkD-9XwVgEhuf2VqzWPGbTPgEYOO1BowVPbZOhQGXZahFiSZvVL9Uq2Cg9CWJSxqeWisd0yAch-Z0e9kqzNjJwVKM","Scope":"openid profile","Error":null,"ErrorDescription":null,"$type":"AuthorizeResponseLog"}
+2019-03-26 13:22:11.623 -03:00 [DBG] Augmenting SignInContext
+2019-03-26 13:22:11.624 -03:00 [INF] AuthenticationScheme: Identity.Application signed in.
+2019-03-26 13:22:12.155 -03:00 [DBG] Request path /connect/token matched to endpoint type Token
+2019-03-26 13:22:12.177 -03:00 [DBG] Endpoint enabled: Token, successfully created handler: IdentityServer4.Endpoints.TokenEndpoint
+2019-03-26 13:22:12.177 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.TokenEndpoint for /connect/token
+2019-03-26 13:22:12.194 -03:00 [DBG] Start token request.
+2019-03-26 13:22:12.209 -03:00 [DBG] Start client validation
+2019-03-26 13:22:12.222 -03:00 [DBG] Start parsing Basic Authentication secret
+2019-03-26 13:22:12.232 -03:00 [DBG] Start parsing for secret in post body
+2019-03-26 13:22:12.232 -03:00 [DBG] Parser found secret: PostBodySecretParser
+2019-03-26 13:22:12.233 -03:00 [DBG] Secret id found: CasaDoCodigo.MVC
+2019-03-26 13:22:12.233 -03:00 [DBG] client configuration validation for client CasaDoCodigo.MVC succeeded.
+2019-03-26 13:22:12.259 -03:00 [DBG] Secret validator success: HashedSharedSecretValidator
+2019-03-26 13:22:12.259 -03:00 [DBG] Client validation success
+2019-03-26 13:22:12.260 -03:00 [INF] {"ClientId":"CasaDoCodigo.MVC","AuthenticationMethod":"SharedSecret","Category":"Authentication","Name":"Client Authentication Success","EventType":"Success","Id":1010,"Message":null,"ActivityId":"0HLLI0PSSLC98:00000008","TimeStamp":"2019-03-26T16:22:12.0000000Z","ProcessId":15520,"LocalIpAddress":"127.0.0.1:24814","RemoteIpAddress":"::1","$type":"ClientAuthenticationSuccessEvent"}
+2019-03-26 13:22:12.291 -03:00 [DBG] Start token request validation
+2019-03-26 13:22:12.325 -03:00 [DBG] Start validation of authorization code token request
+2019-03-26 13:22:12.365 -03:00 [DBG] Validation of authorization code token request success
+2019-03-26 13:22:12.370 -03:00 [INF] Token request validation success
+{"ClientId":"CasaDoCodigo.MVC","ClientName":"Casa do Código MVC","GrantType":"authorization_code","Scopes":null,"AuthorizationCode":"9fc322ce9733080af31ce6b9d328224f5b18f0679f6669d1dd59d2d6283fa178","RefreshToken":null,"UserName":null,"AuthenticationContextReferenceClasses":null,"Tenant":null,"IdP":null,"Raw":{"client_id":"CasaDoCodigo.MVC","client_secret":"***REDACTED***","code":"9fc322ce9733080af31ce6b9d328224f5b18f0679f6669d1dd59d2d6283fa178","grant_type":"authorization_code","redirect_uri":"http://localhost:5001/signin-oidc"},"$type":"TokenRequestValidationLog"}
+2019-03-26 13:22:46.621 -03:00 [DBG] client configuration validation for client CasaDoCodigo.MVC succeeded.
+2019-03-26 13:22:46.647 -03:00 [DBG] Getting claims for access token for client: CasaDoCodigo.MVC
+2019-03-26 13:22:46.649 -03:00 [DBG] Getting claims for access token for subject: 50c14950-790c-4d2d-8f1c-41717e59c873
+2019-03-26 13:22:46.672 -03:00 [DBG] client configuration validation for client CasaDoCodigo.MVC succeeded.
+2019-03-26 13:22:46.673 -03:00 [DBG] Getting claims for identity token for subject: 50c14950-790c-4d2d-8f1c-41717e59c873 and client: CasaDoCodigo.MVC
+2019-03-26 13:22:46.673 -03:00 [DBG] In addition to an id_token, an access_token was requested. No claims other than sub are included in the id_token. To obtain more user claims, either use the user info endpoint or set AlwaysIncludeUserClaimsInIdToken on the client configuration.
+2019-03-26 13:22:46.678 -03:00 [INF] {"ClientId":"CasaDoCodigo.MVC","ClientName":"Casa do Código MVC","RedirectUri":null,"Endpoint":"Token","SubjectId":null,"Scopes":"openid profile","GrantType":"authorization_code","Tokens":[{"TokenType":"id_token","TokenValue":"****hVBg","$type":"Token"},{"TokenType":"access_token","TokenValue":"****fwHw","$type":"Token"}],"Category":"Token","Name":"Token Issued Success","EventType":"Success","Id":2000,"Message":null,"ActivityId":"0HLLI0PSSLC98:00000008","TimeStamp":"2019-03-26T16:22:46.0000000Z","ProcessId":15520,"LocalIpAddress":"127.0.0.1:24814","RemoteIpAddress":"::1","$type":"TokenIssuedSuccessEvent"}
+2019-03-26 13:22:46.680 -03:00 [DBG] Token request success.
+2019-03-26 13:24:58.051 -03:00 [DBG] client configuration validation for client CasaDoCodigo.MVC succeeded.
+2019-03-26 13:25:19.460 -03:00 [DBG] client configuration validation for client CasaDoCodigo.MVC succeeded.
+2019-03-26 13:25:48.084 -03:00 [DBG] CORS request made for path: /Account/Logout from origin: null but was ignored because path was not for an allowed IdentityServer CORS endpoint
+2019-03-26 13:25:48.141 -03:00 [INF] AuthenticationScheme: Identity.Application signed out.
+2019-03-26 13:25:48.142 -03:00 [INF] AuthenticationScheme: Identity.External signed out.
+2019-03-26 13:25:48.143 -03:00 [INF] AuthenticationScheme: Identity.TwoFactorUserId signed out.
+2019-03-26 13:25:48.144 -03:00 [INF] {"SubjectId":"50c14950-790c-4d2d-8f1c-41717e59c873","DisplayName":"Alice Smith","Category":"Authentication","Name":"User Logout Success","EventType":"Success","Id":1002,"Message":null,"ActivityId":"0HLLI0PSSLC9B:00000004","TimeStamp":"2019-03-26T16:25:48.0000000Z","ProcessId":15520,"LocalIpAddress":"127.0.0.1:24814","RemoteIpAddress":"::1","$type":"UserLogoutSuccessEvent"}
+2019-03-26 13:25:48.274 -03:00 [DBG] Request path /connect/endsession/callback matched to endpoint type Endsession
+2019-03-26 13:25:48.282 -03:00 [DBG] Endpoint enabled: Endsession, successfully created handler: IdentityServer4.Endpoints.EndSessionCallbackEndpoint
+2019-03-26 13:25:48.283 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.EndSessionCallbackEndpoint for /connect/endsession/callback
+2019-03-26 13:25:48.298 -03:00 [DBG] Processing signout callback request
+2019-03-26 13:25:48.332 -03:00 [DBG] client configuration validation for client CasaDoCodigo.MVC succeeded.
+2019-03-26 13:25:48.333 -03:00 [DBG] Client front-channel logout URLs: http://localhost:5001/signout-oidc?sid=e57c764dc8e751ddf98d494586960c2a&iss=http%3A%2F%2Flocalhost%3A5000
+2019-03-26 13:25:48.333 -03:00 [DBG] No client back-channel logout URLs
+2019-03-26 13:25:48.333 -03:00 [INF] Successful signout callback.
+2019-03-26 13:25:48.333 -03:00 [DBG] Client front-channel iframe urls: ["http://localhost:5001/signout-oidc?sid=e57c764dc8e751ddf98d494586960c2a&iss=http%3A%2F%2Flocalhost%3A5000"]
+2019-03-26 13:25:48.333 -03:00 [DBG] No client back-channel iframe urls
+2019-03-26 13:26:05.009 -03:00 [DBG] Request path /connect/authorize matched to endpoint type Authorize
+2019-03-26 13:26:05.009 -03:00 [DBG] Endpoint enabled: Authorize, successfully created handler: IdentityServer4.Endpoints.AuthorizeEndpoint
+2019-03-26 13:26:05.009 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.AuthorizeEndpoint for /connect/authorize
+2019-03-26 13:26:05.010 -03:00 [DBG] Start authorize request
+2019-03-26 13:26:05.010 -03:00 [DBG] No user present in authorize request
+2019-03-26 13:26:05.010 -03:00 [DBG] Start authorize request protocol validation
+2019-03-26 13:26:05.010 -03:00 [DBG] client configuration validation for client CasaDoCodigo.MVC succeeded.
+2019-03-26 13:26:05.010 -03:00 [DBG] Checking for PKCE parameters
+2019-03-26 13:26:05.010 -03:00 [DBG] No PKCE used.
+2019-03-26 13:26:05.010 -03:00 [DBG] Calling into custom validator: IdentityServer4.Validation.DefaultCustomAuthorizeRequestValidator
+2019-03-26 13:26:05.011 -03:00 [INF] ValidatedAuthorizeRequest
+{"ClientId":"CasaDoCodigo.MVC","ClientName":"Casa do Código MVC","RedirectUri":"http://localhost:5001/signin-oidc","AllowedRedirectUris":["http://localhost:5001/signin-oidc"],"SubjectId":"anonymous","ResponseType":"code id_token","ResponseMode":"form_post","GrantType":"hybrid","RequestedScopes":"openid profile","State":"CfDJ8HJUPcmp6VtIqNduejmxXT6ROLT43hN7_viuJDWD2UZT1VTfjOXvHF_wcd5HKjZlO9ClcYvq3txUq_YpfmYLHGd_8kDPAWECUNZpTOZT6KldDpHx22ZnDdbQJk7V3_exdo87-zd-0fssgB_C0aMDtq_dZPjiBsWxI1q_5sxaSYCnM1OJNT7af1t819iVOae6qr0vtur7Uyi-x95Kwm0mQXOsTbkwcym0_9XC3-uS-LmcBfgGNpwhf1_DOomRWMFhBDUlY47XQSwvqsF1zvBWvozaD9oavdmfpQ4Lyz0cnJSgCjf6rQRHJG1tjQPOrCdfOfMLz8RgRbIvrqgtOxK8Hr8","UiLocales":null,"Nonce":"636892143649799934.YTdjMDYzOTUtOTk0Yi00YTE3LWI0YmEtMzIwZTFlNWYxM2YwOWMyZDZhYWYtMGRlZS00ODliLWIzZjEtZWVlZjdiOTEwOGQ2","AuthenticationContextReferenceClasses":null,"DisplayMode":null,"PromptMode":null,"MaxAge":null,"LoginHint":null,"SessionId":null,"Raw":{"client_id":"CasaDoCodigo.MVC","redirect_uri":"http://localhost:5001/signin-oidc","response_type":"code id_token","scope":"openid profile","response_mode":"form_post","nonce":"636892143649799934.YTdjMDYzOTUtOTk0Yi00YTE3LWI0YmEtMzIwZTFlNWYxM2YwOWMyZDZhYWYtMGRlZS00ODliLWIzZjEtZWVlZjdiOTEwOGQ2","state":"CfDJ8HJUPcmp6VtIqNduejmxXT6ROLT43hN7_viuJDWD2UZT1VTfjOXvHF_wcd5HKjZlO9ClcYvq3txUq_YpfmYLHGd_8kDPAWECUNZpTOZT6KldDpHx22ZnDdbQJk7V3_exdo87-zd-0fssgB_C0aMDtq_dZPjiBsWxI1q_5sxaSYCnM1OJNT7af1t819iVOae6qr0vtur7Uyi-x95Kwm0mQXOsTbkwcym0_9XC3-uS-LmcBfgGNpwhf1_DOomRWMFhBDUlY47XQSwvqsF1zvBWvozaD9oavdmfpQ4Lyz0cnJSgCjf6rQRHJG1tjQPOrCdfOfMLz8RgRbIvrqgtOxK8Hr8","x-client-SKU":"ID_NET","x-client-ver":"2.1.4.0"},"$type":"AuthorizeRequestValidationLog"}
+2019-03-26 13:26:05.011 -03:00 [INF] Showing login: User is not authenticated
+2019-03-26 13:26:05.039 -03:00 [DBG] Start authorize request protocol validation
+2019-03-26 13:26:05.039 -03:00 [DBG] client configuration validation for client CasaDoCodigo.MVC succeeded.
+2019-03-26 13:26:05.039 -03:00 [DBG] Checking for PKCE parameters
+2019-03-26 13:26:05.039 -03:00 [DBG] No PKCE used.
+2019-03-26 13:26:05.039 -03:00 [DBG] Calling into custom validator: IdentityServer4.Validation.DefaultCustomAuthorizeRequestValidator
+2019-03-26 13:26:05.040 -03:00 [DBG] client configuration validation for client CasaDoCodigo.MVC succeeded.
+2019-03-26 13:27:21.818 -03:00 [INF] You are using the in-memory version of the persisted grant store. This will store consent decisions, authorization codes, refresh and reference tokens in memory only. If you are using any of those features in production, you want to switch to a different store implementation.
+2019-03-26 13:27:22.029 -03:00 [INF] Using the default authentication scheme Identity.Application for IdentityServer
+2019-03-26 13:27:22.034 -03:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for authentication
+2019-03-26 13:27:22.035 -03:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-in
+2019-03-26 13:27:22.035 -03:00 [DBG] Using Identity.External as default ASP.NET Core scheme for sign-out
+2019-03-26 13:27:22.035 -03:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for challenge
+2019-03-26 13:27:22.035 -03:00 [DBG] Using Identity.Application as default ASP.NET Core scheme for forbid
+2019-03-26 13:27:23.552 -03:00 [DBG] Login Url: /Account/Login
+2019-03-26 13:27:23.563 -03:00 [DBG] Login Return Url Parameter: ReturnUrl
+2019-03-26 13:27:23.563 -03:00 [DBG] Logout Url: /Account/Logout
+2019-03-26 13:27:23.563 -03:00 [DBG] ConsentUrl Url: /consent
+2019-03-26 13:27:23.563 -03:00 [DBG] Consent Return Url Parameter: returnUrl
+2019-03-26 13:27:23.563 -03:00 [DBG] Error Url: /home/error
+2019-03-26 13:27:23.563 -03:00 [DBG] Error Id Parameter: errorId
+2019-03-26 13:27:36.084 -03:00 [DBG] Request path /.well-known/openid-configuration matched to endpoint type Discovery
+2019-03-26 13:27:36.417 -03:00 [DBG] Endpoint enabled: Discovery, successfully created handler: IdentityServer4.Endpoints.DiscoveryEndpoint
+2019-03-26 13:27:36.418 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.DiscoveryEndpoint for /.well-known/openid-configuration
+2019-03-26 13:27:36.426 -03:00 [DBG] Start discovery request
+2019-03-26 13:27:36.822 -03:00 [DBG] Request path /.well-known/openid-configuration/jwks matched to endpoint type Discovery
+2019-03-26 13:27:36.828 -03:00 [DBG] Endpoint enabled: Discovery, successfully created handler: IdentityServer4.Endpoints.DiscoveryKeyEndpoint
+2019-03-26 13:27:36.828 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.DiscoveryKeyEndpoint for /.well-known/openid-configuration/jwks
+2019-03-26 13:27:36.836 -03:00 [DBG] Start key discovery request
+2019-03-26 13:27:37.074 -03:00 [DBG] Request path /connect/authorize matched to endpoint type Authorize
+2019-03-26 13:27:37.081 -03:00 [DBG] Endpoint enabled: Authorize, successfully created handler: IdentityServer4.Endpoints.AuthorizeEndpoint
+2019-03-26 13:27:37.081 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.AuthorizeEndpoint for /connect/authorize
+2019-03-26 13:27:37.091 -03:00 [DBG] Start authorize request
+2019-03-26 13:27:37.120 -03:00 [DBG] No user present in authorize request
+2019-03-26 13:27:37.131 -03:00 [DBG] Start authorize request protocol validation
+2019-03-26 13:27:37.187 -03:00 [DBG] client configuration validation for client CasaDoCodigo.MVC succeeded.
+2019-03-26 13:27:37.199 -03:00 [DBG] Checking for PKCE parameters
+2019-03-26 13:27:37.201 -03:00 [DBG] No PKCE used.
+2019-03-26 13:27:37.281 -03:00 [DBG] Calling into custom validator: IdentityServer4.Validation.DefaultCustomAuthorizeRequestValidator
+2019-03-26 13:27:37.318 -03:00 [INF] ValidatedAuthorizeRequest
+{"ClientId":"CasaDoCodigo.MVC","ClientName":"Casa do Código MVC","RedirectUri":"http://localhost:5001/signin-oidc","AllowedRedirectUris":["http://localhost:5001/signin-oidc"],"SubjectId":"anonymous","ResponseType":"code id_token","ResponseMode":"form_post","GrantType":"hybrid","RequestedScopes":"openid profile","State":"CfDJ8HJUPcmp6VtIqNduejmxXT4xKZE_SMUNYaSVRC3la0ET-bD1hZfFwcQvGYGKkJ446-QhR3gjSqdkLQtZuoEH4iXw1mTh5T3EfEz2ZxsQiyo_0W5_osFNjV5ICnaeFx0fb4fDEDDFQS2FzhEzZrxpIUtIN7sBxKTykYgy6cYskYdlHpXu45s2u97U_c0KC89vQygvriGzyRicw290tKbaIEdPKewSu2laNbpNJWwGL0KXGsvC0blRI6DBDgf-VhkfmFRZANiaJv_WRdROdpIPui4JJIF7GRGq4DoBO-GQu8-_mr3hW2mbjH3aXR1xhaBjXKA-4Oegqs0isOlXL6EYcFk","UiLocales":null,"Nonce":"636892144569718580.ZDg1MTkyYjctMzM3My00MDYyLTk0MTYtNTM0NmQ1Yzk1ZTc0NzZjMmU5MDYtNTdhMi00MDExLTg1NGQtODM5YzMyNTQ4YmZi","AuthenticationContextReferenceClasses":null,"DisplayMode":null,"PromptMode":null,"MaxAge":null,"LoginHint":null,"SessionId":null,"Raw":{"client_id":"CasaDoCodigo.MVC","redirect_uri":"http://localhost:5001/signin-oidc","response_type":"code id_token","scope":"openid profile","response_mode":"form_post","nonce":"636892144569718580.ZDg1MTkyYjctMzM3My00MDYyLTk0MTYtNTM0NmQ1Yzk1ZTc0NzZjMmU5MDYtNTdhMi00MDExLTg1NGQtODM5YzMyNTQ4YmZi","state":"CfDJ8HJUPcmp6VtIqNduejmxXT4xKZE_SMUNYaSVRC3la0ET-bD1hZfFwcQvGYGKkJ446-QhR3gjSqdkLQtZuoEH4iXw1mTh5T3EfEz2ZxsQiyo_0W5_osFNjV5ICnaeFx0fb4fDEDDFQS2FzhEzZrxpIUtIN7sBxKTykYgy6cYskYdlHpXu45s2u97U_c0KC89vQygvriGzyRicw290tKbaIEdPKewSu2laNbpNJWwGL0KXGsvC0blRI6DBDgf-VhkfmFRZANiaJv_WRdROdpIPui4JJIF7GRGq4DoBO-GQu8-_mr3hW2mbjH3aXR1xhaBjXKA-4Oegqs0isOlXL6EYcFk","x-client-SKU":"ID_NET","x-client-ver":"2.1.4.0"},"$type":"AuthorizeRequestValidationLog"}
+2019-03-26 13:27:46.994 -03:00 [INF] Showing login: User is not authenticated
+2019-03-26 13:27:47.149 -03:00 [DBG] Start authorize request protocol validation
+2019-03-26 13:27:47.149 -03:00 [DBG] client configuration validation for client CasaDoCodigo.MVC succeeded.
+2019-03-26 13:27:47.150 -03:00 [DBG] Checking for PKCE parameters
+2019-03-26 13:27:47.150 -03:00 [DBG] No PKCE used.
+2019-03-26 13:27:47.150 -03:00 [DBG] Calling into custom validator: IdentityServer4.Validation.DefaultCustomAuthorizeRequestValidator
+2019-03-26 13:27:47.154 -03:00 [DBG] client configuration validation for client CasaDoCodigo.MVC succeeded.
+2019-03-26 13:27:54.451 -03:00 [DBG] CORS request made for path: /Account/Login from origin: null but was ignored because path was not for an allowed IdentityServer CORS endpoint
+2019-03-26 13:27:54.527 -03:00 [DBG] Start authorize request protocol validation
+2019-03-26 13:27:54.527 -03:00 [DBG] client configuration validation for client CasaDoCodigo.MVC succeeded.
+2019-03-26 13:27:54.527 -03:00 [DBG] Checking for PKCE parameters
+2019-03-26 13:27:54.527 -03:00 [DBG] No PKCE used.
+2019-03-26 13:27:54.528 -03:00 [DBG] Calling into custom validator: IdentityServer4.Validation.DefaultCustomAuthorizeRequestValidator
+2019-03-26 13:27:55.736 -03:00 [DBG] Augmenting SignInContext
+2019-03-26 13:27:55.742 -03:00 [DBG] Adding idp claim with value: local
+2019-03-26 13:27:55.743 -03:00 [DBG] Adding amr claim with value: pwd
+2019-03-26 13:27:55.744 -03:00 [DBG] Adding auth_time claim with value: 1553617675
+2019-03-26 13:27:55.789 -03:00 [INF] AuthenticationScheme: Identity.Application signed in.
+2019-03-26 13:27:55.831 -03:00 [INF] {"Username":"alice","Provider":null,"ProviderUserId":null,"SubjectId":"50c14950-790c-4d2d-8f1c-41717e59c873","DisplayName":"alice","Endpoint":"UI","Category":"Authentication","Name":"User Login Success","EventType":"Success","Id":1000,"Message":null,"ActivityId":"0HLLI0VMF6EHH:00000004","TimeStamp":"2019-03-26T16:27:55.0000000Z","ProcessId":5048,"LocalIpAddress":"127.0.0.1:41398","RemoteIpAddress":"::1","$type":"UserLoginSuccessEvent"}
+2019-03-26 13:27:55.835 -03:00 [DBG] client configuration validation for client CasaDoCodigo.MVC succeeded.
+2019-03-26 13:27:55.858 -03:00 [DBG] Request path /connect/authorize/callback matched to endpoint type Authorize
+2019-03-26 13:27:55.859 -03:00 [DBG] Endpoint enabled: Authorize, successfully created handler: IdentityServer4.Endpoints.AuthorizeCallbackEndpoint
+2019-03-26 13:27:55.859 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.AuthorizeCallbackEndpoint for /connect/authorize/callback
+2019-03-26 13:29:03.999 -03:00 [DBG] Start authorize callback request
+2019-03-26 13:29:04.008 -03:00 [DBG] User in authorize request: 50c14950-790c-4d2d-8f1c-41717e59c873
+2019-03-26 13:29:04.008 -03:00 [DBG] Start authorize request protocol validation
+2019-03-26 13:29:04.008 -03:00 [DBG] client configuration validation for client CasaDoCodigo.MVC succeeded.
+2019-03-26 13:29:04.008 -03:00 [DBG] Checking for PKCE parameters
+2019-03-26 13:29:04.009 -03:00 [DBG] No PKCE used.
+2019-03-26 13:29:04.009 -03:00 [DBG] Calling into custom validator: IdentityServer4.Validation.DefaultCustomAuthorizeRequestValidator
+2019-03-26 13:29:04.010 -03:00 [INF] ValidatedAuthorizeRequest
+{"ClientId":"CasaDoCodigo.MVC","ClientName":"Casa do Código MVC","RedirectUri":"http://localhost:5001/signin-oidc","AllowedRedirectUris":["http://localhost:5001/signin-oidc"],"SubjectId":"50c14950-790c-4d2d-8f1c-41717e59c873","ResponseType":"code id_token","ResponseMode":"form_post","GrantType":"hybrid","RequestedScopes":"openid profile","State":"CfDJ8HJUPcmp6VtIqNduejmxXT4xKZE_SMUNYaSVRC3la0ET-bD1hZfFwcQvGYGKkJ446-QhR3gjSqdkLQtZuoEH4iXw1mTh5T3EfEz2ZxsQiyo_0W5_osFNjV5ICnaeFx0fb4fDEDDFQS2FzhEzZrxpIUtIN7sBxKTykYgy6cYskYdlHpXu45s2u97U_c0KC89vQygvriGzyRicw290tKbaIEdPKewSu2laNbpNJWwGL0KXGsvC0blRI6DBDgf-VhkfmFRZANiaJv_WRdROdpIPui4JJIF7GRGq4DoBO-GQu8-_mr3hW2mbjH3aXR1xhaBjXKA-4Oegqs0isOlXL6EYcFk","UiLocales":null,"Nonce":"636892144569718580.ZDg1MTkyYjctMzM3My00MDYyLTk0MTYtNTM0NmQ1Yzk1ZTc0NzZjMmU5MDYtNTdhMi00MDExLTg1NGQtODM5YzMyNTQ4YmZi","AuthenticationContextReferenceClasses":null,"DisplayMode":null,"PromptMode":null,"MaxAge":null,"LoginHint":null,"SessionId":"b8acb932ac05ec62b950c9be48fdf5d9","Raw":{"client_id":"CasaDoCodigo.MVC","redirect_uri":"http://localhost:5001/signin-oidc","response_type":"code id_token","scope":"openid profile","response_mode":"form_post","nonce":"636892144569718580.ZDg1MTkyYjctMzM3My00MDYyLTk0MTYtNTM0NmQ1Yzk1ZTc0NzZjMmU5MDYtNTdhMi00MDExLTg1NGQtODM5YzMyNTQ4YmZi","state":"CfDJ8HJUPcmp6VtIqNduejmxXT4xKZE_SMUNYaSVRC3la0ET-bD1hZfFwcQvGYGKkJ446-QhR3gjSqdkLQtZuoEH4iXw1mTh5T3EfEz2ZxsQiyo_0W5_osFNjV5ICnaeFx0fb4fDEDDFQS2FzhEzZrxpIUtIN7sBxKTykYgy6cYskYdlHpXu45s2u97U_c0KC89vQygvriGzyRicw290tKbaIEdPKewSu2laNbpNJWwGL0KXGsvC0blRI6DBDgf-VhkfmFRZANiaJv_WRdROdpIPui4JJIF7GRGq4DoBO-GQu8-_mr3hW2mbjH3aXR1xhaBjXKA-4Oegqs0isOlXL6EYcFk","x-client-SKU":"ID_NET","x-client-ver":"2.1.4.0"},"$type":"AuthorizeRequestValidationLog"}
+2019-03-26 13:29:04.099 -03:00 [DBG] user_consent grant with value: CasaDoCodigo.MVC|50c14950-790c-4d2d-8f1c-41717e59c873 not found in store.
+2019-03-26 13:29:04.100 -03:00 [DBG] Found no prior consent from consent store, consent is required
+2019-03-26 13:29:04.100 -03:00 [INF] Showing consent: User has not yet consented
+2019-03-26 13:29:04.153 -03:00 [DBG] Start authorize request protocol validation
+2019-03-26 13:29:04.153 -03:00 [DBG] client configuration validation for client CasaDoCodigo.MVC succeeded.
+2019-03-26 13:29:04.153 -03:00 [DBG] Checking for PKCE parameters
+2019-03-26 13:29:04.153 -03:00 [DBG] No PKCE used.
+2019-03-26 13:29:04.153 -03:00 [DBG] Calling into custom validator: IdentityServer4.Validation.DefaultCustomAuthorizeRequestValidator
+2019-03-26 13:29:04.153 -03:00 [DBG] client configuration validation for client CasaDoCodigo.MVC succeeded.
+2019-03-26 13:30:53.732 -03:00 [DBG] CORS request made for path: /consent from origin: null but was ignored because path was not for an allowed IdentityServer CORS endpoint
+2019-03-26 13:30:53.796 -03:00 [DBG] Start authorize request protocol validation
+2019-03-26 13:30:53.796 -03:00 [DBG] client configuration validation for client CasaDoCodigo.MVC succeeded.
+2019-03-26 13:30:53.796 -03:00 [DBG] Checking for PKCE parameters
+2019-03-26 13:30:53.796 -03:00 [DBG] No PKCE used.
+2019-03-26 13:30:53.796 -03:00 [DBG] Calling into custom validator: IdentityServer4.Validation.DefaultCustomAuthorizeRequestValidator
+2019-03-26 13:30:53.798 -03:00 [INF] {"SubjectId":"50c14950-790c-4d2d-8f1c-41717e59c873","ClientId":"CasaDoCodigo.MVC","RequestedScopes":["openid","profile"],"GrantedScopes":["openid","profile"],"ConsentRemembered":true,"Category":"Grants","Name":"Consent granted","EventType":"Information","Id":4000,"Message":null,"ActivityId":"0HLLI0VMF6EHG:00000006","TimeStamp":"2019-03-26T16:30:53.0000000Z","ProcessId":5048,"LocalIpAddress":"127.0.0.1:41398","RemoteIpAddress":"::1","$type":"ConsentGrantedEvent"}
+2019-03-26 13:30:53.818 -03:00 [DBG] client configuration validation for client CasaDoCodigo.MVC succeeded.
+2019-03-26 13:30:53.832 -03:00 [DBG] Request path /connect/authorize/callback matched to endpoint type Authorize
+2019-03-26 13:30:53.832 -03:00 [DBG] Endpoint enabled: Authorize, successfully created handler: IdentityServer4.Endpoints.AuthorizeCallbackEndpoint
+2019-03-26 13:30:53.832 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.AuthorizeCallbackEndpoint for /connect/authorize/callback
+2019-03-26 13:30:53.833 -03:00 [DBG] Start authorize callback request
+2019-03-26 13:30:53.840 -03:00 [DBG] User in authorize request: 50c14950-790c-4d2d-8f1c-41717e59c873
+2019-03-26 13:30:53.841 -03:00 [DBG] Start authorize request protocol validation
+2019-03-26 13:30:53.841 -03:00 [DBG] client configuration validation for client CasaDoCodigo.MVC succeeded.
+2019-03-26 13:30:53.841 -03:00 [DBG] Checking for PKCE parameters
+2019-03-26 13:30:53.841 -03:00 [DBG] No PKCE used.
+2019-03-26 13:30:53.841 -03:00 [DBG] Calling into custom validator: IdentityServer4.Validation.DefaultCustomAuthorizeRequestValidator
+2019-03-26 13:30:53.841 -03:00 [INF] ValidatedAuthorizeRequest
+{"ClientId":"CasaDoCodigo.MVC","ClientName":"Casa do Código MVC","RedirectUri":"http://localhost:5001/signin-oidc","AllowedRedirectUris":["http://localhost:5001/signin-oidc"],"SubjectId":"50c14950-790c-4d2d-8f1c-41717e59c873","ResponseType":"code id_token","ResponseMode":"form_post","GrantType":"hybrid","RequestedScopes":"openid profile","State":"CfDJ8HJUPcmp6VtIqNduejmxXT4xKZE_SMUNYaSVRC3la0ET-bD1hZfFwcQvGYGKkJ446-QhR3gjSqdkLQtZuoEH4iXw1mTh5T3EfEz2ZxsQiyo_0W5_osFNjV5ICnaeFx0fb4fDEDDFQS2FzhEzZrxpIUtIN7sBxKTykYgy6cYskYdlHpXu45s2u97U_c0KC89vQygvriGzyRicw290tKbaIEdPKewSu2laNbpNJWwGL0KXGsvC0blRI6DBDgf-VhkfmFRZANiaJv_WRdROdpIPui4JJIF7GRGq4DoBO-GQu8-_mr3hW2mbjH3aXR1xhaBjXKA-4Oegqs0isOlXL6EYcFk","UiLocales":null,"Nonce":"636892144569718580.ZDg1MTkyYjctMzM3My00MDYyLTk0MTYtNTM0NmQ1Yzk1ZTc0NzZjMmU5MDYtNTdhMi00MDExLTg1NGQtODM5YzMyNTQ4YmZi","AuthenticationContextReferenceClasses":null,"DisplayMode":null,"PromptMode":null,"MaxAge":null,"LoginHint":null,"SessionId":"b8acb932ac05ec62b950c9be48fdf5d9","Raw":{"client_id":"CasaDoCodigo.MVC","redirect_uri":"http://localhost:5001/signin-oidc","response_type":"code id_token","scope":"openid profile","response_mode":"form_post","nonce":"636892144569718580.ZDg1MTkyYjctMzM3My00MDYyLTk0MTYtNTM0NmQ1Yzk1ZTc0NzZjMmU5MDYtNTdhMi00MDExLTg1NGQtODM5YzMyNTQ4YmZi","state":"CfDJ8HJUPcmp6VtIqNduejmxXT4xKZE_SMUNYaSVRC3la0ET-bD1hZfFwcQvGYGKkJ446-QhR3gjSqdkLQtZuoEH4iXw1mTh5T3EfEz2ZxsQiyo_0W5_osFNjV5ICnaeFx0fb4fDEDDFQS2FzhEzZrxpIUtIN7sBxKTykYgy6cYskYdlHpXu45s2u97U_c0KC89vQygvriGzyRicw290tKbaIEdPKewSu2laNbpNJWwGL0KXGsvC0blRI6DBDgf-VhkfmFRZANiaJv_WRdROdpIPui4JJIF7GRGq4DoBO-GQu8-_mr3hW2mbjH3aXR1xhaBjXKA-4Oegqs0isOlXL6EYcFk","x-client-SKU":"ID_NET","x-client-ver":"2.1.4.0"},"$type":"AuthorizeRequestValidationLog"}
+2019-03-26 13:31:05.003 -03:00 [DBG] user_consent grant with value: CasaDoCodigo.MVC|50c14950-790c-4d2d-8f1c-41717e59c873 not found in store.
+2019-03-26 13:31:05.003 -03:00 [DBG] Found no prior consent from consent store, consent is required
+2019-03-26 13:31:05.025 -03:00 [INF] User consented to scopes: ["openid","profile"]
+2019-03-26 13:31:05.028 -03:00 [DBG] User indicated to remember consent for scopes: ["openid","profile"]
+2019-03-26 13:31:05.037 -03:00 [DBG] Client allows remembering consent, and consent given. Updating consent store for subject: 50c14950-790c-4d2d-8f1c-41717e59c873
+2019-03-26 13:31:05.078 -03:00 [DBG] Creating Hybrid Flow response.
+2019-03-26 13:31:05.128 -03:00 [DBG] Creating Implicit Flow response.
+2019-03-26 13:31:05.146 -03:00 [DBG] Getting claims for identity token for subject: 50c14950-790c-4d2d-8f1c-41717e59c873 and client: CasaDoCodigo.MVC
+2019-03-26 13:31:05.149 -03:00 [DBG] In addition to an id_token, an access_token was requested. No claims other than sub are included in the id_token. To obtain more user claims, either use the user info endpoint or set AlwaysIncludeUserClaimsInIdToken on the client configuration.
+2019-03-26 13:31:05.532 -03:00 [INF] {"ClientId":"CasaDoCodigo.MVC","ClientName":"Casa do Código MVC","RedirectUri":"http://localhost:5001/signin-oidc","Endpoint":"Authorize","SubjectId":"50c14950-790c-4d2d-8f1c-41717e59c873","Scopes":"openid profile","GrantType":"hybrid","Tokens":[{"TokenType":"id_token","TokenValue":"****XUPw","$type":"Token"},{"TokenType":"code","TokenValue":"****a4a3","$type":"Token"}],"Category":"Token","Name":"Token Issued Success","EventType":"Success","Id":2000,"Message":null,"ActivityId":"0HLLI0VMF6EHG:00000007","TimeStamp":"2019-03-26T16:31:05.0000000Z","ProcessId":5048,"LocalIpAddress":"127.0.0.1:41398","RemoteIpAddress":"::1","$type":"TokenIssuedSuccessEvent"}
+2019-03-26 13:31:05.535 -03:00 [INF] Authorize endpoint response
+{"SubjectId":"50c14950-790c-4d2d-8f1c-41717e59c873","ClientId":"CasaDoCodigo.MVC","RedirectUri":"http://localhost:5001/signin-oidc","State":"CfDJ8HJUPcmp6VtIqNduejmxXT4xKZE_SMUNYaSVRC3la0ET-bD1hZfFwcQvGYGKkJ446-QhR3gjSqdkLQtZuoEH4iXw1mTh5T3EfEz2ZxsQiyo_0W5_osFNjV5ICnaeFx0fb4fDEDDFQS2FzhEzZrxpIUtIN7sBxKTykYgy6cYskYdlHpXu45s2u97U_c0KC89vQygvriGzyRicw290tKbaIEdPKewSu2laNbpNJWwGL0KXGsvC0blRI6DBDgf-VhkfmFRZANiaJv_WRdROdpIPui4JJIF7GRGq4DoBO-GQu8-_mr3hW2mbjH3aXR1xhaBjXKA-4Oegqs0isOlXL6EYcFk","Scope":"openid profile","Error":null,"ErrorDescription":null,"$type":"AuthorizeResponseLog"}
+2019-03-26 13:31:05.577 -03:00 [DBG] Augmenting SignInContext
+2019-03-26 13:31:05.578 -03:00 [INF] AuthenticationScheme: Identity.Application signed in.
+2019-03-26 13:31:06.196 -03:00 [DBG] Request path /connect/token matched to endpoint type Token
+2019-03-26 13:32:03.079 -03:00 [DBG] Endpoint enabled: Token, successfully created handler: IdentityServer4.Endpoints.TokenEndpoint
+2019-03-26 13:32:03.079 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.TokenEndpoint for /connect/token
+2019-03-26 13:32:03.090 -03:00 [DBG] Start token request.
+2019-03-26 13:32:03.102 -03:00 [DBG] Start client validation
+2019-03-26 13:32:03.110 -03:00 [DBG] Start parsing Basic Authentication secret
+2019-03-26 13:32:03.115 -03:00 [DBG] Start parsing for secret in post body
+2019-03-26 13:32:03.116 -03:00 [DBG] Parser found secret: PostBodySecretParser
+2019-03-26 13:32:03.116 -03:00 [DBG] Secret id found: CasaDoCodigo.MVC
+2019-03-26 13:32:03.117 -03:00 [DBG] client configuration validation for client CasaDoCodigo.MVC succeeded.
+2019-03-26 13:32:03.138 -03:00 [DBG] Secret validator success: HashedSharedSecretValidator
+2019-03-26 13:32:03.138 -03:00 [DBG] Client validation success
+2019-03-26 13:32:03.138 -03:00 [INF] {"ClientId":"CasaDoCodigo.MVC","AuthenticationMethod":"SharedSecret","Category":"Authentication","Name":"Client Authentication Success","EventType":"Success","Id":1010,"Message":null,"ActivityId":"0HLLI0VMF6EHG:00000008","TimeStamp":"2019-03-26T16:32:03.0000000Z","ProcessId":5048,"LocalIpAddress":"127.0.0.1:41398","RemoteIpAddress":"::1","$type":"ClientAuthenticationSuccessEvent"}
+2019-03-26 13:32:03.145 -03:00 [DBG] Start token request validation
+2019-03-26 13:32:03.161 -03:00 [DBG] Start validation of authorization code token request
+2019-03-26 13:32:03.192 -03:00 [DBG] Validation of authorization code token request success
+2019-03-26 13:32:03.194 -03:00 [INF] Token request validation success
+{"ClientId":"CasaDoCodigo.MVC","ClientName":"Casa do Código MVC","GrantType":"authorization_code","Scopes":null,"AuthorizationCode":"6d6f070e239a1fae24caaff9b1ce397fe294a89a70dd55e3df2202ebf917a4a3","RefreshToken":null,"UserName":null,"AuthenticationContextReferenceClasses":null,"Tenant":null,"IdP":null,"Raw":{"client_id":"CasaDoCodigo.MVC","client_secret":"***REDACTED***","code":"6d6f070e239a1fae24caaff9b1ce397fe294a89a70dd55e3df2202ebf917a4a3","grant_type":"authorization_code","redirect_uri":"http://localhost:5001/signin-oidc"},"$type":"TokenRequestValidationLog"}
+2019-03-26 13:32:03.218 -03:00 [DBG] client configuration validation for client CasaDoCodigo.MVC succeeded.
+2019-03-26 13:32:03.234 -03:00 [DBG] Getting claims for access token for client: CasaDoCodigo.MVC
+2019-03-26 13:32:03.234 -03:00 [DBG] Getting claims for access token for subject: 50c14950-790c-4d2d-8f1c-41717e59c873
+2019-03-26 13:32:03.251 -03:00 [DBG] client configuration validation for client CasaDoCodigo.MVC succeeded.
+2019-03-26 13:32:03.251 -03:00 [DBG] Getting claims for identity token for subject: 50c14950-790c-4d2d-8f1c-41717e59c873 and client: CasaDoCodigo.MVC
+2019-03-26 13:32:03.251 -03:00 [DBG] In addition to an id_token, an access_token was requested. No claims other than sub are included in the id_token. To obtain more user claims, either use the user info endpoint or set AlwaysIncludeUserClaimsInIdToken on the client configuration.
+2019-03-26 13:32:03.257 -03:00 [INF] {"ClientId":"CasaDoCodigo.MVC","ClientName":"Casa do Código MVC","RedirectUri":null,"Endpoint":"Token","SubjectId":null,"Scopes":"openid profile","GrantType":"authorization_code","Tokens":[{"TokenType":"id_token","TokenValue":"****7tIw","$type":"Token"},{"TokenType":"access_token","TokenValue":"****iLdA","$type":"Token"}],"Category":"Token","Name":"Token Issued Success","EventType":"Success","Id":2000,"Message":null,"ActivityId":"0HLLI0VMF6EHG:00000008","TimeStamp":"2019-03-26T16:32:03.0000000Z","ProcessId":5048,"LocalIpAddress":"127.0.0.1:41398","RemoteIpAddress":"::1","$type":"TokenIssuedSuccessEvent"}
+2019-03-26 13:32:11.792 -03:00 [DBG] Request path /connect/token matched to endpoint type Token
+2019-03-26 13:32:46.068 -03:00 [DBG] Endpoint enabled: Token, successfully created handler: IdentityServer4.Endpoints.TokenEndpoint
+2019-03-26 13:32:46.068 -03:00 [INF] Invoking IdentityServer endpoint: IdentityServer4.Endpoints.TokenEndpoint for /connect/token
+2019-03-26 13:32:46.069 -03:00 [DBG] Start token request.
+2019-03-26 13:32:46.069 -03:00 [DBG] Start client validation
+2019-03-26 13:32:46.069 -03:00 [DBG] Start parsing Basic Authentication secret
+2019-03-26 13:32:46.069 -03:00 [DBG] Start parsing for secret in post body
+2019-03-26 13:32:46.091 -03:00 [DBG] Token request success.
+2019-03-26 13:32:46.096 -03:00 [DBG] Parser found secret: PostBodySecretParser
+2019-03-26 13:32:46.104 -03:00 [DBG] Secret id found: CasaDoCodigo.MVC
+2019-03-26 13:32:46.104 -03:00 [DBG] client configuration validation for client CasaDoCodigo.MVC succeeded.
+2019-03-26 13:32:46.105 -03:00 [DBG] Secret validator success: HashedSharedSecretValidator
+2019-03-26 13:32:46.105 -03:00 [DBG] Client validation success
+2019-03-26 13:32:46.108 -03:00 [INF] {"ClientId":"CasaDoCodigo.MVC","AuthenticationMethod":"SharedSecret","Category":"Authentication","Name":"Client Authentication Success","EventType":"Success","Id":1010,"Message":null,"ActivityId":"0HLLI0VMF6EHI:00000001","TimeStamp":"2019-03-26T16:32:46.0000000Z","ProcessId":5048,"LocalIpAddress":"127.0.0.1:41398","RemoteIpAddress":"::1","$type":"ClientAuthenticationSuccessEvent"}
+2019-03-26 13:32:46.108 -03:00 [DBG] Start token request validation
+2019-03-26 13:32:46.108 -03:00 [DBG] Start validation of authorization code token request
+2019-03-26 13:32:46.109 -03:00 [DBG] authorization_code grant with value: 6d6f070e239a1fae24caaff9b1ce397fe294a89a70dd55e3df2202ebf917a4a3 not found in store.
+2019-03-26 13:32:46.127 -03:00 [ERR] Invalid authorization code: ["6d6f070e239a1fae24caaff9b1ce397fe294a89a70dd55e3df2202ebf917a4a3"], request details: {"ClientId":"CasaDoCodigo.MVC","ClientName":"Casa do Código MVC","GrantType":"authorization_code","Scopes":null,"AuthorizationCode":"6d6f070e239a1fae24caaff9b1ce397fe294a89a70dd55e3df2202ebf917a4a3","RefreshToken":null,"UserName":null,"AuthenticationContextReferenceClasses":null,"Tenant":null,"IdP":null,"Raw":{"client_id":"CasaDoCodigo.MVC","client_secret":"***REDACTED***","code":"6d6f070e239a1fae24caaff9b1ce397fe294a89a70dd55e3df2202ebf917a4a3","grant_type":"authorization_code","redirect_uri":"http://localhost:5001/signin-oidc"},"$type":"TokenRequestValidationLog"}
+2019-03-26 13:32:46.131 -03:00 [INF] {"ClientId":"CasaDoCodigo.MVC","ClientName":"Casa do Código MVC","RedirectUri":null,"Endpoint":"Token","SubjectId":null,"Scopes":null,"GrantType":"authorization_code","Error":"invalid_grant","ErrorDescription":null,"Category":"Token","Name":"Token Issued Failure","EventType":"Failure","Id":2001,"Message":null,"ActivityId":"0HLLI0VMF6EHI:00000001","TimeStamp":"2019-03-26T16:32:46.0000000Z","ProcessId":5048,"LocalIpAddress":"127.0.0.1:41398","RemoteIpAddress":"::1","$type":"TokenIssuedFailureEvent"}
