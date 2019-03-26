@@ -46,6 +46,7 @@ namespace CasaDoCodigo
                 options.UseSqlServer(connectionString)
             );
 
+            services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<IHttpHelper, HttpHelper>();
             services.AddTransient<IProdutoRepository, ProdutoRepository>();
             services.AddTransient<IPedidoRepository, PedidoRepository>();

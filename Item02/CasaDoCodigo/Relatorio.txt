@@ -50,3 +50,29 @@ Itens:
 =============================================
 
 
+
+=============================================
+No. Pedido: 00001
+Cliente: 
+    Nome: aaaaaaa
+    Endereco: sadfasdf sdfasdf  sdfasdf  asdfasdf  SP
+    Fone: asdfasdf
+    Email: aaa@bbb.ccc
+    Total: R$399,20
+Itens:
+
+
+    Código: 184
+    Preco Unitário: 00050
+    Descrição: Scrum 360: Um guia completo e prático de agilidade
+    Quantidade: 003
+    Subtotal: R$149,70
+
+    Código: 003
+    Preco Unitário: 00050
+    Descrição: Scratch: Um jeito divertido de aprender programação
+    Quantidade: 005
+    Subtotal: R$249,50
+=============================================
+
+
