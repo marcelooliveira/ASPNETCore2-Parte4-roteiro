@@ -13,6 +13,9 @@ Porém, algumas alterações e atualizações foram necessárias.
 4. Arquivo `models.cs` foi quebrado em vários arquivos, um para cada entidade
 5. Repositórios foram simplificados: `CategoriaRepository` foi para `ProdutoRepository` e `ItemPedidoRepository` foi para `PedidoRepository`.
 6. Os dados iniciais agora são carregados no `Program.cs`
+7. Projeto atualizado para ASP.NET Core 2.2
+
+
 
 # Item01 - Criando o Projeto IdentityServer4
 
