@@ -1,4 +1,21 @@
+# Instalação
+
+- Visual Studio Community
+https://visualstudio.microsoft.com/pt-br/vs/community/
+
+- DB Browser for SQLite
+https://sqlitebrowser.org/blog/version-3-11-1-released
+
+- Postman
+https://www.getpostman.com/downloads/
+
+
 # Da Parte 2 para a Parte 3: diferenças
+
+PROBLEMA PRÁTICO : fazer uma "pré-introdução", para orientar estudantes vindos do último curso (Parte 2)
+SOLUÇÃO PRÁTICA : Mostrar as alterações feitas no projeto inicial da Parte 3
+ABSTRAÇÃO DO PROBLEMA PRÁTICO EM TEORIA : introduzir assincronia, busca de produtos, refatoração no modelo simplificação nos repositórios. Atualização do framework.
+ABSTRAÇÃO DA SOLUÇÃO EM TEORIA : 
 
 Começamos a parte 3 deste curso com o código que usamos no final último curso,
 **ASP.NET Core parte 2: Um e-Commerce com MVC e EF Core** 
@@ -14,8 +31,6 @@ Porém, algumas alterações e atualizações foram necessárias.
 5. Repositórios foram simplificados: `CategoriaRepository` foi para `ProdutoRepository` e `ItemPedidoRepository` foi para `PedidoRepository`.
 6. Os dados iniciais agora são carregados no `Program.cs`
 7. Projeto atualizado para ASP.NET Core 2.2
-
-
 
 # Item01 - Criando o Projeto IdentityServer4
 
@@ -155,6 +170,17 @@ O comando foi bem-sucedido.
 
 - Fazer login como **Alice Smith** e **Bob Smith**
 
+![Formulariologin](formulariologin.png)
+
+Uma vez logado, o usuário visualiza seu nome no topo da página.
+
+![Username](username.png)
+
+Aqui, ele pode fazer o logout, como podemos ver:
+
+![Logoutmenu](logoutmenu.png)
+
+
 # Item02 - Autorizando o Cliente MVC
 
 ## Protegendo recursos
@@ -188,13 +214,22 @@ public async Task<IActionResult> Carrinho(string codigo)
 
 Agora que marcamos a autorização, rodamos a solução...
 
+A página inicial da aplicação é a busca de produtos, como podemos ver,
+que é acessada pela action `BuscaProdutos`. Note que não exigimos autorização nessa action.
+
+![Buscaprodutos](buscaprodutos.png)
+
+Agora vamos clicar para adicionar um produto qualquer...
+
 > An unhandled exception occurred while processing the request.
 InvalidOperationException: No authenticationScheme was specified, and there was no DefaultChallengeScheme found.
 Microsoft.AspNetCore.Authentication.AuthenticationService+<ChallengeAsync>d__11.MoveNext()
 
-Por que recebemos esse erro?
+Por que recebemos esse erro? 
 
 Até agora, só dissemos quais actions são autorizadas, porém não definimos o **esquema de autenticação**. 
+
+Lembre-se de que a action que estamos tentando acessar, `Carrinho`, é protegida pelo atributo `[Authorize]`.
 
 Vamos fazer isso agora. Mas antes, precisamos entender os papéis desempenhados por cada
 componente nesta arquitetura.
@@ -265,6 +300,11 @@ services
 });
 ```
 
+Para utilizar esses defaults, instale o pacote no projeto MVC:
+```
+PM>Install-Package Microsoft.AspNetCore.Authentication.Cookies
+```
+
 Agora precisamos dizer ao ASP.NET Core para utilizar **cookies** durante a autenticação:
 
 ```csharp
@@ -292,28 +332,92 @@ A seguir, vamos configurar o sistema de identificação **OpenId** :
 });
 ```
 
+Agora que fizemos a configuração do cliente de autenticação, rodamos a solução novamente...
+
+![Buscaprodutos](buscaprodutos.png)
+
+Como sabemos, a action `BuscaProdutos` não é protegida por autorização.
+
+Agora tentaremos adicionar um produto ao carrinho.
+
+Isso nos levará para o endereço do serviço STS (IdentityServer4):
+
 ![Formulariologin](formulariologin.png)
+
+Neste momento, podemos fazer login com 2 usuários predeterminados:
+
+- **login**: alice, **senha**: Pass123$
+- **login**: bob, **senha**: Pass123$
+
+Ao aceitarmos o login, a aplicação IdentityServer nos leva para uma 
+outra view, onde o usuário pode visualizar as informações 
+que são solicitadas pela aplicação CasaDoCodigo.MVC.
+
+Aqui, ele tem a oportunidade de negar permissão a esse acesso.
 
 ![Requestingpermission](requestingpermission.png)
 
-![Username](username.png)
-
-![Logoutmenu](logoutmenu.png)
+Ao conceder a permimissão, você é redirecionado de volta para
+a aplicação cliente (CasaDoCodigo.MVC):
 
 ![Actionautorizada](actionautorizada.png)
+
+Vamos dar uma olhada na aba "network" da aplicação cliente após o login:
+
+![Cookies1](cookies1.png)
+![Cookies2](cookies2.png)
+
+Note como a aplicação está utilizando vários cookies.
+Esses cookies são necessários para várias finalidades, como:
+
+- token anti-falsificação
+- "lembrar" quem é o usuário logado,
+- quais são suas informações,
+- data/hora de expiração, 
+- sessão do IdentityServer, etc.
+
+Na outra página, vamos dar uma olhada neste link, que exibirá os "grants", isto é,
+as "concessões" que foram dadas à aplicação cliente:
 
 ![Linkgerenciargrants](linkgerenciargrants.png)
 
 ![Gerenciargrants](gerenciargrants.png)
 
+
+Você pode facilmente interromper o uso dos seus dados pela aplicação, deslogando
+na aplicação IdentityServer:
+
 ![Logoutbutton](logoutbutton.png)
 
 ![Deslogado](deslogado.png)
 
+Agora vamos abrir novamente a aba "network" do navegador, para ver quais cookies estão sendo usados
+pela aplicação cliente:
+
+![Cookiesdeslogado](cookiesdeslogado.png)
+
+Podemos notar que "sumiram" 3 cookies desde nossa última visita a essa aba:
+
+- .AspNetCore.Cookies
+- .AspNetCore.Identity.Application
+- idsrv.session
+
+Sem esses cookies, o mecanismo de autenticação considera que o usuário está "deslogado", portanto
+da próxima vez que ele tentar acessar o carrinho, será solicitado um novo login.
+
+Vamos dar uma olhada no caminho desde a página inicial a até a aplicação ser autenticada:
+
+![Carrinhoautenticado](carrinhoautenticado.png)
+
+Lembra dos usuários alice e bob? Vamos abrir o banco de dados que está no projeto Identity, chamado AspIdUsers.db.
+
+Esse arquivo é o banco de dados do SQLite.Vamos fazer um duplo clique, que nos levará para o programa DB Browser for SQLite:
+
+Aqui, vamos navegar pelas tabelas de usuários e de dados pessoais de usuários (claims)
+
 ![Asp Net Users](AspNetUsers.png)
 
 ![Asp Net User Claims](AspNetUserClaims.png)
-
 
 # Item03 - Fluxo de Logout
 
