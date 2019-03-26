@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -24,6 +25,7 @@ namespace CasaDoCodigo.Models
         [Required]
         public string ClienteId { get; private set; }
 
+        [ForeignKey("CadastroId")]
         [Required]
         public virtual Cadastro Cadastro { get; private set; }
     }
