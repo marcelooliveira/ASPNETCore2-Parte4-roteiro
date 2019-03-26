@@ -26,14 +26,24 @@ Se você só precisa de uma tabela de usuários com recursos de login de senha e um
 
 A Alura já possui os cursos abaixo, que utilizam ASP.NET Identity para deixar suas aplicações seguras:
 
+**PARA SABER MAIS (INCLUIR COMO SLIDES E COMO ATIVIDADE NA PLATAFORMA):**
+
+![Curso Identity1](CursoIdentity1.png)
+
 * **ASP.NET Identity parte 1: Gerencie contas de usuários**
 (https://www.alura.com.br/curso-online-csharp-aspnet-identity-pt1)
+
+![Curso Identity2](CursoIdentity2.png)
 
 * **ASP.NET Identity parte 2: Autenticação, segurança com lockout**
 (https://www.alura.com.br/curso-online-csharp-aspnet-identity-pt2)
 
+![Curso Identity3](CursoIdentity3.png)
+
 * **ASP.NET Identity parte 3: Autorização, autenticação externa com redes sociais**
 (https://www.alura.com.br/curso-online-csharp-aspnet-identity-pt3)
+
+![Curso Identity4](CursoIdentity4.png)
 
 * **ASP.NET Identity parte 4: Autenticação mais segura com 2 fatores**
 (https://www.alura.com.br/curso-online-csharp-aspnet-identity-pt4)
@@ -46,16 +56,34 @@ Por esse motivo, iremos utilizar IdentityServer4 como uma **autoridade externa d
 
 Algumas características do **IdentityServer4** são:
 
+
+![Topologia](topologia.png)
+
+
 - **Autenticação como serviço**:
 Lógica de login e fluxo de trabalho centralizados para todos os seus aplicativos (web, nativo, móvel, serviços). O IdentityServer é uma implementação oficialmente certificada do OpenID Connect.
+
+![Singlesignon](singlesignon.png)
+
 - **Single Sign-on / Sign-out**:
 Logon e logout único em vários tipos de aplicativos.
+
+![Controledeacessoapis](controledeacessoapis.png)
 - **Controle de acesso para APIs**:
 Emitir tokens de acesso para APIs para vários tipos de clientes, por exemplo servidor para servidor, aplicativos da Web, SPAs e aplicativos nativos / móveis.
+
+![Gatewayfederacao](gatewayfederacao.png)
+
 - **Gateway de Federação**:
 Suporte para provedores de identidade externos, como o Azure Active Directory, o Google, o Facebook, etc. Isso protege seus aplicativos dos detalhes de como conectar-se a esses provedores externos.
+
+![Personalizacao](personalizacao.png)
+
 - **Foco na personalização**:
 A parte mais importante - muitos aspectos do IdentityServer podem ser personalizados para atender às suas necessidades. Como o IdentityServer é uma estrutura e não um produto em caixa ou um SaaS, você pode escrever código para adaptar o sistema da maneira que fizer sentido para seus cenários.
+
+![Opensource](opensource.png)
+
 - **Open Source Maduro**:
 O IdentityServer usa a licença permissiva do Apache 2, que permite criar produtos comerciais sobre ela. Também faz parte da Fundação .NET, que fornece governança e suporte legal.
 
@@ -268,6 +296,8 @@ A seguir, vamos configurar o sistema de identificação **OpenId** :
 
 
 # Item03 - Fluxo de Logout
+
+
 
 # Item04 - Pedidos de Clientes
 
