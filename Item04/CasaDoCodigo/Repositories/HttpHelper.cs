@@ -26,7 +26,7 @@ namespace CasaDoCodigo
 
         public void ResetPedidoId(string clienteId)
         {
-            contextAccessor.HttpContext.Session.Remove("pedidoId");
+            contextAccessor.HttpContext.Session.Remove($"pedidoId_{clienteId}");
         }
     }
 }
