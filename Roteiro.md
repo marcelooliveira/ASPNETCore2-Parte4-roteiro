@@ -504,6 +504,10 @@ Primeiro, vamos fazer logout com a aplicação Identity.
 
 Agora, vamos modificar o arquivo de layout do nosso site.
 
+* A ideia aqui é: verificar se o usuário não está deslogado
+(`!true.Equals(ViewData["signed-out"])`)
+* Obter o claim (dado de usuário) contendo o nome
+
 (arquivo _Layout.cshtml)
 ```csharp
 @using System.Linq;
@@ -517,6 +521,30 @@ Agora, vamos modificar o arquivo de layout do nosso site.
 }
 ```
 
+Agora também temos que exibir o dropdown para exibir o nome do usuário e permitir o logout:
+
+```html
+<div class="navbar-collapse collapse">
+    @if (!string.IsNullOrWhiteSpace(name))
+    {
+        <ul class="nav navbar-nav pull-right">
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">@name <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a asp-action="Logout" asp-controller="Pedido">Logout</a></li>
+                </ul>
+            </li>
+        </ul>
+    }
+</div>
+```
+
+Agora rodamos a aplicação e...
+
+Percebemos que o nome do usuário logado ainda não aparece. Por quê?
+
+Vamos inspecionar os claims do usuário no momento:
+
 ```csharp
 Context.User.Claims.ToList()
 Count = 4
@@ -526,15 +554,24 @@ Count = 4
     [3]: {http://schemas.microsoft.com/claims/authnmethodsreferences: pwd}
 ```
 
+Veja que nenhum dos claims contém o nome do usuário. Isso acontece porque a aplicação
+MVC precisa requisitar esses claims a partir do STS (Security Token Server) representado pelo nosso projeto IdentityServer.
+
 Precisamos marcar esta opção na configuração do cliente:
 ```csharp
 options.GetClaimsFromUserInfoEndpoint = true;
 ```
 
-A propriedade `GetClaimsFromUserInfoEndpoint` define se o manipulador 
+> Definição:
+> A propriedade `GetClaimsFromUserInfoEndpoint` define se o manipulador 
 deve ir até o endpoint de informações do usuário para recuperar declarações 
 adicionais ou não após criar uma identidade a partir do id_token recebido do 
 endpoint do token. O padrão é falso'.
+
+IMPORTANTE: para essa alteração surtir efeito, precisamos:
+
+1. deslogar o usuário
+2. fazer o login novamente
 
 Consultando novamente os claims do usuário, obtemos uma nova lista:
 
@@ -549,7 +586,61 @@ Count = 6
     [5]: {family_name: Smith}
 ```
 
+Agora sim, podemos ver como o nome do usuário aparece na barra superior
 
+![Dropdownusuariologado](dropdownusuariologado.png)
+
+Agora vamos clicar no botão logout:
+
+
+![Logoutconfirmacao](logoutconfirmacao.png)
+
+E assim nosso usuário é finalmente desconectado:
+
+![Loggedout](loggedout.png)
+
+Mas como voltamos para a aplicação MVC?
+
+Na verdade, o projeto IdentityServer não foi instruído corretamente retornar para o cliente após a desconexão.
+
+Vamos fazer essa configuração com a propriedade `SignedOutRedirectUri` :
+
+```csharp
+options.SignedOutRedirectUri = Configuration["CallbackUrl"];
+```
+
+> Definição:
+> SignedOutRedirectUri
+> O uri para o qual o agente do usuário será redirecionado depois que o aplicativo for desconectado do provedor de identidade. O redirecionamento ocorrerá depois que o SignedOutCallbackPath for chamado.
+
+Mas rodando a aplicação novamente, não percebemos nenhuma mudança.
+
+Na verdade, é necessário modificar mais uma propriedade:
+
+```csharp
+options.SaveTokens = true;
+```
+
+> Definição:
+> Define se os tokens de acesso e atualização 
+> devem ser armazenados no 
+> Microsoft.AspNetCore.Http.Authentication.AuthenticationProperties após uma autorização 
+> bem-sucedida. Essa propriedade é configurada como false por 
+> padrão para reduzir o tamanho do cookie de autenticação final.
+
+Agora percebemos que após a desconexão é sugerido um novo link para retorno à aplicação MVC (CallbackUrl):
+
+![Linkcallbackurl](linkcallbackurl.png)
+
+Podemos ainda fazer uma última configuração, para dispensar a confirmação do login, no momento de confirmar o usuário e senha:
+
+![Requestingpermission](requestingpermission.png)
+
+Basta modificar o arquivo Config.cs no projeto Identity:
+
+```csharp
+RequireConsent = false
+```
 
 # Item04 - Pedidos de Clientes
 
@@ -600,6 +691,9 @@ if (alice == null)
         IdentityServer4.IdentityServerConstants.ClaimValueTypes.Json)
 }).Result;
 ```
+
+Note também que essas informações foram criadas automaticamente
+pelo template do IdentityServer4. 
 
 
 (arquivo PedidoController.cs)
