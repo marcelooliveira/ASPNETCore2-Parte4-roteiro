@@ -1,5 +1,8 @@
 # Instalação
 
+- .NET Core SDK 2.2 ou superior
+https://dotnet.microsoft.com/download
+
 - Visual Studio Community
 https://visualstudio.microsoft.com/pt-br/vs/community/
 
