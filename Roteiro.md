@@ -34,6 +34,11 @@ Porém, algumas alterações e atualizações foram necessárias.
 
 # Item01 - Criando o Projeto IdentityServer4
 
+PROBLEMA PRÁTICO : nosso projeto MVC não possui sistema de login
+SOLUÇÃO PRÁTICA : criar um novo projeto para autenticar usuários
+ABSTRAÇÃO DO PROBLEMA PRÁTICO EM TEORIA : o projeto MVC não possui sistema de autenticação e autorização para os pontos de acesso
+ABSTRAÇÃO DA SOLUÇÃO EM TEORIA : criar um projeto STS (Security Token Server) utilizando IdentityServer4
+
 ## Introdução
 
 Nesta parte 3 do curso, iremos utilizar um sistema de login e garantir que nossa aplicação seja acessada apenas por usuários autenticados.
@@ -182,6 +187,11 @@ Aqui, ele pode fazer o logout, como podemos ver:
 
 
 # Item02 - Autorizando o Cliente MVC
+
+PROBLEMA PRÁTICO : Nosso projeto MVC não se comunica com o projeto Identity
+SOLUÇÃO PRÁTICA : Fazer configuração para integrar os dois projetos
+ABSTRAÇÃO DO PROBLEMA PRÁTICO EM TEORIA : As duas aplicações estão isoladas. Precisamos fazer a troca de informações entre o projeto MVC e o Identity
+ABSTRAÇÃO DA SOLUÇÃO EM TEORIA : Configurar tanto no MVC quanto no IdentityServer os pontos de acesso, tipos de tokens, grants, claims, etc. que vão ser compartilhados
 
 ## Protegendo recursos
 
@@ -410,6 +420,11 @@ Vamos dar uma olhada no caminho desde a página inicial a até a aplicação ser aut
 ![Carrinhoautenticado](carrinhoautenticado.png)
 
 # Item03 - Fluxo de Logout
+
+PROBLEMA PRÁTICO : A aplicação MVC faz login mas não faz logout
+SOLUÇÃO PRÁTICA : Configurar o logout da plataforma
+ABSTRAÇÃO DO PROBLEMA PRÁTICO EM TEORIA : Uma vez conectado o usuário, o projeto MVC não possui as informações necessárias para desconectar o usuário e retornar para a página inicial
+ABSTRAÇÃO DA SOLUÇÃO EM TEORIA : definir os tokens com as informações de nome de usuário, id, etc., a action de logout e também as urls de retorno.
 
 ## CasaDoCodigo.Identity
 
@@ -644,6 +659,11 @@ RequireConsent = false
 
 # Item04 - Pedidos de Clientes
 
+PROBLEMA PRÁTICO : Os pedidos não identificam o cliente
+SOLUÇÃO PRÁTICA : adaptar o modelo da aplicação para acomodar o id do cliente que está logado
+ABSTRAÇÃO DO PROBLEMA PRÁTICO EM TEORIA : Os pedidos não possuem o id do cliente que está logado e fazendo a compra
+ABSTRAÇÃO DA SOLUÇÃO EM TEORIA : modificar o modelo, gerar a migração e adaptar repositórios e controllers
+
 Lembra dos usuários alice e bob? Vamos abrir o banco de dados que está no projeto Identity, chamado AspIdUsers.db.
 
 Esse arquivo é o banco de dados do SQLite.Vamos fazer um duplo clique, que nos levará para o programa DB Browser for SQLite:
@@ -825,6 +845,11 @@ public async Task<Pedido> UpdateCadastroAsync(Cadastro cadastro, string clienteI
 ```
 
 # Item05 - Autorizando WebAPI
+
+PROBLEMA PRÁTICO : Permitir acesso autorizado a uma web api externa ao MVC
+SOLUÇÃO PRÁTICA : Compartilhar com a nova web api as informações do usuário logado
+ABSTRAÇÃO DO PROBLEMA PRÁTICO EM TEORIA : Uma nova web api externa não consegue identificar se o usuário está logado na aplicação MVC
+ABSTRAÇÃO DA SOLUÇÃO EM TEORIA : criar uma configuração que inclua a web api na autorização do IdentityServer
 
 (arquivo appsettings.json)
 ```json
