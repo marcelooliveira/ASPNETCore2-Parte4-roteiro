@@ -409,48 +409,12 @@ Vamos dar uma olhada no caminho desde a página inicial a até a aplicação ser aut
 
 ![Carrinhoautenticado](carrinhoautenticado.png)
 
-Lembra dos usuários alice e bob? Vamos abrir o banco de dados que está no projeto Identity, chamado AspIdUsers.db.
-
-Esse arquivo é o banco de dados do SQLite.Vamos fazer um duplo clique, que nos levará para o programa DB Browser for SQLite:
-
-Aqui, vamos navegar pelas tabelas de usuários e de dados pessoais de usuários (claims)
-
-![Asp Net Users](AspNetUsers.png)
-
-![Asp Net User Claims](AspNetUserClaims.png)
-
 # Item03 - Fluxo de Logout
 
 ## CasaDoCodigo.Identity
 
-(arquivo appsettings.json)
-```
-"CallbackUrl": "http://localhost:5001"
-```
-
-(arquivo Startup.cs)
-```csharp
-.AddInMemoryClients(Config.GetClients(Configuration["CallbackUrl"]))
-```
-
-```csharp
-.AddInMemoryClients(Config.GetClients())
-```
-
-```csharp
-public void Configure(IApplicationBuilder app)
-{
-    JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-            
-```
-
-
-(arquivo Config.cs)
-```csharp
-public static IEnumerable<Client> GetClients(string callbackUrl)
-...
-RequireConsent = false,
-...
+Neste ponto, o endereço do nosso cliente (CasaDoCodigo.MVC) está fixo
+na configuração de clientes do projeto Identity:
 
 ```csharp
 RedirectUris = { "http://localhost:5001/signin-oidc" },
@@ -458,14 +422,31 @@ FrontChannelLogoutUri = "http://localhost:5001/signout-oidc",
 PostLogoutRedirectUris = { "http://localhost:5001/signout-callback-oidc" },
 ```
 
+E você quiser, ou precisar mudar o endereço desse cliente? Você teria que alterar e recompilar o código.
+
+Então é melhor deixar essa informação configurável.
+
+Vamos adicionar uma configuração nova para o "endereço de retorno":
+
+(arquivo appsettings.json)
+```
+"CallbackUrl": "http://localhost:5001"
+```
+
+Esse "CallbackUrl" é o endereço-base para o cliente MVC do IdentityServer
+
+Agora é necessário modificar o código para injetar o parametro de url de callback:
+
+(arquivo Startup.cs)
+```csharp
+.AddInMemoryClients(Config.GetClients(Configuration["CallbackUrl"]))
+```
+
 ```csharp
 RedirectUris = { callbackUrl + "/signin-oidc" },
 FrontChannelLogoutUri = callbackUrl + "/signout-oidc",
 PostLogoutRedirectUris = { callbackUrl + "/signout-callback-oidc" },
 ```
-
-
-
 
 ## CasaDoCodigo.MVC
 
@@ -477,11 +458,6 @@ PostLogoutRedirectUris = { callbackUrl + "/signout-callback-oidc" },
   "CallbackUrl": "http://localhost:5001"
 ```
 
-(arquivo Startup.cs)
-```csharp
-JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-```
-
 (arquivo PedidoController.cs)
 ```csharp
 [Authorize]
@@ -490,21 +466,43 @@ public async Task Logout()
     await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
     await HttpContext.SignOutAsync(OpenIdConnectDefaults.AuthenticationScheme);
 }
+```
 
-private string GetUserId()
-{
-    var userIdClaim = User.Claims.FirstOrDefault(x
-        => new[] {
-            JwtClaimTypes.Subject, ClaimTypes.NameIdentifier
-        }.Contains(x.Type)
-        && !string.IsNullOrWhiteSpace(x.Value));
-
-    if (userIdClaim != null)
-        return userIdClaim.Value;
-
-    return null;
+(arquivo _Layout.cshtml)
+```csharp
+@using IdentityServer4.Extensions
+@{
+    string name = null;
+    if (!true.Equals(ViewData["signed-out"]))
+    {
+        name = Context.User?.GetDisplayName();
+    }
 }
 ```
+
+```html
+@if (!string.IsNullOrWhiteSpace(name))
+{
+    <ul class="nav navbar-nav">
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">@name <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                <li><a asp-action="Logout" asp-controller="Account">Logout</a></li>
+            </ul>
+        </li>
+    </ul>
+}
+```
+
+Porém, quando rodamos a solução, não estamos vendo a informação do usuário logado:
+
+![Usuariologadonaoaparece](usuariologadonaoaparece.png)
+
+Por quê?
+
+Primeiro, vamos fazer logout com a aplicação Identity.
+
+Agora, vamos modificar o arquivo de layout do nosso site.
 
 (arquivo _Layout.cshtml)
 ```csharp
@@ -512,58 +510,97 @@ private string GetUserId()
 @using System.Security.Claims;
 @{
     string name = null;
-    string clienteId = null;
     if (!true.Equals(ViewData["signed-out"]))
     {
         name = @User.FindFirst("name")?.Value;
-        if (string.IsNullOrWhiteSpace(name))
-        {
-            name = @User.FindFirst("email")?.Value;
-        }
-
-        clienteId = @User.FindFirst("sub")?.Value;
     }
 }
 ```
 
-```html
-<link href="~/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+```csharp
+Context.User.Claims.ToList()
+Count = 4
+    [0]: {sid: a7a7a086af6a1ae87c682638a80824c1}
+    [1]: {http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier: 5f1aaf2e-3f22-467b-bd96-60a5cd4ec095}
+    [2]: {http://schemas.microsoft.com/identity/claims/identityprovider: local}
+    [3]: {http://schemas.microsoft.com/claims/authnmethodsreferences: pwd}
 ```
 
-```html
-@if (!string.IsNullOrWhiteSpace(name))
-{
-    <ul class="nav navbar-nav pull-right">
-        <li>
-            <ul class="nav navbar-nav">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle text-white" data-toggle="dropdown">
-                        <span style="color: #fff;">@name</span>
-                        <b class="caret"></b>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a asp-action="Logout" asp-controller="Pedido">Sair</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </li>
-        @if (!true.Equals(ViewData["signed-out"]))
-        {
-            <li>
-                <div class="container-notification">
-                    <a asp-action="carrinho" asp-controller="pedido"
-                        asp-route-codigo=""
-                        title="Carrinho">
-                        <div class="user-count userbasket"></div>
-                    </a>
-                </div>
-            </li>
-        }
-    </ul>
-}        
+Precisamos marcar esta opção na configuração do cliente:
+```csharp
+options.GetClaimsFromUserInfoEndpoint = true;
 ```
+
+A propriedade `GetClaimsFromUserInfoEndpoint` define se o manipulador 
+deve ir até o endpoint de informações do usuário para recuperar declarações 
+adicionais ou não após criar uma identidade a partir do id_token recebido do 
+endpoint do token. O padrão é falso'.
+
+Consultando novamente os claims do usuário, obtemos uma nova lista:
+
+```csharp
+Context.User.Claims.ToList()
+Count = 6
+    [0]: {sid: 7005c6b234f0e3db4f829e6e5631e35b}
+    [1]: {sub: 5f1aaf2e-3f22-467b-bd96-60a5cd4ec095}
+    [2]: {idp: local}
+    [3]: {name: Bob Smith}
+    [4]: {given_name: Bob}
+    [5]: {family_name: Smith}
+```
+
+
 
 # Item04 - Pedidos de Clientes
+
+Lembra dos usuários alice e bob? Vamos abrir o banco de dados que está no projeto Identity, chamado AspIdUsers.db.
+
+Esse arquivo é o banco de dados do SQLite.Vamos fazer um duplo clique, que nos levará para o programa DB Browser for SQLite:
+
+Aqui, vamos navegar pelas tabelas de usuários e de dados pessoais de usuários (claims)
+
+![Asp Net Users](AspNetUsers.png)
+
+![Asp Net User Claims](AspNetUserClaims.png)
+
+Como essas informações são criadas?
+
+Isso é feito com a ajuda da classe SeedData do projeto IdentityServer.
+
+Note como o `ApplicationUser` é criado e como os claims (dados pessoais) são adicionados ao usuário "Alice": 
+
+(arquivo SeedData.cs do projeto Identity)
+```csharp
+var userMgr = scope.ServiceProvider
+    .GetRequiredService<UserManager<ApplicationUser>>();
+var alice = userMgr.FindByNameAsync("alice").Result;
+if (alice == null)
+{
+    alice = new ApplicationUser
+    {
+        UserName = "alice"
+    };
+    var result = userMgr.CreateAsync(alice, "Pass123$").Result;
+    if (!result.Succeeded)
+    {
+        throw new Exception(result.Errors.First().Description);
+    }
+
+    result = userMgr.AddClaimsAsync(alice, new Claim[]{
+    new Claim(JwtClaimTypes.Name, "Alice Smith"),
+    new Claim(JwtClaimTypes.GivenName, "Alice"),
+    new Claim(JwtClaimTypes.FamilyName, "Smith"),
+    new Claim(JwtClaimTypes.Email, "AliceSmith@email.com"),
+    new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
+    new Claim(JwtClaimTypes.WebSite, "http://alice.com"),
+    new Claim(JwtClaimTypes.Address, 
+        @"{ 'street_address': 'One Hacker Way', 
+        'locality': 'Heidelberg', 
+        'postal_code': 69118, 'country': 'Germany' }", 
+        IdentityServer4.IdentityServerConstants.ClaimValueTypes.Json)
+}).Result;
+```
+
 
 (arquivo PedidoController.cs)
 ```csharp
