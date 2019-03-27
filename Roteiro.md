@@ -716,7 +716,129 @@ Note também que essas informações foram criadas automaticamente
 pelo template do IdentityServer4. 
 
 
+Agora será necessário modificar o modelo, para que o pedido tenha a informação do usuário que fez a compra.
+
+
+(arquivo Pedido.cs)
+```csharp
+[Required]
+public string ClienteId { get; private set; }
+```
+
+Esse mesmo clienteId agora será exigido também no construtor, juntamente com o cadastro
+
+```csharp
+public Pedido(string clienteId, Cadastro cadastro)
+{
+    ClienteId = clienteId;
+    Cadastro = cadastro;
+}
+```
+
+Mas só modificar o modelo não é suficiente. Para aplicar as alterações no banco, vamos
+criar uma nova migração:
+
+```
+PM> Add-Migration "Pedido_ClienteId"
+```
+
+Em seguida, aplicamos as alterações:
+
+```
+PM> Update-Database -verbose
+```
+
+Agora vamos modificar as assinaturas na interface IHttpHelper
+
+(arquivo IHttpHelper.cs)
+```csharp
+int? GetPedidoId(string clienteId);
+void SetPedidoId(string clienteId, int pedidoId);
+void ResetPedidoId(string clienteId);
+```
+(arquivo HttpHelper.cs)
+```csharp
+public int? GetPedidoId(string clienteId)
+{
+    return contextAccessor.HttpContext.Session.GetInt32($"pedidoId_{clienteId}");
+}
+
+public void SetPedidoId(string clienteId, int pedidoId)
+{
+    contextAccessor.HttpContext.Session.SetInt32($"pedidoId_{clienteId}", pedidoId);
+}
+
+public void ResetPedidoId(string clienteId)
+{
+    contextAccessor.HttpContext.Session.Remove($"pedidoId_{clienteId}");
+}
+```
+
+Agora vamos modificar nosso repositório de pedidos
+
+(arquivo IPedidoRepository)
+```csharp
+Task<Pedido> GetPedidoAsync(string clienteId);
+Task AddItemAsync(string codigo, string clienteId);
+Task<UpdateQuantidadeResponse> UpdateQuantidadeAsync(ItemPedido itemPedido, string clienteId);
+Task<Pedido> UpdateCadastroAsync(Cadastro cadastro, string clienteId);
+```
+
+(arquivo PedidoRepository)
+```csharp
+public async Task<Pedido> GetPedidoAsync(string clienteId)
+{
+    var pedidoId = httpHelper.GetPedidoId(clienteId);
+```
+
+```csharp
+public async Task AddItemAsync(string codigo, string clienteId)
+...
+var pedido = await GetPedidoAsync(clienteId);
+...
+```
+
+```csharp
+pedido = new Pedido(clienteId, new Cadastro());
+```
+
+```csharp
+httpHelper.SetPedidoId(clienteId, pedido.Id);
+```
+
+```csharp
+public async Task<UpdateQuantidadeResponse> UpdateQuantidadeAsync(ItemPedido itemPedido, string clienteId)
+.
+.
+.
+var pedido = await GetPedidoAsync(clienteId);
+```
+
+```csharp
+public async Task<Pedido> UpdateCadastroAsync(Cadastro cadastro, string clienteId)
+{
+    var pedido = await GetPedidoAsync(clienteId);
+    await cadastroRepository.UpdateAsync(pedido.Cadastro.Id, cadastro);
+    httpHelper.ResetPedidoId(clienteId);
+    await GerarRelatorio(pedido);
+    return pedido;
+}
+```
+
+E como esse clienteId será obtido?
+
+Vamos mexer no PedidoController para criar um método que procura essa informação nos claims do usuário:
+
 (arquivo PedidoController.cs)
+```csharp
+private string GetUserId()
+{
+    return @User.FindFirst("sub")?.Value;
+}
+```
+
+Agora o GetUserId() será acessado pelos outros métodos do controller:
+
 ```csharp
 await pedidoRepository.AddItemAsync(codigo, GetUserId());
 ```
@@ -737,112 +859,13 @@ return View(await pedidoRepository.UpdateCadastroAsync(cadastro, GetUserId()));
 return await pedidoRepository.UpdateQuantidadeAsync(itemPedido, GetUserId());
 ```
 
-```csharp
-public class Pedido : BaseModel
-{
-    public Pedido()
-    {
-        Cadastro = new Cadastro();
-    }
+Depois de muitas alterações, vamos agora rodar a solução e ver se conseguimos gravar os pedidos com os ids dos usuários
 
-    public Pedido(string clienteId, Cadastro cadastro)
-    {
-        ClienteId = clienteId;
-        Cadastro = cadastro;
-    }
+![Pedido Cliente Id](Pedido_ClienteId.png)
 
-    public List<ItemPedido> Itens { get; private set; } = new List<ItemPedido>();
+![Tabela Cadastro](Tabela_Cadastro.png)
 
-    [Required]
-    public string ClienteId { get; private set; }
-
-    [ForeignKey("CadastroId")]
-    [Required]
-    public virtual Cadastro Cadastro { get; private set; }
-}
-```
-
-(arquivo HttpHelper.cs)
-```csharp
-public int? GetPedidoId(string clienteId)
-{
-    return contextAccessor.HttpContext.Session.GetInt32($"pedidoId_{clienteId}");
-}
-
-public void SetPedidoId(string clienteId, int pedidoId)
-{
-    contextAccessor.HttpContext.Session.SetInt32($"pedidoId_{clienteId}", pedidoId);
-}
-
-public void ResetPedidoId(string clienteId)
-{
-    contextAccessor.HttpContext.Session.Remove($"pedidoId_{clienteId}");
-}
-```
-
-(arquivo IHttpHelper.cs)
-```csharp
-int? GetPedidoId(string clienteId);
-void SetPedidoId(string clienteId, int pedidoId);
-void ResetPedidoId(string clienteId);
-```
-
-(arquivo IPedidoRepository)
-```csharp
-Task<Pedido> GetPedidoAsync(string clienteId);
-Task AddItemAsync(string codigo, string clienteId);
-Task<UpdateQuantidadeResponse> UpdateQuantidadeAsync(ItemPedido itemPedido, string clienteId);
-Task<Pedido> UpdateCadastroAsync(Cadastro cadastro, string clienteId);
-```
-
-(arquivo PedidoRepository)
-```csharp
-public async Task AddItemAsync(string codigo, string clienteId)
-```
-
-```csharp
-var pedido = await GetPedidoAsync(clienteId);
-```
-
-```csharp
-public async Task<Pedido> GetPedidoAsync(string clienteId)
-{
-    var pedidoId = httpHelper.GetPedidoId(clienteId);
-```
-
-```csharp
-pedido = new Pedido(clienteId, new Cadastro());
-```
-
-```csharp
-httpHelper.SetPedidoId(clienteId, pedido.Id);
-```
-
-```csharp
-private void ResetPedidoId(string clienteId)
-{
-    contextAccessor.HttpContext.Session.Remove($"pedidoId_{clienteId}");
-}
-```
-
-```csharp
-public async Task<UpdateQuantidadeResponse> UpdateQuantidadeAsync(ItemPedido itemPedido, string clienteId)
-```
-
-```csharp
-var pedido = await GetPedidoAsync(clienteId);
-```
-
-```csharp
-public async Task<Pedido> UpdateCadastroAsync(Cadastro cadastro, string clienteId)
-{
-    var pedido = await GetPedidoAsync(clienteId);
-    await cadastroRepository.UpdateAsync(pedido.Cadastro.Id, cadastro);
-    httpHelper.ResetPedidoId(clienteId);
-    await GerarRelatorio(pedido);
-    return pedido;
-}
-```
+Como vimos, agora o ID do cliente está sendo gravado juntamente com os pedidos!
 
 # Item05 - Autorizando WebAPI
 
