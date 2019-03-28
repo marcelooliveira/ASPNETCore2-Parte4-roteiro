@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using CasaDoCodigo.Models;
 using Microsoft.Extensions.Configuration;
 
 namespace CasaDoCodigo
@@ -9,5 +10,7 @@ namespace CasaDoCodigo
         int? GetPedidoId();
         void SetPedidoId(int pedidoId);
         void ResetPedidoId();
+        void SetCadastro(Cadastro cadastro);
+        Cadastro GetCadastro();
     }
 }

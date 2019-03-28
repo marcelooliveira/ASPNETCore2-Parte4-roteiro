@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Net.Http;
+using System.Threading.Tasks;
+using CasaDoCodigo.Models;
 using Microsoft.Extensions.Configuration;
 
 namespace CasaDoCodigo
@@ -9,7 +11,8 @@ namespace CasaDoCodigo
         int? GetPedidoId(string clienteId);
         void SetPedidoId(string clienteId, int pedidoId);
         void ResetPedidoId(string clienteId);
-        Task<string> GetAccessToken(string scope);
-        void SetAccessToken(string accessToken);
+        void SetCadastro(string clienteId, Cadastro cadastro);
+        Cadastro GetCadastro(string clienteId);
+        Task<string> GetAccessToken(HttpClient client, string scope);
     }
 }

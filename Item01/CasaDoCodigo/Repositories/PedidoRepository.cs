@@ -82,7 +82,7 @@ namespace CasaDoCodigo.Repositories
 
             if (pedido == null)
             {
-                pedido = new Pedido();
+                pedido = new Pedido(httpHelper.GetCadastro());
                 await dbSet.AddAsync(pedido);
                 await contexto.SaveChangesAsync();
                 httpHelper.SetPedidoId(pedido.Id);
@@ -120,6 +120,7 @@ namespace CasaDoCodigo.Repositories
             var pedido = await GetPedidoAsync();
             await cadastroRepository.UpdateAsync(pedido.Cadastro.Id, cadastro);
             httpHelper.ResetPedidoId();
+            httpHelper.SetCadastro(pedido.Cadastro);
             await GerarRelatorio(pedido);
             return pedido;
         }

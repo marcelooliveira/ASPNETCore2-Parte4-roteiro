@@ -83,7 +83,7 @@ namespace CasaDoCodigo.Repositories
 
             if (pedido == null)
             {
-                pedido = new Pedido(clienteId, new Cadastro());
+                pedido = new Pedido(clienteId, httpHelper.GetCadastro(clienteId));
                 await dbSet.AddAsync(pedido);
                 await contexto.SaveChangesAsync();
                 httpHelper.SetPedidoId(clienteId, pedido.Id);
@@ -121,6 +121,7 @@ namespace CasaDoCodigo.Repositories
             var pedido = await GetPedidoAsync(clienteId);
             await cadastroRepository.UpdateAsync(pedido.Cadastro.Id, cadastro);
             httpHelper.ResetPedidoId(clienteId);
+            httpHelper.SetCadastro(clienteId, pedido.Cadastro);
             await GerarRelatorio(pedido);
             return pedido;
         }
@@ -138,46 +139,65 @@ namespace CasaDoCodigo.Repositories
             contexto.Set<ItemPedido>()
                 .Remove(await GetItemPedidoAsync(itemPedidoId));
         }
+
         private async Task GerarRelatorio(Pedido pedido)
         {
-            using (HttpClient httpClient = new HttpClient())
+            string linhaRelatorio = await GetLinhaRelatorio(pedido);
+            using (var httpClient = HttpClientFactory.Create())
             {
-                Uri uriBase = new Uri(configuration["RelatorioUrl"]);
+                var accessToken = await httpHelper.GetAccessToken(httpClient, "CasaDoCodigo.Relatorio");
+                httpClient.SetBearerToken(accessToken);
 
-                StringBuilder sb = new StringBuilder();
-                sb.AppendLine(
-$@"
-=============================================
-No. Pedido: {pedido.Id:00000}
-Cliente: 
-    Nome: {pedido.Cadastro.Nome}
-    Endereco: {pedido.Cadastro.Endereco} {pedido.Cadastro.Complemento}  {pedido.Cadastro.Bairro}  {pedido.Cadastro.Municipio}  {pedido.Cadastro.UF}
-    Fone: {pedido.Cadastro.Telefone}
-    Email: {pedido.Cadastro.Email}
-    Total: {pedido.Itens.Sum(i => i.Subtotal):C2}
-Itens:
-");
-
-                foreach (var i in pedido.Itens)
-                {
-                    sb.AppendLine(
-$@"
-    Código: {i.Produto.Codigo:00000}
-    Preco Unitário: {i.PrecoUnitario:00000}
-    Descrição: {i.Produto.Nome}
-    Quantidade: {i.Quantidade:000}
-    Subtotal: {i.Subtotal:C2}");
-                }
-                sb.AppendLine($@"=============================================
-");
-                var json = JsonConvert.SerializeObject(sb.ToString());
+                var json = JsonConvert.SerializeObject(linhaRelatorio);
                 using (HttpContent content = new StringContent(json, Encoding.UTF8, "application/json"))
                 {
-                    var accessToken = await httpHelper.GetAccessToken("CasaDoCodigo.Relatorio");
-                    httpClient.SetBearerToken(accessToken);
-                    var httpResponseMessage = await httpClient.PostAsync(new Uri(uriBase, "api/values"), content);
+                    Uri uriBase = new Uri(configuration["RelatorioUrl"]);
+                    var httpResponseMessage =
+                        await httpClient.PostAsync(new Uri(uriBase, "api/values"), content);
                 }
             }
+        }
+
+        private static async Task<string> GetLinhaRelatorio(Pedido pedido)
+        {
+            StringBuilder sb = new StringBuilder();
+            string templatePedido =
+                    await System.IO.File.ReadAllTextAsync("TemplatePedido.txt");
+
+            string templateItemPedido =
+                await System.IO.File.ReadAllTextAsync("TemplateItemPedido.txt");
+
+            string linhaPedido =
+                string.Format(templatePedido,
+                    pedido.Id,
+                    pedido.Cadastro.Nome,
+                    pedido.Cadastro.Endereco,
+                    pedido.Cadastro.Complemento,
+                    pedido.Cadastro.Bairro,
+                    pedido.Cadastro.Municipio,
+                    pedido.Cadastro.UF,
+                    pedido.Cadastro.Telefone,
+                    pedido.Cadastro.Email,
+                    pedido.Itens.Sum(i => i.Subtotal));
+
+            sb.AppendLine(linhaPedido);
+
+            foreach (var i in pedido.Itens)
+            {
+                string linhaItemPedido =
+                    string.Format(
+                        templateItemPedido,
+                        i.Produto.Codigo,
+                        i.PrecoUnitario,
+                        i.Produto.Nome,
+                        i.Quantidade,
+                        i.Subtotal);
+
+                sb.AppendLine(linhaItemPedido);
+            }
+            sb.AppendLine($@"=============================================");
+
+            return sb.ToString();
         }
     }
 }

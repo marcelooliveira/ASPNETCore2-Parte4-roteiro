@@ -1,7 +1,10 @@
-﻿using IdentityModel.Client;
+﻿using CasaDoCodigo.Models;
+using IdentityModel.Client;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace CasaDoCodigo
@@ -32,19 +35,33 @@ namespace CasaDoCodigo
             contextAccessor.HttpContext.Session.Remove($"pedidoId_{clienteId}");
         }
 
-        public async Task<string> GetAccessToken(string scope)
+        public void SetCadastro(string clienteId, Cadastro cadastro)
         {
-            Uri baseUri = new Uri(Configuration["IdentityUrl"]);
-            var tokenClient = new TokenClient(new Uri(baseUri, "connect/token").ToString(), "CasaDoCodigo.MVC", "49C1A7E1-0C79-4A89-A3D6-A37998FB86B0");
-
-            var tokenResponse = await tokenClient.RequestClientCredentialsAsync(scope);
-            return tokenResponse.AccessToken;
+            string json = JsonConvert.SerializeObject(cadastro.GetClone());
+            contextAccessor.HttpContext.Session.SetString($"cadastro_{clienteId}", json);
         }
 
-        public void SetAccessToken(string accessToken)
+        public Cadastro GetCadastro(string clienteId)
         {
-            contextAccessor.HttpContext.Session.SetString("accessToken", accessToken);
+            string json = contextAccessor.HttpContext.Session.GetString($"cadastro_{clienteId}");
+            if (string.IsNullOrWhiteSpace(json))
+                return new Cadastro();
+
+            return JsonConvert.DeserializeObject<Cadastro>(json);
+        }
+
+        public async Task<string> GetAccessToken(HttpClient client, string scope)
+        {
+            var response = await client.RequestClientCredentialsTokenAsync(
+                new ClientCredentialsTokenRequest
+                {
+                    Address = Configuration["IdentityUrl"] + "/connect/token",
+                    ClientId = "CasaDoCodigo.MVC",
+                    ClientSecret = "49C1A7E1-0C79-4A89-A3D6-A37998FB86B0",
+                    Scope = scope
+                });
+
+            return response.AccessToken ?? response.Error;
         }
     }
-
 }

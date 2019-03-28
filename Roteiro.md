@@ -823,6 +823,7 @@ public async Task<Pedido> UpdateCadastroAsync(Cadastro cadastro, string clienteI
     var pedido = await GetPedidoAsync(clienteId);
     await cadastroRepository.UpdateAsync(pedido.Cadastro.Id, cadastro);
     httpHelper.ResetPedidoId(clienteId);
+    httpHelper.SetCadastro(clienteId, pedido.Cadastro);
     await GerarRelatorio(pedido);
     return pedido;
 }

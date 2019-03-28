@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using CasaDoCodigo.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 
 namespace CasaDoCodigo
 {
@@ -27,6 +29,21 @@ namespace CasaDoCodigo
         public void ResetPedidoId(string clienteId)
         {
             contextAccessor.HttpContext.Session.Remove($"pedidoId_{clienteId}");
+        }
+
+        public void SetCadastro(string clienteId, Cadastro cadastro)
+        {
+            string json = JsonConvert.SerializeObject(cadastro.GetClone());
+            contextAccessor.HttpContext.Session.SetString($"cadastro_{clienteId}", json);
+        }
+
+        public Cadastro GetCadastro(string clienteId)
+        {
+            string json = contextAccessor.HttpContext.Session.GetString($"cadastro_{clienteId}");
+            if (string.IsNullOrWhiteSpace(json))
+                return new Cadastro();
+
+            return JsonConvert.DeserializeObject<Cadastro>(json);
         }
     }
 }
