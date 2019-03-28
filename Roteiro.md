@@ -34,7 +34,9 @@ Porém, algumas alterações e atualizações foram necessárias.
 5. Repositórios foram simplificados: `CategoriaRepository` foi para `ProdutoRepository` e `ItemPedidoRepository` foi para `PedidoRepository`.
 6. Os dados iniciais agora são carregados no `Program.cs`
 7. Projeto atualizado para ASP.NET Core 2.2
-
+8. Dados do cadastro estão sendo gravados na sessão
+9. Um relatório em arquivo texto é incrementado a cada pedido
+ 
 # Item01 - Criando o Projeto IdentityServer4
 
 PROBLEMA PRÁTICO : nosso projeto MVC não possui sistema de login
