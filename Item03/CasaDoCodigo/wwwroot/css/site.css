@@ -89,3 +89,7 @@ textarea {
 
 .produto-nome {
 }
+
+.navbar-inverse .navbar-nav > li > a {
+    color: #fff;
+}

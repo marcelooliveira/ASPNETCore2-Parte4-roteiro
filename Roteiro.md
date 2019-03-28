@@ -37,6 +37,11 @@ Porém, algumas alterações e atualizações foram necessárias.
 
 # Item01 - Criando o Projeto IdentityServer4
 
+PROBLEMA PRÁTICO : nosso projeto MVC não possui sistema de login
+SOLUÇÃO PRÁTICA : criar um novo projeto para autenticar usuários
+ABSTRAÇÃO DO PROBLEMA PRÁTICO EM TEORIA : o projeto MVC não possui sistema de autenticação e autorização para os pontos de acesso
+ABSTRAÇÃO DA SOLUÇÃO EM TEORIA : criar um projeto STS (Security Token Server) utilizando IdentityServer4
+
 ## Introdução
 
 Nesta parte 3 do curso, iremos utilizar um sistema de login e garantir que nossa aplicação seja acessada apenas por usuários autenticados.
@@ -185,6 +190,11 @@ Aqui, ele pode fazer o logout, como podemos ver:
 
 
 # Item02 - Autorizando o Cliente MVC
+
+PROBLEMA PRÁTICO : Nosso projeto MVC não se comunica com o projeto Identity
+SOLUÇÃO PRÁTICA : Fazer configuração para integrar os dois projetos
+ABSTRAÇÃO DO PROBLEMA PRÁTICO EM TEORIA : As duas aplicações estão isoladas. Precisamos fazer a troca de informações entre o projeto MVC e o Identity
+ABSTRAÇÃO DA SOLUÇÃO EM TEORIA : Configurar tanto no MVC quanto no IdentityServer os pontos de acesso, tipos de tokens, grants, claims, etc. que vão ser compartilhados
 
 ## Protegendo recursos
 
@@ -412,48 +422,17 @@ Vamos dar uma olhada no caminho desde a página inicial a até a aplicação ser aut
 
 ![Carrinhoautenticado](carrinhoautenticado.png)
 
-Lembra dos usuários alice e bob? Vamos abrir o banco de dados que está no projeto Identity, chamado AspIdUsers.db.
-
-Esse arquivo é o banco de dados do SQLite.Vamos fazer um duplo clique, que nos levará para o programa DB Browser for SQLite:
-
-Aqui, vamos navegar pelas tabelas de usuários e de dados pessoais de usuários (claims)
-
-![Asp Net Users](AspNetUsers.png)
-
-![Asp Net User Claims](AspNetUserClaims.png)
-
 # Item03 - Fluxo de Logout
+
+PROBLEMA PRÁTICO : A aplicação MVC faz login mas não faz logout
+SOLUÇÃO PRÁTICA : Configurar o logout da plataforma
+ABSTRAÇÃO DO PROBLEMA PRÁTICO EM TEORIA : Uma vez conectado o usuário, o projeto MVC não possui as informações necessárias para desconectar o usuário e retornar para a página inicial
+ABSTRAÇÃO DA SOLUÇÃO EM TEORIA : definir os tokens com as informações de nome de usuário, id, etc., a action de logout e também as urls de retorno.
 
 ## CasaDoCodigo.Identity
 
-(arquivo appsettings.json)
-```
-"CallbackUrl": "http://localhost:5001"
-```
-
-(arquivo Startup.cs)
-```csharp
-.AddInMemoryClients(Config.GetClients(Configuration["CallbackUrl"]))
-```
-
-```csharp
-.AddInMemoryClients(Config.GetClients())
-```
-
-```csharp
-public void Configure(IApplicationBuilder app)
-{
-    JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-            
-```
-
-
-(arquivo Config.cs)
-```csharp
-public static IEnumerable<Client> GetClients(string callbackUrl)
-...
-RequireConsent = false,
-...
+Neste ponto, o endereço do nosso cliente (CasaDoCodigo.MVC) está fixo
+na configuração de clientes do projeto Identity:
 
 ```csharp
 RedirectUris = { "http://localhost:5001/signin-oidc" },
@@ -461,14 +440,31 @@ FrontChannelLogoutUri = "http://localhost:5001/signout-oidc",
 PostLogoutRedirectUris = { "http://localhost:5001/signout-callback-oidc" },
 ```
 
+E você quiser, ou precisar mudar o endereço desse cliente? Você teria que alterar e recompilar o código.
+
+Então é melhor deixar essa informação configurável.
+
+Vamos adicionar uma configuração nova para o "endereço de retorno":
+
+(arquivo appsettings.json)
+```
+"CallbackUrl": "http://localhost:5001"
+```
+
+Esse "CallbackUrl" é o endereço-base para o cliente MVC do IdentityServer
+
+Agora é necessário modificar o código para injetar o parametro de url de callback:
+
+(arquivo Startup.cs)
+```csharp
+.AddInMemoryClients(Config.GetClients(Configuration["CallbackUrl"]))
+```
+
 ```csharp
 RedirectUris = { callbackUrl + "/signin-oidc" },
 FrontChannelLogoutUri = callbackUrl + "/signout-oidc",
 PostLogoutRedirectUris = { callbackUrl + "/signout-callback-oidc" },
 ```
-
-
-
 
 ## CasaDoCodigo.MVC
 
@@ -480,11 +476,6 @@ PostLogoutRedirectUris = { callbackUrl + "/signout-callback-oidc" },
   "CallbackUrl": "http://localhost:5001"
 ```
 
-(arquivo Startup.cs)
-```csharp
-JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-```
-
 (arquivo PedidoController.cs)
 ```csharp
 [Authorize]
@@ -493,21 +484,47 @@ public async Task Logout()
     await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
     await HttpContext.SignOutAsync(OpenIdConnectDefaults.AuthenticationScheme);
 }
+```
 
-private string GetUserId()
-{
-    var userIdClaim = User.Claims.FirstOrDefault(x
-        => new[] {
-            JwtClaimTypes.Subject, ClaimTypes.NameIdentifier
-        }.Contains(x.Type)
-        && !string.IsNullOrWhiteSpace(x.Value));
-
-    if (userIdClaim != null)
-        return userIdClaim.Value;
-
-    return null;
+(arquivo _Layout.cshtml)
+```csharp
+@using IdentityServer4.Extensions
+@{
+    string name = null;
+    if (!true.Equals(ViewData["signed-out"]))
+    {
+        name = Context.User?.GetDisplayName();
+    }
 }
 ```
+
+```html
+@if (!string.IsNullOrWhiteSpace(name))
+{
+    <ul class="nav navbar-nav">
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">@name <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                <li><a asp-action="Logout" asp-controller="Account">Logout</a></li>
+            </ul>
+        </li>
+    </ul>
+}
+```
+
+Porém, quando rodamos a solução, não estamos vendo a informação do usuário logado:
+
+![Usuariologadonaoaparece](usuariologadonaoaparece.png)
+
+Por quê?
+
+Primeiro, vamos fazer logout com a aplicação Identity.
+
+Agora, vamos modificar o arquivo de layout do nosso site.
+
+* A ideia aqui é: verificar se o usuário não está deslogado
+(`!true.Equals(ViewData["signed-out"])`)
+* Obter o claim (dado de usuário) contendo o nome
 
 (arquivo _Layout.cshtml)
 ```csharp
@@ -515,60 +532,316 @@ private string GetUserId()
 @using System.Security.Claims;
 @{
     string name = null;
-    string clienteId = null;
     if (!true.Equals(ViewData["signed-out"]))
     {
         name = @User.FindFirst("name")?.Value;
-        if (string.IsNullOrWhiteSpace(name))
-        {
-            name = @User.FindFirst("email")?.Value;
-        }
-
-        clienteId = @User.FindFirst("sub")?.Value;
     }
 }
 ```
 
-```html
-<link href="~/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
-```
+Agora também temos que exibir o dropdown para exibir o nome do usuário e permitir o logout:
 
 ```html
-@if (!string.IsNullOrWhiteSpace(name))
-{
-    <ul class="nav navbar-nav pull-right">
-        <li>
-            <ul class="nav navbar-nav">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle text-white" data-toggle="dropdown">
-                        <span style="color: #fff;">@name</span>
-                        <b class="caret"></b>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a asp-action="Logout" asp-controller="Pedido">Sair</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </li>
-        @if (!true.Equals(ViewData["signed-out"]))
-        {
-            <li>
-                <div class="container-notification">
-                    <a asp-action="carrinho" asp-controller="pedido"
-                        asp-route-codigo=""
-                        title="Carrinho">
-                        <div class="user-count userbasket"></div>
-                    </a>
-                </div>
+<div class="navbar-collapse collapse">
+    @if (!string.IsNullOrWhiteSpace(name))
+    {
+        <ul class="nav navbar-nav pull-right">
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">@name <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a asp-action="Logout" asp-controller="Pedido">Logout</a></li>
+                </ul>
             </li>
-        }
-    </ul>
-}        
+        </ul>
+    }
+</div>
+```
+
+Agora rodamos a aplicação e...
+
+Percebemos que o nome do usuário logado ainda não aparece. Por quê?
+
+Vamos inspecionar os claims do usuário no momento:
+
+```csharp
+Context.User.Claims.ToList()
+Count = 4
+    [0]: {sid: a7a7a086af6a1ae87c682638a80824c1}
+    [1]: {http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier: 5f1aaf2e-3f22-467b-bd96-60a5cd4ec095}
+    [2]: {http://schemas.microsoft.com/identity/claims/identityprovider: local}
+    [3]: {http://schemas.microsoft.com/claims/authnmethodsreferences: pwd}
+```
+
+Veja que nenhum dos claims contém o nome do usuário. Isso acontece porque a aplicação
+MVC precisa requisitar esses claims a partir do STS (Security Token Server) representado pelo nosso projeto IdentityServer.
+
+Precisamos marcar esta opção na configuração do cliente:
+```csharp
+options.GetClaimsFromUserInfoEndpoint = true;
+```
+
+> Definição:
+> A propriedade `GetClaimsFromUserInfoEndpoint` define se o manipulador 
+deve ir até o endpoint de informações do usuário para recuperar declarações 
+adicionais ou não após criar uma identidade a partir do id_token recebido do 
+endpoint do token. O padrão é falso'.
+
+IMPORTANTE: para essa alteração surtir efeito, precisamos:
+
+1. deslogar o usuário
+2. fazer o login novamente
+
+Consultando novamente os claims do usuário, obtemos uma nova lista:
+
+```csharp
+Context.User.Claims.ToList()
+Count = 6
+    [0]: {sid: 7005c6b234f0e3db4f829e6e5631e35b}
+    [1]: {sub: 5f1aaf2e-3f22-467b-bd96-60a5cd4ec095}
+    [2]: {idp: local}
+    [3]: {name: Bob Smith}
+    [4]: {given_name: Bob}
+    [5]: {family_name: Smith}
+```
+
+Agora sim, podemos ver como o nome do usuário aparece na barra superior
+
+![Dropdownusuariologado](dropdownusuariologado.png)
+
+Agora vamos clicar no botão logout:
+
+
+![Logoutconfirmacao](logoutconfirmacao.png)
+
+E assim nosso usuário é finalmente desconectado:
+
+![Loggedout](loggedout.png)
+
+Mas como voltamos para a aplicação MVC?
+
+Na verdade, o projeto IdentityServer não foi instruído corretamente retornar para o cliente após a desconexão.
+
+Vamos fazer essa configuração com a propriedade `SignedOutRedirectUri` :
+
+```csharp
+options.SignedOutRedirectUri = Configuration["CallbackUrl"];
+```
+
+> Definição:
+> SignedOutRedirectUri
+> O uri para o qual o agente do usuário será redirecionado depois que o aplicativo for desconectado do provedor de identidade. O redirecionamento ocorrerá depois que o SignedOutCallbackPath for chamado.
+
+Mas rodando a aplicação novamente, não percebemos nenhuma mudança.
+
+Na verdade, é necessário modificar mais uma propriedade:
+
+```csharp
+options.SaveTokens = true;
+```
+
+> Definição:
+> Define se os tokens de acesso e atualização 
+> devem ser armazenados no 
+> Microsoft.AspNetCore.Http.Authentication.AuthenticationProperties após uma autorização 
+> bem-sucedida. Essa propriedade é configurada como false por 
+> padrão para reduzir o tamanho do cookie de autenticação final.
+
+Agora percebemos que após a desconexão é sugerido um novo link para retorno à aplicação MVC (CallbackUrl):
+
+![Linkcallbackurl](linkcallbackurl.png)
+
+Podemos ainda fazer uma última configuração, para dispensar a confirmação do login, no momento de confirmar o usuário e senha:
+
+![Requestingpermission](requestingpermission.png)
+
+Basta modificar o arquivo Config.cs no projeto Identity:
+
+```csharp
+RequireConsent = false
 ```
 
 # Item04 - Pedidos de Clientes
 
+PROBLEMA PRÁTICO : Os pedidos não identificam o cliente
+SOLUÇÃO PRÁTICA : adaptar o modelo da aplicação para acomodar o id do cliente que está logado
+ABSTRAÇÃO DO PROBLEMA PRÁTICO EM TEORIA : Os pedidos não possuem o id do cliente que está logado e fazendo a compra
+ABSTRAÇÃO DA SOLUÇÃO EM TEORIA : modificar o modelo, gerar a migração e adaptar repositórios e controllers
+
+Lembra dos usuários alice e bob? Vamos abrir o banco de dados que está no projeto Identity, chamado AspIdUsers.db.
+
+Esse arquivo é o banco de dados do SQLite.Vamos fazer um duplo clique, que nos levará para o programa DB Browser for SQLite:
+
+Aqui, vamos navegar pelas tabelas de usuários e de dados pessoais de usuários (claims)
+
+![Asp Net Users](AspNetUsers.png)
+
+![Asp Net User Claims](AspNetUserClaims.png)
+
+Como essas informações são criadas?
+
+Isso é feito com a ajuda da classe SeedData do projeto IdentityServer.
+
+Note como o `ApplicationUser` é criado e como os claims (dados pessoais) são adicionados ao usuário "Alice": 
+
+(arquivo SeedData.cs do projeto Identity)
+```csharp
+var userMgr = scope.ServiceProvider
+    .GetRequiredService<UserManager<ApplicationUser>>();
+var alice = userMgr.FindByNameAsync("alice").Result;
+if (alice == null)
+{
+    alice = new ApplicationUser
+    {
+        UserName = "alice"
+    };
+    var result = userMgr.CreateAsync(alice, "Pass123$").Result;
+    if (!result.Succeeded)
+    {
+        throw new Exception(result.Errors.First().Description);
+    }
+
+    result = userMgr.AddClaimsAsync(alice, new Claim[]{
+    new Claim(JwtClaimTypes.Name, "Alice Smith"),
+    new Claim(JwtClaimTypes.GivenName, "Alice"),
+    new Claim(JwtClaimTypes.FamilyName, "Smith"),
+    new Claim(JwtClaimTypes.Email, "AliceSmith@email.com"),
+    new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
+    new Claim(JwtClaimTypes.WebSite, "http://alice.com"),
+    new Claim(JwtClaimTypes.Address, 
+        @"{ 'street_address': 'One Hacker Way', 
+        'locality': 'Heidelberg', 
+        'postal_code': 69118, 'country': 'Germany' }", 
+        IdentityServer4.IdentityServerConstants.ClaimValueTypes.Json)
+}).Result;
+```
+
+Note também que essas informações foram criadas automaticamente
+pelo template do IdentityServer4. 
+
+
+Agora será necessário modificar o modelo, para que o pedido tenha a informação do usuário que fez a compra.
+
+
+(arquivo Pedido.cs)
+```csharp
+[Required]
+public string ClienteId { get; private set; }
+```
+
+Esse mesmo clienteId agora será exigido também no construtor, juntamente com o cadastro
+
+```csharp
+public Pedido(string clienteId, Cadastro cadastro)
+{
+    ClienteId = clienteId;
+    Cadastro = cadastro;
+}
+```
+
+Mas só modificar o modelo não é suficiente. Para aplicar as alterações no banco, vamos
+criar uma nova migração:
+
+```
+PM> Add-Migration "Pedido_ClienteId"
+```
+
+Em seguida, aplicamos as alterações:
+
+```
+PM> Update-Database -verbose
+```
+
+Agora vamos modificar as assinaturas na interface IHttpHelper
+
+(arquivo IHttpHelper.cs)
+```csharp
+int? GetPedidoId(string clienteId);
+void SetPedidoId(string clienteId, int pedidoId);
+void ResetPedidoId(string clienteId);
+```
+(arquivo HttpHelper.cs)
+```csharp
+public int? GetPedidoId(string clienteId)
+{
+    return contextAccessor.HttpContext.Session.GetInt32($"pedidoId_{clienteId}");
+}
+
+public void SetPedidoId(string clienteId, int pedidoId)
+{
+    contextAccessor.HttpContext.Session.SetInt32($"pedidoId_{clienteId}", pedidoId);
+}
+
+public void ResetPedidoId(string clienteId)
+{
+    contextAccessor.HttpContext.Session.Remove($"pedidoId_{clienteId}");
+}
+```
+
+Agora vamos modificar nosso repositório de pedidos
+
+(arquivo IPedidoRepository)
+```csharp
+Task<Pedido> GetPedidoAsync(string clienteId);
+Task AddItemAsync(string codigo, string clienteId);
+Task<UpdateQuantidadeResponse> UpdateQuantidadeAsync(ItemPedido itemPedido, string clienteId);
+Task<Pedido> UpdateCadastroAsync(Cadastro cadastro, string clienteId);
+```
+
+(arquivo PedidoRepository)
+```csharp
+public async Task<Pedido> GetPedidoAsync(string clienteId)
+{
+    var pedidoId = httpHelper.GetPedidoId(clienteId);
+```
+
+```csharp
+public async Task AddItemAsync(string codigo, string clienteId)
+...
+var pedido = await GetPedidoAsync(clienteId);
+...
+```
+
+```csharp
+pedido = new Pedido(clienteId, new Cadastro());
+```
+
+```csharp
+httpHelper.SetPedidoId(clienteId, pedido.Id);
+```
+
+```csharp
+public async Task<UpdateQuantidadeResponse> UpdateQuantidadeAsync(ItemPedido itemPedido, string clienteId)
+.
+.
+.
+var pedido = await GetPedidoAsync(clienteId);
+```
+
+```csharp
+public async Task<Pedido> UpdateCadastroAsync(Cadastro cadastro, string clienteId)
+{
+    var pedido = await GetPedidoAsync(clienteId);
+    await cadastroRepository.UpdateAsync(pedido.Cadastro.Id, cadastro);
+    httpHelper.ResetPedidoId(clienteId);
+    await GerarRelatorio(pedido);
+    return pedido;
+}
+```
+
+E como esse clienteId será obtido?
+
+Vamos mexer no PedidoController para criar um método que procura essa informação nos claims do usuário:
+
 (arquivo PedidoController.cs)
+```csharp
+private string GetUserId()
+{
+    return @User.FindFirst("sub")?.Value;
+}
+```
+
+Agora o GetUserId() será acessado pelos outros métodos do controller:
+
 ```csharp
 await pedidoRepository.AddItemAsync(codigo, GetUserId());
 ```
@@ -589,114 +862,20 @@ return View(await pedidoRepository.UpdateCadastroAsync(cadastro, GetUserId()));
 return await pedidoRepository.UpdateQuantidadeAsync(itemPedido, GetUserId());
 ```
 
-```csharp
-public class Pedido : BaseModel
-{
-    public Pedido()
-    {
-        Cadastro = new Cadastro();
-    }
+Depois de muitas alterações, vamos agora rodar a solução e ver se conseguimos gravar os pedidos com os ids dos usuários
 
-    public Pedido(string clienteId, Cadastro cadastro)
-    {
-        ClienteId = clienteId;
-        Cadastro = cadastro;
-    }
+![Pedido Cliente Id](Pedido_ClienteId.png)
 
-    public List<ItemPedido> Itens { get; private set; } = new List<ItemPedido>();
+![Tabela Cadastro](Tabela_Cadastro.png)
 
-    [Required]
-    public string ClienteId { get; private set; }
-
-    [ForeignKey("CadastroId")]
-    [Required]
-    public virtual Cadastro Cadastro { get; private set; }
-}
-```
-
-(arquivo HttpHelper.cs)
-```csharp
-public int? GetPedidoId(string clienteId)
-{
-    return contextAccessor.HttpContext.Session.GetInt32($"pedidoId_{clienteId}");
-}
-
-public void SetPedidoId(string clienteId, int pedidoId)
-{
-    contextAccessor.HttpContext.Session.SetInt32($"pedidoId_{clienteId}", pedidoId);
-}
-
-public void ResetPedidoId(string clienteId)
-{
-    contextAccessor.HttpContext.Session.Remove($"pedidoId_{clienteId}");
-}
-```
-
-(arquivo IHttpHelper.cs)
-```csharp
-int? GetPedidoId(string clienteId);
-void SetPedidoId(string clienteId, int pedidoId);
-void ResetPedidoId(string clienteId);
-```
-
-(arquivo IPedidoRepository)
-```csharp
-Task<Pedido> GetPedidoAsync(string clienteId);
-Task AddItemAsync(string codigo, string clienteId);
-Task<UpdateQuantidadeResponse> UpdateQuantidadeAsync(ItemPedido itemPedido, string clienteId);
-Task<Pedido> UpdateCadastroAsync(Cadastro cadastro, string clienteId);
-```
-
-(arquivo PedidoRepository)
-```csharp
-public async Task AddItemAsync(string codigo, string clienteId)
-```
-
-```csharp
-var pedido = await GetPedidoAsync(clienteId);
-```
-
-```csharp
-public async Task<Pedido> GetPedidoAsync(string clienteId)
-{
-    var pedidoId = httpHelper.GetPedidoId(clienteId);
-```
-
-```csharp
-pedido = new Pedido(clienteId, new Cadastro());
-```
-
-```csharp
-httpHelper.SetPedidoId(clienteId, pedido.Id);
-```
-
-```csharp
-private void ResetPedidoId(string clienteId)
-{
-    contextAccessor.HttpContext.Session.Remove($"pedidoId_{clienteId}");
-}
-```
-
-```csharp
-public async Task<UpdateQuantidadeResponse> UpdateQuantidadeAsync(ItemPedido itemPedido, string clienteId)
-```
-
-```csharp
-var pedido = await GetPedidoAsync(clienteId);
-```
-
-```csharp
-public async Task<Pedido> UpdateCadastroAsync(Cadastro cadastro, string clienteId)
-{
-    var pedido = await GetPedidoAsync(clienteId);
-    await cadastroRepository.UpdateAsync(pedido.Cadastro.Id, cadastro);
-    httpHelper.ResetPedidoId(clienteId);
-    await GerarRelatorio(pedido);
-    return pedido;
-}
-```
+Como vimos, agora o ID do cliente está sendo gravado juntamente com os pedidos!
 
 # Item05 - Autorizando WebAPI
+
+PROBLEMA PRÁTICO : Permitir acesso autorizado a uma web api externa ao MVC
+SOLUÇÃO PRÁTICA : Compartilhar com a nova web api as informações do usuário logado
+ABSTRAÇÃO DO PROBLEMA PRÁTICO EM TEORIA : Uma nova web api externa não consegue identificar se o usuário está logado na aplicação MVC
+ABSTRAÇÃO DA SOLUÇÃO EM TEORIA : criar uma configuração que inclua a web api na autorização do IdentityServer
 
 (arquivo appsettings.json)
 ```json
@@ -742,4 +921,5 @@ var accessToken = await httpHelper.GetAccessToken("CasaDoCodigo.Relatorio");
 httpClient.SetBearerToken(accessToken);
 var httpResponseMessage = await httpClient.PostAsync(new Uri(uriBase, "api/values"), content);
 ```
+
 
