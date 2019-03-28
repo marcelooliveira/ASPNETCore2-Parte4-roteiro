@@ -874,10 +874,138 @@ SOLUÇÃO PRÁTICA : Compartilhar com a nova web api as informações do usuário loga
 ABSTRAÇÃO DO PROBLEMA PRÁTICO EM TEORIA : Uma nova web api externa não consegue identificar se o usuário está logado na aplicação MVC
 ABSTRAÇÃO DA SOLUÇÃO EM TEORIA : criar uma configuração que inclua a web api na autorização do IdentityServer
 
+Vamos começar criando um novo projeto Web API dentro da nossa solução:
+
+O projeto se chamará CasaDoCodigo.Relatorio
+
+![Newwebapi](newwebapi.png)
+
+Agora vamos mudar o endereço do projeto Web API para http://localhost:5002
+
+Vamos definir como projeto inicial e rodá-lo:
+
+![Values](values.png)
+
+Vamos modificar o ValuesController desse novo projeto para ler/gravar dados do relatório
+
+Nosso relatório será muito simples: apenas uma lista de strings estática, em memória:
+
+(arquivo ValuesController.cs)
+```csharp
+private static readonly List<string> Relatorio = new List<string>();
+```
+
+Agora modificamos a action Get() para retornar uma string, em vez de uma lista de strings.
+
+```csharp
+public ActionResult<string> Get()
+```
+
+A string retornada será construída com a ajuda de um `StringBuilder`
+
+```csharp
+StringBuilder sb = new StringBuilder();
+foreach (var item in Relatorio)
+{
+    sb.AppendLine(item);
+}
+return sb.ToString();
+```
+
+Por outro lado, a gravação do relatório só exigirá a inclusão de uma string na lista Relatorio,
+na action Post():
+
+```csharp
+public void PostAsync([FromBody] string value)
+{
+    Relatorio.Add(value);
+}
+```
+
+Já as outras actions (Put, Delete) podem ser excluídas.
+
+Vamos rodar novamente a web api
+
+Para testar o relatório, precisamos rodar o programa Postman, para consumir a action Post:
+
+![Primeiralinha](primeiralinha.png)
+
+![Segundalinha](segundalinha.png)
+
+![Relatorio2](relatorio2.png)
+
+Cada linha do relatório representará os dados de um pedido da aplicação MVC.
+
+Você deve aplicar as seguintes regras:
+
+- Qualquer pessoa pode LER o relatório
+- Somente os usuários autenticados poderão GRAVAR linhas no relatório
+
+Para isso, vamos proteger o método `Post` com o atributo `[Authorize]`
+
+```csharp
+[HttpPost]
+[Authorize]
+public void Post([FromBody] string value)
+```
+
+Executando o POST no Postman novamente, pegamos um erro HTTP 500:
+
+```
+An unhandled exception occurred while processing the request.
+
+InvalidOperationException: No authenticationScheme was specified, and there was no DefaultChallengeScheme found.
+Microsoft.AspNetCore.Authentication.AuthenticationService.ChallengeAsync(HttpContext context, string scheme, AuthenticationProperties properties)
+```
+
+Claro, porque precisamos configurar a autenticação da nossa web api.
+
+Começamos criando a configuração da url do serviço Identity:
+
+(arquivo appsettings.json)
+```json
+"IdentityUrl": "http://localhost:5000"
+```
+
+Agora precisamos instalar no web api o pacote `IdentityServer4.AccessTokenValidation`
+
+
+```
+PM> Install-Package IdentityServer4.AccessTokenValidation
+```
+
+Isso permitirá adicionar o código mais abaixo.
+
+Na classe `Startup`, precisamos configurar a autenticação
+
+Esse código precisa conter:
+
+
+```csharp
+services
+    .AddAuthentication("Bearer")
+    .AddIdentityServerAuthentication(options =>
+    {
+        options.ApiName = "CasaDoCodigo.Relatorio";
+        options.ApiSecret = "49C1A7E1-0C79-4A89-A3D6-A37998FB86B0";
+        options.Authority = Configuration["IdentityUrl"];
+        options.RequireHttpsMetadata = false;
+    });
+```
+
+```csharp
+app.UseAuthentication();
+```
+
+Já na aplicação MVC, vamos criar a configuração com o endereço do serviço de relatório
+
 (arquivo appsettings.json)
 ```json
 "RelatorioUrl": "http://localhost:5002"
 ```
+
+Esse serviço vai ser acessado aom a ajuda de tokens de acesso, que precisam ser consultados no serviço do IdentityServer.
+
 
 (arquivo IHttpHelper.cs)
 ```csharp
@@ -918,5 +1046,14 @@ var accessToken = await httpHelper.GetAccessToken("CasaDoCodigo.Relatorio");
 httpClient.SetBearerToken(accessToken);
 var httpResponseMessage = await httpClient.PostAsync(new Uri(uriBase, "api/values"), content);
 ```
+
+Rodando a aplicação web api, vamos testar novamente com o Postman, para tentar inserir uma linha no relatório.
+
+![Postman401](postman401.png)
+
+Vemos que desta vez o Postman falhou com o erro HTTP 401, indicando acesso não autorizado.
+
+Vamos parar a aplicação e definir os 2 projetos (MVC e Relatorio) como iniciais.
+
 
 
