@@ -11,10 +11,18 @@
   <ItemGroup>
     <None Remove="middlewares.png" />
     <None Remove="pipeline.png" />
+    <None Remove="TemplateItemPedido.txt" />
+    <None Remove="TemplatePedido.txt" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="..\..\..\_Recursos\produtos\livros.txt" Link="wwwroot\images\produtos\livros.txt" />
+    <Content Include="TemplateItemPedido.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="TemplatePedido.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
