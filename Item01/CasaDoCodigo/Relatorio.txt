@@ -110,3 +110,43 @@ Itens:
 =============================================
 
 
+
+=============================================
+No. Pedido: 00001
+Cliente: 
+    Nome: asdfasdf
+    Endereco: sadf sadfasd  asdfs  asdfsd  SP
+    Fone: sadfasdf
+    Email: asdfasdf@safsdf.com
+    Total: R$49,90
+Itens:
+
+
+    Código: 182
+    Preco Unitário: 00050
+    Descrição: Métricas Ágeis: Obtenha melhores resultados em sua equipe
+    Quantidade: 001
+    Subtotal: R$49,90
+=============================================
+
+
+
+=============================================
+No. Pedido: 00002
+Cliente: 
+    Nome: asdfas
+    Endereco: asdfas dfasdfa  sdfasdfasdf  asdfasd  SP
+    Fone: dfasdfasdf
+    Email: dfasdfas@csadsd.com
+    Total: R$49,90
+Itens:
+
+
+    Código: 001
+    Preco Unitário: 00050
+    Descrição: Lógica de Programação: Crie seus primeiros programas usando Javascript e HTML
+    Quantidade: 001
+    Subtotal: R$49,90
+=============================================
+
+

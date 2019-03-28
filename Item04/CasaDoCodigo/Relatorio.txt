@@ -1,0 +1,40 @@
+
+=============================================
+No. Pedido: 00001
+Cliente: 
+    Nome: asfasdfa
+    Endereco: asdfas dasdfas  dfasdfasdf  asdfasd  GO
+    Fone: asdfasdf
+    Email: asdfasdfsd@bbbbb.com
+    Total: R$49,90
+Itens:
+
+
+    Código: 184
+    Preco Unitário: 00050
+    Descrição: Scrum 360: Um guia completo e prático de agilidade
+    Quantidade: 001
+    Subtotal: R$49,90
+=============================================
+
+
+
+=============================================
+No. Pedido: 00002
+Cliente: 
+    Nome: asdfas
+    Endereco: asdfasd fasdfasd  fasdfasdf  sdfasdfasd  SP
+    Fone: sdfasdf
+    Email: asdfasdfsd@bbbbb.com
+    Total: R$49,90
+Itens:
+
+
+    Código: 003
+    Preco Unitário: 00050
+    Descrição: Scratch: Um jeito divertido de aprender programação
+    Quantidade: 001
+    Subtotal: R$49,90
+=============================================
+
+
