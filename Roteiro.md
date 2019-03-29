@@ -36,12 +36,16 @@ Porém, algumas alterações e atualizações foram necessárias.
 7. Projeto atualizado para ASP.NET Core 2.2
 8. Dados do cadastro estão sendo gravados na sessão
 9. Um relatório em arquivo texto é incrementado a cada pedido
+10. A cada pedido, um arquivo texto de relatório é atualizado
  
 # Item01 - Criando o Projeto IdentityServer4
 
 PROBLEMA PRÁTICO : nosso projeto MVC não possui sistema de login
+
 SOLUÇÃO PRÁTICA : criar um novo projeto para autenticar usuários
+
 ABSTRAÇÃO DO PROBLEMA PRÁTICO EM TEORIA : o projeto MVC não possui sistema de autenticação e autorização para os pontos de acesso
+
 ABSTRAÇÃO DA SOLUÇÃO EM TEORIA : criar um projeto STS (Security Token Server) utilizando IdentityServer4
 
 ## Introdução
@@ -194,9 +198,13 @@ Aqui, ele pode fazer o logout, como podemos ver:
 # Item02 - Autorizando o Cliente MVC
 
 PROBLEMA PRÁTICO : Nosso projeto MVC não se comunica com o projeto Identity
+
 SOLUÇÃO PRÁTICA : Fazer configuração para integrar os dois projetos
+
 ABSTRAÇÃO DO PROBLEMA PRÁTICO EM TEORIA : As duas aplicações estão isoladas. Precisamos fazer a troca de informações entre o projeto MVC e o Identity
+
 ABSTRAÇÃO DA SOLUÇÃO EM TEORIA : Configurar tanto no MVC quanto no IdentityServer os pontos de acesso, tipos de tokens, grants, claims, etc. que vão ser compartilhados
+
 
 ## Protegendo recursos
 
@@ -371,7 +379,7 @@ Aqui, ele tem a oportunidade de negar permissão a esse acesso.
 
 ![Requestingpermission](requestingpermission.png)
 
-Ao conceder a permimissão, você é redirecionado de volta para
+Ao conceder a permissão, você é redirecionado de volta para
 a aplicação cliente (CasaDoCodigo.MVC):
 
 ![Actionautorizada](actionautorizada.png)
@@ -426,8 +434,11 @@ Vamos dar uma olhada no caminho desde a página inicial a até a aplicação ser aut
 # Item03 - Fluxo de Logout
 
 PROBLEMA PRÁTICO : A aplicação MVC faz login mas não faz logout
+
 SOLUÇÃO PRÁTICA : Configurar o logout da plataforma
+
 ABSTRAÇÃO DO PROBLEMA PRÁTICO EM TEORIA : Uma vez conectado o usuário, o projeto MVC não possui as informações necessárias para desconectar o usuário e retornar para a página inicial
+
 ABSTRAÇÃO DA SOLUÇÃO EM TEORIA : definir os tokens com as informações de nome de usuário, id, etc., a action de logout e também as urls de retorno.
 
 ## CasaDoCodigo.Identity
@@ -638,8 +649,11 @@ RequireConsent = false
 # Item04 - Pedidos de Clientes
 
 PROBLEMA PRÁTICO : Os pedidos não identificam o cliente
+
 SOLUÇÃO PRÁTICA : adaptar o modelo da aplicação para acomodar o id do cliente que está logado
+
 ABSTRAÇÃO DO PROBLEMA PRÁTICO EM TEORIA : Os pedidos não possuem o id do cliente que está logado e fazendo a compra
+
 ABSTRAÇÃO DA SOLUÇÃO EM TEORIA : modificar o modelo, gerar a migração e adaptar repositórios e controllers
 
 Lembra dos usuários alice e bob? Vamos abrir o banco de dados que está no projeto Identity, chamado AspIdUsers.db.
