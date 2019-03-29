@@ -30,7 +30,6 @@ namespace CasaDoCodigo
         {
             services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog(dispose: true));
             services.AddMvc();
-            services.AddHttpContextAccessor();
             services.AddDistributedMemoryCache();
             services.AddSession();
 
@@ -73,20 +72,6 @@ namespace CasaDoCodigo
                     name: "default",
                     template: "{controller=Pedido}/{action=BuscaProdutos}/{codigo?}");
             });
-        }
-    }
-
-    static class ServiceCollection
-    {
-        public static IServiceCollection AddHttpContextAccessor(this IServiceCollection services)
-        {
-            if (services == null)
-            {
-                throw new ArgumentNullException(nameof(services));
-            }
-
-            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            return services;
         }
     }
 }

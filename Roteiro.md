@@ -292,6 +292,10 @@ public void ConfigureServices(IServiceCollection services)
 public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
 {
     //...
+    
+    //*** IMPORTANTE ***
+    //INCLUIR ANTES DO AddMvc()!
+    
     app.UseAuthentication();
     //...
 }
@@ -313,11 +317,6 @@ services
     options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
     options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
 });
-```
-
-Para utilizar esses defaults, instale o pacote no projeto MVC:
-```
-PM>Install-Package Microsoft.AspNetCore.Authentication.Cookies
 ```
 
 Agora precisamos dizer ao ASP.NET Core para utilizar **cookies** durante a autenticação:
@@ -485,32 +484,6 @@ public async Task Logout()
 {
     await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
     await HttpContext.SignOutAsync(OpenIdConnectDefaults.AuthenticationScheme);
-}
-```
-
-(arquivo _Layout.cshtml)
-```csharp
-@using IdentityServer4.Extensions
-@{
-    string name = null;
-    if (!true.Equals(ViewData["signed-out"]))
-    {
-        name = Context.User?.GetDisplayName();
-    }
-}
-```
-
-```html
-@if (!string.IsNullOrWhiteSpace(name))
-{
-    <ul class="nav navbar-nav">
-        <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">@name <b class="caret"></b></a>
-            <ul class="dropdown-menu">
-                <li><a asp-action="Logout" asp-controller="Account">Logout</a></li>
-            </ul>
-        </li>
-    </ul>
 }
 ```
 
@@ -721,8 +694,193 @@ Note também que essas informações foram criadas automaticamente
 pelo template do IdentityServer4. 
 
 
-Agora será necessário modificar o modelo, para que o pedido tenha a informação do usuário que fez a compra.
 
+
+
+## Obtendo os Claims do usuário na aplicação MVC
+
+Como essas claims são passadas de uma aplicação para a outra?
+
+![Controledeacessoapis](controledeacessoapis.png)
+
+Essas claims serão passadas do IdentityServer para o MVC através de **tokens**. Mais precisamente, Json Web Tokens, chamados de JWT, conforme o diagrama:
+
+```
+@startuml
+
+title Json Web Tokens
+
+MVC ->> IdentityServer : 1. /login com usuário e senha
+IdentityServer ->> IdentityServer : 2. Cria um JWT (Json Web Token)
+MVC ->> IdentityServer : 3. Retorna o JWT para o MVC
+IdentityServer ->> MVC : 4. Envia o JWT no header de autorização
+IdentityServer ->> IdentityServer : 5. Checa a assinatura do JWT
+IdentityServer ->> MVC : 6. Manda a resposta para o cliente MVC
+
+@enduml 
+```
+
+![](jwt.png)
+
+Vamos dar uma olhada num site que permite gerar e analisar Json Web Tokens:
+
+![](https://jwt.io/img/logo.svg)
+
+https://jwt.io/
+
+Os JSON Web Tokens são um padrão aberto da indústria para representar "claims" com segurança entre duas partes.
+
+Do lado esquerdo, vemos o JWT codificado:
+```
+ENCODED
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+```
+
+Do lado esquerdo, vemos 3 seções:
+
+- Cabeçalho
+- Payload
+- Assinatura
+
+O Payload contém as informações que nos interessam:
+
+```
+DECODED
+{
+  "sub": "1234567890",
+  "name": "John Doe",
+  "iat": 1516239022
+}
+```
+
+Veja que o atributo "sub" é a "claim" que identifica o usuário.
+
+Então criar um método para obter esse id de usuário em nosso controller.
+
+```csharp
+[Authorize]
+public async Task<IActionResult> Carrinho(string codigo)
+{
+    var clienteId = GetUserIdAsync();
+    ...
+}
+
+private string GetUserId()
+{
+	return @User.FindFirst("sub")?.Value;
+}
+```
+
+Porém, quando rodamos a aplicação, obtemos um erro:
+
+```
+An unhandled exception occurred while processing the request.
+SqlException: Cannot insert the value NULL into column 'ClienteId', table 'CasaDoCodigo.dbo.Pedido'; column does not allow nulls. INSERT fails.
+The statement has been terminated.
+```
+
+Vamos investigar melhor esse código. Note que esta linha está retornando NULL:
+
+```csharp
+private string GetUserId()
+{
+	return @User.FindFirst("sub")?.Value; // = NULL!
+}
+```
+
+Vamos debugar o programa para extrair:
+
+- O token JWT
+- Uma lista de Claims do usuário
+
+```csharp
+private async Task<string> GetUserIdAsync()
+{
+	Debug.WriteLine("Token JWT: " + await HttpContext.GetTokenAsync("access_token"));
+	var claims = User.Claims.ToList();
+	foreach (var claim in claims)
+	{
+		Debug.WriteLine($"claim: {claim.Type}, valor: {claim.Value}");
+	}
+
+	return @User.FindFirst("sub")?.Value;
+}
+```
+
+```
+Token JWT: eyJhbGciOiJSUzI1NiIsImtpZCI6IjU5ZTRlZjYwODUxMjdjODdkMTE2OWQ0NzhmZGJkZjJlIiwidHlwIjoiSldUIn0.eyJuYmYiOjE1NTM4Njc0NTAsImV4cCI6MTU1Mzg3MTA1MCwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo1MDAwIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo1MDAwL3Jlc291cmNlcyIsImNsaWVudF9pZCI6IkNhc2FEb0NvZGlnby5NVkMiLCJzdWIiOiJhNTMzZDU0Ni1mMjQ3LTRiMmQtODQ3NS1jZDM3ZWZiNTZiNmEiLCJhdXRoX3RpbWUiOjE1NTM4Njc0NDksImlkcCI6ImxvY2FsIiwic2NvcGUiOlsib3BlbmlkIiwicHJvZmlsZSJdLCJhbXIiOlsicHdkIl19.UtxIGvUYsCbda5YdihjRJFKOkU-9XQAhO4RpPASds8ZI5BcEWIs6buXHeu4WPB3sG0QAYa1w2nhCGjZxJBjl5XDGBUpMxwH7nrClleHO7t6dOhJO5pq3ZQMLSMJ7jthTjVlLvne3ObdPzL2wk15PjjDN_ctPTPoLJgMDuO3ua4r4cqlpolEsPgpmXc0HXg7Sgvy89s4Afl3GOrwtHBbsgp4Vxa0k7QP1UePFZV8rWksjF0Z5Zb3RTWzzttPSOubiKCToqqieejxA6Y9P6hUsVx2CzqMBmWBrOzwRdbnbebbXWYXPMF_RqE408rAdxpo07ZPneUHxzh3okmhss7sp8A
+claim: sid, valor: 5633da116185ecd929e489399112b7e9
+claim: http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier, valor: a533d546-f247-4b2d-8475-cd37efb56b6a
+claim: http://schemas.microsoft.com/identity/claims/identityprovider, valor: local
+claim: http://schemas.microsoft.com/claims/authnmethodsreferences, valor: pwd
+claim: name, valor: Bob Smith
+claim: given_name, valor: Bob
+claim: family_name, valor: Smith
+```
+
+Note que a claim "sub" não aparece na lista de claims! Por que será?
+
+Vamos pegar o token JWT e analisar no site https://jwt.io/:
+
+```
+ENCODED
+eyJhbGciOiJSUzI1NiIsImtpZCI6IjU5ZTRlZjYwODUxMjdjODdkMTE2OWQ0NzhmZGJkZjJlIiwidHlwIjoiSldUIn0.eyJuYmYiOjE1NTM4Njc0NTAsImV4cCI6MTU1Mzg3MTA1MCwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo1MDAwIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo1MDAwL3Jlc291cmNlcyIsImNsaWVudF9pZCI6IkNhc2FEb0NvZGlnby5NVkMiLCJzdWIiOiJhNTMzZDU0Ni1mMjQ3LTRiMmQtODQ3NS1jZDM3ZWZiNTZiNmEiLCJhdXRoX3RpbWUiOjE1NTM4Njc0NDksImlkcCI6ImxvY2FsIiwic2NvcGUiOlsib3BlbmlkIiwicHJvZmlsZSJdLCJhbXIiOlsicHdkIl19.UtxIGvUYsCbda5YdihjRJFKOkU-9XQAhO4RpPASds8ZI5BcEWIs6buXHeu4WPB3sG0QAYa1w2nhCGjZxJBjl5XDGBUpMxwH7nrClleHO7t6dOhJO5pq3ZQMLSMJ7jthTjVlLvne3ObdPzL2wk15PjjDN_ctPTPoLJgMDuO3ua4r4cqlpolEsPgpmXc0HXg7Sgvy89s4Afl3GOrwtHBbsgp4Vxa0k7QP1UePFZV8rWksjF0Z5Zb3RTWzzttPSOubiKCToqqieejxA6Y9P6hUsVx2CzqMBmWBrOzwRdbnbebbXWYXPMF_RqE408rAdxpo07ZPneUHxzh3okmhss7sp8A
+
+DECODED
+{
+  "nbf": 1553867450,
+  "exp": 1553871050,
+  "iss": "http://localhost:5000",
+  "aud": "http://localhost:5000/resources",
+  "client_id": "CasaDoCodigo.MVC",
+  "sub": "a533d546-f247-4b2d-8475-cd37efb56b6a",
+  "auth_time": 1553867449,
+  "idp": "local",
+  "scope": [
+    "openid",
+    "profile"
+  ],
+  "amr": [
+    "pwd"
+  ]
+}
+```
+
+Como podemos ver, o claim "sub" está no token JWT. Mas por que ela não é lida?
+
+Acontece que o ASP.NET Core converte por padrão a claim "sub" para outro nome: "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
+
+```
+claim: http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier, valor: a533d546-f247-4b2d-8475-cd37efb56b6a
+```
+
+Para resolver isso, precisamos impedir essa conversão de claims, adicionando esta linha na classe Startup.cs:
+
+(Arquivo Startup.cs)
+	
+```csharp
+JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+```
+
+Vamos rodar novamente e... MESMO ERRO!
+
+O que aconteceu?
+
+Na verdade, o cookie foi armazenado na última vez que fizemos o login. Como nosso usuário já está autenticado,
+precisamos fazer logout e entrar novamente.
+
+Agora sim, obtemos o claim "sub" devidamente preenchido:
+
+```
+claim: sid, valor: f88f73b2108e148b00f8d71348cc4634
+claim: sub, valor: ce81b36a-575e-4256-9dee-f5b874010037
+claim: idp, valor: local
+claim: name, valor: Bob Smith
+claim: given_name, valor: Bob
+claim: family_name, valor: Smith
+```
+
+Agora será necessário modificar o modelo, para que o pedido tenha a informação do usuário que fez a compra.
 
 (arquivo Pedido.cs)
 ```csharp
@@ -760,6 +918,8 @@ Agora vamos modificar as assinaturas na interface IHttpHelper
 int? GetPedidoId(string clienteId);
 void SetPedidoId(string clienteId, int pedidoId);
 void ResetPedidoId(string clienteId);
+void SetCadastro(string clienteId, Cadastro cadastro);
+Cadastro GetCadastro(string clienteId);
 ```
 (arquivo HttpHelper.cs)
 ```csharp
@@ -776,6 +936,21 @@ public void SetPedidoId(string clienteId, int pedidoId)
 public void ResetPedidoId(string clienteId)
 {
     contextAccessor.HttpContext.Session.Remove($"pedidoId_{clienteId}");
+}
+
+public void SetCadastro(string clienteId, Cadastro cadastro)
+{
+    string json = JsonConvert.SerializeObject(cadastro.GetClone());
+    contextAccessor.HttpContext.Session.SetString($"cadastro_{clienteId}", json);
+}
+
+public Cadastro GetCadastro(string clienteId)
+{
+    string json = contextAccessor.HttpContext.Session.GetString($"cadastro_{clienteId}");
+    if (string.IsNullOrWhiteSpace(json))
+        return new Cadastro();
+
+    return JsonConvert.DeserializeObject<Cadastro>(json);
 }
 ```
 
@@ -831,19 +1006,8 @@ public async Task<Pedido> UpdateCadastroAsync(Cadastro cadastro, string clienteI
 }
 ```
 
-E como esse clienteId será obtido?
 
-Vamos mexer no PedidoController para criar um método que procura essa informação nos claims do usuário:
-
-(arquivo PedidoController.cs)
-```csharp
-private string GetUserId()
-{
-    return @User.FindFirst("sub")?.Value;
-}
-```
-
-Agora o GetUserId() será acessado pelos outros métodos do controller:
+Agora o GetUserId() poderá ser acessado pelos outros métodos do `PedidoController`:
 
 ```csharp
 await pedidoRepository.AddItemAsync(codigo, GetUserId());
@@ -892,7 +1056,7 @@ Vamos definir como projeto inicial e rodá-lo:
 
 ![Values](values.png)
 
-Vamos modificar o ValuesController desse novo projeto para ler/gravar dados do relatório
+Vamos modificar o `ValuesController` desse novo projeto para ler/gravar dados do relatório
 
 Nosso relatório será muito simples: apenas uma lista de strings estática, em memória:
 
@@ -1000,7 +1164,20 @@ services
 ```
 
 ```csharp
-app.UseAuthentication();
+app.UseAuthentication(); //ANTES DE UseMVC() !!!
+```
+
+Na aplicação Identity, vamos ter que informar que nossa nova API também pode e deve ser autenticada, isto é, também exigirá
+um token validado adequadamente pelo IdentityServer:
+
+(arquivo Config.cs)
+
+```csharp
+...
+new ApiResource("CasaDoCodigo.Relatorio", "Casa do Código - Relatório")
+...
+AllowedScopes = { "openid", "profile", "CasaDoCodigo.Relatorio" },
+...
 ```
 
 Já na aplicação MVC, vamos criar a configuração com o endereço do serviço de relatório
@@ -1012,45 +1189,64 @@ Já na aplicação MVC, vamos criar a configuração com o endereço do serviço de rel
 
 Esse serviço vai ser acessado aom a ajuda de tokens de acesso, que precisam ser consultados no serviço do IdentityServer.
 
+Antes de acrescentar esse código abaixo, vamos instalar `IdentityModel`:
+
+```
+PM>Install-Package IdentityModel
+```
 
 (arquivo IHttpHelper.cs)
 ```csharp
-Task<string> GetAccessToken(string scope);
-void SetAccessToken(string accessToken);
+Task<string> GetAccessToken(HttpClient client, string scope);
 ```
 
 (arquivo HttpHelper.cs)
 ```csharp
-public async Task<string> GetAccessToken(string scope)
+public async Task<string> GetAccessToken(HttpClient client, string scope)
 {
-    Uri baseUri = new Uri(Configuration["IdentityUrl"]);
-    var tokenClient = new TokenClient(new Uri(baseUri, "connect/token").ToString(), "CasaDoCodigo.MVC", "49C1A7E1-0C79-4A89-A3D6-A37998FB86B0");
+    var response = await client.RequestClientCredentialsTokenAsync(
+        new ClientCredentialsTokenRequest
+        {
+            Address = Configuration["IdentityUrl"] + "/connect/token",
+            ClientId = "CasaDoCodigo.MVC",
+            ClientSecret = "49C1A7E1-0C79-4A89-A3D6-A37998FB86B0",
+            Scope = scope
+        });
 
-    var tokenResponse = await tokenClient.RequestClientCredentialsAsync(scope);
-    return tokenResponse.AccessToken;
-}
-
-public void SetAccessToken(string accessToken)
-{
-    contextAccessor.HttpContext.Session.SetString("accessToken", accessToken);
+    return response.AccessToken ?? response.Error;
 }
 ```
 
-(arquivo PedidoRepository.cs)
-```csharp
-Uri uriBase = new Uri(configuration["RelatorioUrl"]);
-```
+O código acima solicita ao IdentityServer o token de acesso exigido pela nossa nova API. Em troca, 
+o projeto MVC precisa informar:
 
-trocar:
+- O Endereço do servidor IdentityServer
+- O Id da aplicação cliente (CasaDoCodigo.MVC),
+- O segredo do cliente
+- O escopo (nome da api = CasaDoCodigo.Relatorio) 
+
+Agora vamos modificar nosso repositório de pedido para acessar a api e gerar o relatório:
+
+Vamos trocar:
 ```csharp
-await System.IO.File.AppendAllLinesAsync("Relatorio.txt", new string[] { sb.ToString() });
+await System.IO.File.AppendAllLinesAsync("Relatorio.txt", new string[] { linhaRelatorio });
 ```
 
 por:
 ```csharp
-var accessToken = await httpHelper.GetAccessToken("CasaDoCodigo.Relatorio");
-httpClient.SetBearerToken(accessToken);
-var httpResponseMessage = await httpClient.PostAsync(new Uri(uriBase, "api/values"), content);
+using (var httpClient = HttpClientFactory.Create())
+{
+    var accessToken = await httpHelper.GetAccessToken(httpClient, "CasaDoCodigo.Relatorio");
+    httpClient.SetBearerToken(accessToken);
+
+    var json = JsonConvert.SerializeObject(linhaRelatorio);
+    using (HttpContent content = new StringContent(json, Encoding.UTF8, "application/json"))
+    {
+        Uri uriBase = new Uri(configuration["RelatorioUrl"]);
+        var httpResponseMessage =
+            await httpClient.PostAsync(new Uri(uriBase, "api/values"), content);
+    }
+}
 ```
 
 Rodando a aplicação web api, vamos testar novamente com o Postman, para tentar inserir uma linha no relatório.
@@ -1059,7 +1255,54 @@ Rodando a aplicação web api, vamos testar novamente com o Postman, para tentar i
 
 Vemos que desta vez o Postman falhou com o erro HTTP 401, indicando acesso não autorizado.
 
-Vamos parar a aplicação e definir os 2 projetos (MVC e Relatorio) como iniciais.
+Vamos parar a aplicação e definir os 3 projetos como iniciais.
+
+Após fecharmos alguns pedidos, podemos ver o resultado sendo exibido na nossa API de relatório:
+
+```
+=============================================
+No. Pedido: 01004
+Cliente: 
+    Nome: Alice Smith
+    Endereco: r das flores 6 andar v mariana s paulo SP
+    Fone: 123456789
+    Email: alice@smith.com
+    Total: R$149,70
+Itens:
 
 
+    Código: 182
+    Preco Unitário: 00050
+    Descrição: Métricas Ágeis: Obtenha melhores resultados em sua equipe
+    Quantidade: 003
+    Subtotal: R$149,70
 
+=============================================
+
+=============================================
+No. Pedido: 01005
+Cliente: 
+    Nome: Alice Smith
+    Endereco: r das flores 6 andar v mariana s paulo SP
+    Fone: 123456789
+    Email: alice@smith.com
+    Total: R$249,50
+Itens:
+
+
+    Código: 001
+    Preco Unitário: 00050
+    Descrição: Lógica de Programação: Crie seus primeiros programas usando Javascript e HTML
+    Quantidade: 003
+    Subtotal: R$149,70
+
+
+    Código: 011
+    Preco Unitário: 00050
+    Descrição: Spring MVC: Domine o principal framework web Java
+    Quantidade: 002
+    Subtotal: R$99,80
+
+=============================================
+
+```
