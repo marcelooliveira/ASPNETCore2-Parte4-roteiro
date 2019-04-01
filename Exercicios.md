@@ -8,20 +8,31 @@
 
 ### Item02 - Autorizando o Cliente MVC
 
+* O que acontece quando um usuário desconectado tenta acessar uma action protegida?
 * Como as credenciais são trocadas entre o IdentityServer e o MVC?
-
+* Qual a sequência de eventos logo após o usuário fazer login com sucesso?
+* Quais actions devem ser protegidas?
+ 
 ### Item03 - Fluxo de Logout
 
 * Como fazer logout pelo MVC?
-
+* Quais passos necessários para exibir o nome do usuário nas views do MVC?
+* Por que as claims do usuário logado não aparecem na aplicação MVC?
+* O que acontece quando o usuário conectado faz logout na tela de carrinho?
+ 
 ### Item04 - Pedidos de Clientes
 
 * Como obter o id do usuário autenticado?
+* O que é JWT?
+* O que são claims?
+* A claim "sub" não está aparecendo. O que fazer?
 
 ### Item05 - Autorizando WebAPI
 
 * Como envolver o Web API no processo de autorização?
-
+* Qual configuração de Web API é correta?
+* Qual a sequência de passos necessários para autorizar esta Web API?
+* Como fazer chamadas HTTP Post autorizadas?
 
 
 
