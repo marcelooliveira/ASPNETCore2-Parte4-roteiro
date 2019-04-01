@@ -1,43 +1,30 @@
-# Instalação
+## Exercícios
 
-- .NET Core SDK 2.2 ou superior
-https://dotnet.microsoft.com/download
+### Item01 - Criando o Projeto IdentityServer4
 
-- Visual Studio Community
-https://visualstudio.microsoft.com/pt-br/vs/community/
+* ASP NET Core Identity vs STS
+* Como criar um projeto com ASP.NET Core Identity?
+* Como criar um projeto STS?
 
-- DB Browser for SQLite
-https://sqlitebrowser.org/blog/version-3-11-1-released
+### Item02 - Autorizando o Cliente MVC
 
-- Postman
-https://www.getpostman.com/downloads/
+* Como as credenciais são trocadas entre o IdentityServer e o MVC?
+
+### Item03 - Fluxo de Logout
+
+* Como fazer logout pelo MVC?
+
+### Item04 - Pedidos de Clientes
+
+* Como obter o id do usuário autenticado?
+
+### Item05 - Autorizando WebAPI
+
+* Como envolver o Web API no processo de autorização?
 
 
-# Da Parte 2 para a Parte 3: diferenças
 
-PROBLEMA PRÁTICO : fazer uma "pré-introdução", para orientar estudantes vindos do último curso (Parte 2)
-SOLUÇÃO PRÁTICA : Mostrar as alterações feitas no projeto inicial da Parte 3
-ABSTRAÇÃO DO PROBLEMA PRÁTICO EM TEORIA : introduzir assincronia, busca de produtos, refatoração no modelo simplificação nos repositórios. Atualização do framework.
-ABSTRAÇÃO DA SOLUÇÃO EM TEORIA : 
 
-Começamos a parte 3 deste curso com o código que usamos no final último curso,
-**ASP.NET Core parte 2: Um e-Commerce com MVC e EF Core** 
-(https://cursos.alura.com.br/course/aspnet-core-2-validacoes-seguranca)
-
-Porém, algumas alterações e atualizações foram necessárias.
-
-**Melhorias**:
-1. Todos os métodos de bancos de dados ou E/S agora são assíncronos
-2. Nova view de busca de produtos
-3. O modelo agora tem categorias de Produtos
-4. Arquivo `models.cs` foi quebrado em vários arquivos, um para cada entidade
-5. Repositórios foram simplificados: `CategoriaRepository` foi para `ProdutoRepository` e `ItemPedidoRepository` foi para `PedidoRepository`.
-6. Os dados iniciais agora são carregados no `Program.cs`
-7. Projeto atualizado para ASP.NET Core 2.2
-8. Dados do cadastro estão sendo gravados na sessão
-9. Um relatório em arquivo texto é incrementado a cada pedido
-10. A cada pedido, um arquivo texto de relatório é atualizado
- 
 # Item01 - Criando o Projeto IdentityServer4
 
 PROBLEMA PRÁTICO : nosso projeto MVC não possui sistema de login
@@ -386,20 +373,10 @@ a aplicação cliente (CasaDoCodigo.MVC):
 
 Vamos dar uma olhada na aba "network" da aplicação cliente após o login:
 
-![Loginredirect](loginredirect.png)
-
-Perceba o fluxo do login aqui:
-
-1. Primeiro, a aplicação IdentityServer faz um redirecionamento (HTTP 302) para o MVC:
-(usando a url de callback configurada em `RedirectUris = { callbackUrl + "/signin-oidc" }`)
-2. O endereço `:5001/signin-oidc`, por sua vez, faz uma requisição interna (HTTP 200) para a action do carrinho
-(`http://localhost:5001/Pedido/carrinho/180`) 
-
-Note Também como a aplicação está utilizando vários cookies.
-
 ![Cookies1](cookies1.png)
 ![Cookies2](cookies2.png)
 
+Note como a aplicação está utilizando vários cookies.
 Esses cookies são necessários para várias finalidades, como:
 
 - token anti-falsificação
@@ -1282,51 +1259,3 @@ Vemos que desta vez o Postman falhou com o erro HTTP 401, indicando acesso não a
 Vamos parar a aplicação e definir os 3 projetos como iniciais.
 
 Após fecharmos alguns pedidos, podemos ver o resultado sendo exibido na nossa API de relatório:
-
-```
-=============================================
-No. Pedido: 01004
-Cliente: 
-    Nome: Alice Smith
-    Endereco: r das flores 6 andar v mariana s paulo SP
-    Fone: 123456789
-    Email: alice@smith.com
-    Total: R$149,70
-Itens:
-
-
-    Código: 182
-    Preco Unitário: 00050
-    Descrição: Métricas Ágeis: Obtenha melhores resultados em sua equipe
-    Quantidade: 003
-    Subtotal: R$149,70
-
-=============================================
-
-=============================================
-No. Pedido: 01005
-Cliente: 
-    Nome: Alice Smith
-    Endereco: r das flores 6 andar v mariana s paulo SP
-    Fone: 123456789
-    Email: alice@smith.com
-    Total: R$249,50
-Itens:
-
-
-    Código: 001
-    Preco Unitário: 00050
-    Descrição: Lógica de Programação: Crie seus primeiros programas usando Javascript e HTML
-    Quantidade: 003
-    Subtotal: R$149,70
-
-
-    Código: 011
-    Preco Unitário: 00050
-    Descrição: Spring MVC: Domine o principal framework web Java
-    Quantidade: 002
-    Subtotal: R$99,80
-
-=============================================
-
-```

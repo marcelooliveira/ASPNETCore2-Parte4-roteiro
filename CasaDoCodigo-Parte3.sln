@@ -38,6 +38,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Item01 - Criando o Projeto 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CasaDoCodigo.MVC", "Item01\CasaDoCodigo\CasaDoCodigo.MVC.csproj", "{7C8E8457-212D-4995-B799-E9C01E576B52}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Exercicios", "Exercicios", "{1EF3A98E-03D0-4BE7-A58B-9875CBB6BB36}"
+	ProjectSection(SolutionItems) = preProject
+		Exercicios.md = Exercicios.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
