@@ -52,18 +52,26 @@ Correto. IdentityServer fornece um ponto central para que um usuário possa usar 
 Você está desenvolvendo uma aplicação que já utiliza autenticação/autorização. O que acontece quando um usuário desconectado tenta acessar uma view através de uma action protegida num controller da sua aplicação?
 
 - (x) a. O usuário é redirecionado para a página de login
+Correto. Quando um recurso protegido numa aplicação é acessado por um usuário desconectado, ele deverá ser levado para a view de login/registro.
 - ( ) b. O usuário é redirecionado para a página de logout
+Incorreto. O usuário já está desconectado.
 - ( ) c. O usuário consegue acessar a action normalmente
+Incorreto. O usuário desconectado jamais deveria acessar um recurso protegido.
 - ( ) d. Ocorre uma exceção de AuthenticationException
+Incorreto. O acesso a uma view protegida não deveria gerar uma exceção, e sim tratar o usuário de forma amigável.
 
 ##### Exercício 2)
    
 Como as declarações do usuário (claims) são trocadas entre o IdentityServer e a aplicação MVC?
 
 - (x) a. A aplicação MVC faz um redirecionamento para a uma view de login da aplicação IdentityServer, onde o usuário realiza o login. Após a autenticação, o usuário é redirecionado de volta para a aplicação MVC com os cookies contendo o token JWT com as declarações do usuário (claims).
+Correto. Através de redirecionamentos (ex. código HTTP 302), as claims são transferidas entre o servidor de tokens e os clientes e apis.
 - ( ) b. A aplicação MVC faz uma chamada HTTP via AJAX (JavaScript), enviando login e senha para a aplicação IdentityServer, onde o usuário é autenticado. A chamada AJAX retorna o token JWT com as declarações do usuário (claims). 
+Incorreto. As claims não são transmitidas manualmente por AJAX, e sim de forma transparente.
 - ( ) c. A aplicação MVC faz uma chamada POST usando um objeto HttpClient, passando login e senha para uma action da aplicação IdentityServer, onde o usuário é autenticado. A chamada assíncrona retorna o token JWT com as declarações do usuário (claims).
+Incorreto. As claims não são transmitidas manualmente via HTTP POST, e sim de forma transparente.
 - ( ) d. A aplicação MVC faz uma chamada GET usando um objeto HttpClient, passando login e senha para uma action da aplicação IdentityServer, onde o usuário é autenticado. A chamada assíncrona retorna o token JWT com as declarações do usuário (claims). 
+Incorreto. As claims não são transmitidas manualmente via HTTP GET, e sim de forma transparente.
 
 ##### Exercício 3)
    
@@ -350,7 +358,4 @@ Incorreto. Com IdentityServer você não envia usuário e senha da aplicação client
 3. Definir o header de autorização do `HttpClient` com o login e senha do usuário
 4. Fazer uma requisição POST usando o `HttpClient`
 Incorreto. Com IdentityServer você não envia login e senha para o serviço Web API.
-
-
-
 
