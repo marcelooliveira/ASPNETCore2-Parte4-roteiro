@@ -285,7 +285,7 @@ services
 });
 ```
 
-- (x) b.
+- ( ) b.
 ```csharp   
 services
 .AddAuthentication()
@@ -297,7 +297,7 @@ services
 });
 ```
 
-- (x) c.
+- ( ) c.
 ```csharp
 var builder = services.AddIdentityServer(options =>
 {
@@ -321,23 +321,29 @@ Como fazer chamadas autorizadas HTTP Post ao serviço Web API a partir da aplicaç
 2. Solicitar o access token à aplicação IdentityServer
 3. Definir o header de autorização do `HttpClient` com o access token
 4. Fazer uma requisição POST usando o `HttpClient`
+Correto. É necessário requisitar o access token ao serviço IdentityServer e passá-lo no cabeçalho da requisição feita ao serviço Web API.
 
 - ( ) b.
 1. Criar uma nova instância de `HttpClient` com o `HttpClientFactory`
 2. Enviar o login e senha do usuário à aplicação IdentityServer
 3. Definir o header de autorização do `HttpClient` com o login e senha do usuário
 4. Fazer uma requisição POST usando o `HttpClient`
+Incorreto. Com IdentityServer você não envia login e senha da aplicação cliente para o IdentityServer, nem envia login e senha para o serviço Web API.
 
 - ( ) c.
 1. Criar uma nova instância de `HttpClient` com o `HttpClientFactory`
 2. Enviar o login e senha do usuário à aplicação IdentityServer e receber de volta um access token
 3. Definir o header de autorização do `HttpClient` com o access token
 4. Fazer uma requisição POST usando o `HttpClient`
+Incorreto. Com IdentityServer você não envia usuário e senha da aplicação cliente para o IdentityServer.
 
 - ( ) d.
 1. Criar uma nova instância de `HttpClient` com o `HttpClientFactory`
 2. Enviar o access token à aplicação IdentityServer e receber de volta o login e a senha do usuário
 3. Definir o header de autorização do `HttpClient` com o login e senha do usuário
 4. Fazer uma requisição POST usando o `HttpClient`
+Incorreto. Com IdentityServer você não envia login e senha para o serviço Web API.
+
+
 
 
