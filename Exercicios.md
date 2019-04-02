@@ -249,9 +249,11 @@ Você verifica que o usuário está devidamente autenticado, porém a claim "sub" nã
 O que fazer?
 
 - (x) a. Eliminar o mapeamento de claims na aplicação MVC, com a linha de código: `JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();`
+Correto. O ASP.NET Core converte por padrão a claim "sub" para outro nome: "nameidentifier". É necessário eliminar esse mapeamento para se obter o claim "sub".
 - ( ) b. Criar uma nova claim "sub" na aplicação IdentityServer, com a linha de código: `var Sub = System.Guid.NewGuid();`
+Incorreto. Não se deve criar uma nova claim "sub" na aplicação IdentityServer, pois ela já está criada.
 - ( ) c. Criar uma nova claim "sub" na aplicação cliente MVC, com a linha de código: `var Sub = System.Guid.NewGuid();`
-- ( ) d. Eliminar o mapeamento de claims na aplicação IdentityServer, com a linha de código: `JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();`
+Incorreto. Não se deve criar uma nova claim "sub" na aplicação IdentityServer, pois ela já está criada.
 
 ### Item05 - Autorizando WebAPI
 
