@@ -90,7 +90,6 @@ Quais actions de controller da aplicação devem ser protegidos pelo atributo `[Au
 - (x) d. UpdateQuantidade
 - ( ) e. Carrossel
 - ( ) f. BuscaProdutos
-
  
 ### Item03 - Fluxo de Logout
 
@@ -142,9 +141,9 @@ Você está usando uma aplicação ASP.NET Core em conjunto com autenticação via Ide
 Você verifica que o usuário está devidamente autenticado, porém a claim "sub" não está aparecendo na lista de claims do usuário na aplicação cliente MVC.
 O que fazer?
 
-- (x) a. Criar uma nova claim "sub" na aplicação IdentityServer, com a linha de código: `var Sub = System.Guid.NewGuid();`
-- ( ) b. Criar uma nova claim "sub" na aplicação cliente MVC, com a linha de código: `var Sub = System.Guid.NewGuid();`
-- ( ) c. Eliminar o mapeamento de claims na aplicação MVC, com a linha de código: `JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();`
+- (x) a. Eliminar o mapeamento de claims na aplicação MVC, com a linha de código: `JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();`
+- ( ) b. Criar uma nova claim "sub" na aplicação IdentityServer, com a linha de código: `var Sub = System.Guid.NewGuid();`
+- ( ) c. Criar uma nova claim "sub" na aplicação cliente MVC, com a linha de código: `var Sub = System.Guid.NewGuid();`
 - ( ) d. Eliminar o mapeamento de claims na aplicação IdentityServer, com a linha de código: `JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();`
 
 ### Item05 - Autorizando WebAPI
@@ -173,5 +172,30 @@ Qual a sequência de passos necessários para autorizar esta Web API?
 
 ##### Exercício 4)
    
-Como fazer chamadas HTTP Post autorizadas?
+Como fazer chamadas autorizadas HTTP Post ao serviço Web API a partir da aplicação cliente MVC?
+
+- (x) a.
+1. Criar uma nova instância de `HttpClient` com o `HttpClientFactory`
+2. Solicitar o access token à aplicação IdentityServer
+3. Definir o header de autorização do `HttpClient` com o access token
+4. Fazer uma requisição POST usando o `HttpClient`
+
+- ( ) b.
+1. Criar uma nova instância de `HttpClient` com o `HttpClientFactory`
+2. Enviar o login e senha do usuário à aplicação IdentityServer
+3. Definir o header de autorização do `HttpClient` com o login e senha do usuário
+4. Fazer uma requisição POST usando o `HttpClient`
+
+- ( ) c.
+1. Criar uma nova instância de `HttpClient` com o `HttpClientFactory`
+2. Enviar o login e senha do usuário à aplicação IdentityServer e receber de volta um access token
+3. Definir o header de autorização do `HttpClient` com o access token
+4. Fazer uma requisição POST usando o `HttpClient`
+
+- ( ) d.
+1. Criar uma nova instância de `HttpClient` com o `HttpClientFactory`
+2. Enviar o access token à aplicação IdentityServer e receber de volta o login e a senha do usuário
+3. Definir o header de autorização do `HttpClient` com o login e senha do usuário
+4. Fazer uma requisição POST usando o `HttpClient`
+
 
