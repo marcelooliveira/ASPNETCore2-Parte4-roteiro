@@ -284,6 +284,7 @@ services
     options.Authority = Configuration["IdentityUrl"];
 });
 ```
+Correto. Você precisa configurar a autenticação usando IdentityServer, passando como dados o id e nome da Web API, e também a Url do servidor IdentityServer, que é a autoridade da autenticação.
 
 - ( ) b.
 ```csharp   
@@ -296,6 +297,7 @@ services
     options.Authority = Configuration["IdentityUrl"];
 });
 ```
+Incorreto. Você não pode configurar dados do cliente, pois está configurando uma Web API.
 
 - ( ) c.
 ```csharp
@@ -311,6 +313,7 @@ var builder = services.AddIdentityServer(options =>
 .AddInMemoryClients(Config.GetClients(Configuration["CallbackUrl"]))
 .AddAspNetIdentity<ApplicationUser>();
 ```
+Incorreto. Essa configuração é criada pelo template do projeto IdentityServer, e não deve ser usada na sua Web API.
 
 ##### Exercício 3)
    
