@@ -45,29 +45,6 @@ Correto. IdentityServer fornece lógica de login e fluxo de trabalho centralizado
 - (x) h. Single Sign-on / Sign-out
 Correto. IdentityServer fornece um ponto central para que um usuário possa usar diversas aplicações e fazer login e logout apenas uma vez.
 
-##### Exercício 3)
-   
-Como adicionar funcionalidades do ASP.NET Core Identity num projeto preexistente?
-
-1. Clicar sobre o projeto e selecionar `Add New Scaffolded Item > Identity > Identity`
-2. Selecionar a página de layout, views de Identity, classe de contexto, tipo de banco de dados e classe de usuário
-3. Incluir uma partial view para o login do usuário
-4. `Add-Migration Usuarios -context CasaDoCodigoContext`
-5. rodar o comando: `Update-Database -context CasaDoCodigoContext`
-6. `app.UseAuthentication();`
-
-##### Exercício 4)
-   
-Como criar um projeto STS com IdentityServer?
-
-- (x) a. Abrir Developer Command Prompt for VS 2017
-- (x) b. No diretório da solução, criar um novo diretório para o projeto Iden
-- (x) c. Instalar templates IdentityServer4 `dotnet new -i identityserver4.templates`
-- (x) d. Criar novo projeto ASP.NET Identity for user management: `dotnet new is4aspid`
-- (x) e. Fazer o "seeding" (alimentar) o banco de dados de usuário
-- (x) f. Adicionar o novo projeto IdentityServer à solução
-- (x) g. Definir os 2 projetos como iniciais (Startup Projects)
-
 ### Item02 - Autorizando o Cliente MVC
 
 ##### Exercício 1)
