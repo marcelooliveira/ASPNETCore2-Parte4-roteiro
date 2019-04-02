@@ -164,19 +164,50 @@ options.SaveTokens = true;
 
 ##### Exercício 2)
    
-Por que as claims (declarações) do usuário logado não aparecem na aplicação MVC?
+Você precisa programar uma action em um controller para desconectar o usuário logado numa aplicação cliente que trabalha com IdentityServer.
 
-##### Exercício 3)
-   
-O que acontece quando o usuário conectado faz logout na tela de carrinho?
- 
+Escolha o código adequado para implementar essa action
+
+a. 
+```csharp
+[Authorize]
+public async Task Logout()
+{
+    await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+    await HttpContext.SignOutAsync(OpenIdConnectDefaults.AuthenticationScheme);
+}
+```
+
+b. 
+```csharp
+[Authorize]
+public async Task Logout()
+{
+    await _signInManager.SignOutAsync();
+}
+```
+
+c. 
+```csharp
+[Authorize]
+public IActionResult Logout()
+{
+    return View("LoggedOut", vm);
+}
+```
+
+d. 
+```csharp
+[Authorize]
+public async Task Logout()
+{
+    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+}
+```
+
 ### Item04 - Pedidos de Clientes
 
 ##### Exercício 1)
-   
-Como obter o id do usuário autenticado?
-
-##### Exercício 2)
    
 O que é JWT?
 
@@ -185,7 +216,7 @@ O que é JWT?
 - ( ) c. Os JSON Web Tokens são um padrão aberto da indústria para realizar chamadas AJAX com segurança entre duas partes.
 - ( ) d. Os JSON Web Tokens são um padrão proprietário criado pela Microsoft para realizar chamadas AJAX com segurança entre duas partes.
 
-##### Exercício 3)
+##### Exercício 2)
    
 Selecione abaixo quais são exemplos de claims existentes em um JWT (Jason Web Token):
 
@@ -196,7 +227,7 @@ Selecione abaixo quais são exemplos de claims existentes em um JWT (Jason Web To
 - ( ) e. Jason Web Tokens
 - ( ) f. Endereço do servidor IdentityServer
 
-##### Exercício 4)
+##### Exercício 3)
    
 Você está usando uma aplicação ASP.NET Core em conjunto com autenticação via IdentityServer.
 Você verifica que o usuário está devidamente autenticado, porém a claim "sub" não está aparecendo na lista de claims do usuário na aplicação cliente MVC.
