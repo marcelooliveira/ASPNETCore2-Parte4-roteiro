@@ -7,39 +7,54 @@
 Quais afirmações abaixo são corretas sobre o ASP.NET Core Identity?
 
 - (x) a. pode ser gerado facilmente por um novo "scaffolding" do projeto
+Correto. O ASP.NET Core 2.1 e posterior permite realizar um "scaffolding", que fornece ASP.NET Core Identity como um biblioteca de classes Razor.
 - (x) b. é efetivo quando você só precisa de um sistema de login simples
+Correto. Se você só precisa de um controle de autenticação/autorização de usuários para uma aplicação, usar ASP.NET Core Identity é o mais adequado.
 - ( ) c. funciona como uma autoridade externa para validar identidades
+Incorreto. ASP.NET Core Identity não funciona como um projeto externo.
 - ( ) d. permite que múltiplos clientes possam fazer login
+Incorreto. O uso do ASP.NET Core Identity se limita à aplicação que a utiliza.
 - ( ) e. é gerado a partir de um novo projeto exclusivo para serviço de usuários
-- ( ) f. permite envolver e acessar várias APIs do seu sistema, de forma segura
+Incorreto. Você utilizará o ASP.NET Core Identity no próprio projeto MVC.
+- ( ) f. permite envolver e acessar várias Web APIs do seu sistema, de forma segura
+Incorreto. As  Web APIs não terão como reconhecer o usuário autenticado.
 - ( ) g. Autenticação como serviço
+Incorreto. Com ASP.NET Core Identity, você não terá autenticação como serviço.
 - ( ) h. Single Sign-on / Sign-out
-- ( ) i. Controle de acesso para APIs
+Incorreto. ASP.NET Core Identity não permite autenticação centralizada de vários serviços, necessária para realizar Single Sign-on
+
 
 ##### Exercício 2)
    
 Quais afirmações abaixo são corretas sobre o IdentityServer?
 
-- ( ) a. pode ser gerado facilmente por um novo "scaffolding" do projeto
+- ( ) a. pode ser gerado facilmente por um novo "scaffolding" de projeto cliente MVC
+Incorreto. IdentityServer precisa ser gerado como um projeto separado do seu projeto cliente MVC.
 - ( ) b. é efetivo quando você só precisa de um sistema de login simples
+Incorreto. A configuração do IdentityServer é mais complexa, e precisa de modificações tanto no projeto IdentityServer, cliente MVC como também nas Web APIs envolvidas.
 - (x) c. funciona como uma autoridade externa para validar identidades
+Correto. IdentityServer dá suporte para provedores de identidade externos, como o Azure Active Directory, o Google, o Facebook, etc. Isso protege seus aplicativos dos detalhes de como conectar-se a esses provedores externos.
 - (x) d. permite que múltiplos clientes possam fazer login
+Correto. IdentityServer permite que vários clientes possam utilizar o serviço do IdentityServer para se autenticarem e compartilharem credenciais do usuário conectado.
 - (x) e. é gerado a partir de um novo projeto exclusivo para serviço de usuários
+Correto. Você introduz o IdentityServer na sua solução criando um novo projeto com template IdentityServer.
 - (x) f. permite envolver e acessar várias APIs do seu sistema, de forma segura
+Correto. O IdentityServer emite tokens de acesso para APIs para vários tipos de clientes, por exemplo servidor para servidor, aplicativos da Web, SPAs e aplicativos nativos / móveis.
 - (x) g. Autenticação como serviço
+Correto. IdentityServer fornece lógica de login e fluxo de trabalho centralizados para todos os seus aplicativos (web, nativo, móvel, serviços). O IdentityServer é uma implementação oficialmente certificada do OpenID Connect.
 - (x) h. Single Sign-on / Sign-out
-- (x) i. Controle de acesso para APIs
+Correto. IdentityServer fornece um ponto central para que um usuário possa usar diversas aplicações e fazer login e logout apenas uma vez.
 
 ##### Exercício 3)
    
 Como adicionar funcionalidades do ASP.NET Core Identity num projeto preexistente?
 
-- (x) a. Clicar sobre o projeto > Add New Scaffolded Item > Identity > Identity
-- (x) b. Selecionar a página de layout, views de Identity, classe de contexto, tipo de banco de dados e classe de usuário
-- (x) c. Incluir uma partial view para o login do usuário
-- (x) d. Add-Migration Usuarios -context CasaDoCodigoContext
-- (x) e. rodar o comando: Update-Database -context CasaDoCodigoContext
-- (x) f. app.UseAuthentication();
+1. Clicar sobre o projeto e selecionar `Add New Scaffolded Item > Identity > Identity`
+2. Selecionar a página de layout, views de Identity, classe de contexto, tipo de banco de dados e classe de usuário
+3. Incluir uma partial view para o login do usuário
+4. `Add-Migration Usuarios -context CasaDoCodigoContext`
+5. rodar o comando: `Update-Database -context CasaDoCodigoContext`
+6. `app.UseAuthentication();`
 
 ##### Exercício 4)
    
