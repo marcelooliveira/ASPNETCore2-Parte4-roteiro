@@ -66,12 +66,12 @@ Você está desenvolvendo uma aplicação que já utiliza autenticação/autorização. O
 
 ##### Exercício 2)
    
-Como as credenciais (claims) são trocadas entre o IdentityServer e a aplicação MVC?
+Como as declarações do usuário (claims) são trocadas entre o IdentityServer e a aplicação MVC?
 
-- (x) a. A aplicação MVC faz um redirecionamento para a uma view de login da aplicação IdentityServer, onde o usuário realiza o login. Após a autenticação, o usuário é redirecionado de volta para a aplicação MVC com os cookies contendo o token JWT com as credenciais (claims) do usuário. 
-- ( ) b. A aplicação MVC faz uma chamada HTTP via AJAX (JavaScript), enviando login e senha para a aplicação IdentityServer, onde o usuário é autenticado. A chamada AJAX retorna o token JWT com as credenciais (claims) do usuário.. 
-- ( ) c. A aplicação MVC faz uma chamada POST usando um objeto HttpClient, passando login e senha para uma action da aplicação IdentityServer, onde o usuário é autenticado. A chamada assíncrona retorna o token JWT com as credenciais (claims) do usuário.. 
-- ( ) d. A aplicação MVC faz uma chamada GET usando um objeto HttpClient, passando login e senha para uma action da aplicação IdentityServer, onde o usuário é autenticado. A chamada assíncrona retorna o token JWT com as credenciais (claims) do usuário.. 
+- (x) a. A aplicação MVC faz um redirecionamento para a uma view de login da aplicação IdentityServer, onde o usuário realiza o login. Após a autenticação, o usuário é redirecionado de volta para a aplicação MVC com os cookies contendo o token JWT com as declarações do usuário (claims).
+- ( ) b. A aplicação MVC faz uma chamada HTTP via AJAX (JavaScript), enviando login e senha para a aplicação IdentityServer, onde o usuário é autenticado. A chamada AJAX retorna o token JWT com as declarações do usuário (claims). 
+- ( ) c. A aplicação MVC faz uma chamada POST usando um objeto HttpClient, passando login e senha para uma action da aplicação IdentityServer, onde o usuário é autenticado. A chamada assíncrona retorna o token JWT com as declarações do usuário (claims).
+- ( ) d. A aplicação MVC faz uma chamada GET usando um objeto HttpClient, passando login e senha para uma action da aplicação IdentityServer, onde o usuário é autenticado. A chamada assíncrona retorna o token JWT com as declarações do usuário (claims). 
 
 ##### Exercício 3)
    
@@ -120,19 +120,48 @@ Como obter o id do usuário autenticado?
    
 O que é JWT?
 
+Os JSON Web Tokens são um padrão aberto da indústria para representar declarações do usuário (claims) com segurança entre duas partes.
+Os JSON Web Tokens são um padrão proprietário criado pela Microsoft para representar declarações do usuário (claims) com segurança entre duas partes.
+Os JSON Web Tokens são um padrão aberto da indústria para realizar chamadas AJAX com segurança entre duas partes.
+Os JSON Web Tokens são um padrão proprietário criado pela Microsoft para realizar chamadas AJAX com segurança entre duas partes.
+
 ##### Exercício 3)
    
-O que são claims?
+Selecione abaixo quais são exemplos de claims existentes em um JWT (Jason Web Token):
+
+- (x) a. Nome do cliente
+- (x) b. CPF do cliente
+- (x) c. Data de nascimento do cliente
+- ( ) d. Cookies
+- ( ) e. Jason Web Tokens
+- ( ) f. Endereço do servidor IdentityServer
 
 ##### Exercício 4)
    
-A claim "sub" não está aparecendo. O que fazer?
+Você está usando uma aplicação ASP.NET Core em conjunto com autenticação via IdentityServer.
+Você verifica que o usuário está devidamente autenticado, porém a claim "sub" não está aparecendo na lista de claims do usuário na aplicação cliente MVC.
+O que fazer?
+
+- (x) a. Criar uma nova claim "sub" na aplicação IdentityServer, com a linha de código: `var Sub = System.Guid.NewGuid();`
+- ( ) b. Criar uma nova claim "sub" na aplicação cliente MVC, com a linha de código: `var Sub = System.Guid.NewGuid();`
+- ( ) c. Eliminar o mapeamento de claims na aplicação MVC, com a linha de código: `JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();`
+- ( ) d. Eliminar o mapeamento de claims na aplicação IdentityServer, com a linha de código: `JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();`
 
 ### Item05 - Autorizando WebAPI
 
 ##### Exercício 1)
    
-Como envolver o Web API no processo de autorização?
+Como envolver um novo projeto Web API no processo de autorização?
+
+- (x) a. Proteger uma ou mais actions do novo projeto Web API com o atributo `[Authorize]`
+- (x) b. Instalar no projeto Web API o pacote `IdentityServer4.AccessTokenValidation`
+- (x) c. Configurar autenticação na classe Startup do projeto Web API 
+- (x) d. Configurar o novo projeto Web API como ApiResource e escopo no projeto IdentityServer
+- ( ) e. Proteger uma ou mais actions do novo projeto Web API com o atributo `[Authenticate]`
+- ( ) f. Instalar no projeto MVC o pacote `IdentityServer4.AccessTokenValidation`
+- ( ) g. Configurar autenticação na classe Startup do projeto IdentityServer
+- ( ) h. Configurar o novo projeto Web API como Client no projeto IdentityServer
+
 
 ##### Exercício 2)
    
