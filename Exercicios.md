@@ -95,7 +95,7 @@ Quais actions de controller da aplicação devem ser protegidos pelo atributo `[Au
 
 ##### Exercício 1)
    
-Como fazer logout pelo MVC?
+Como fazer o processo de logout em um cliente MVC numa solução que envolve IdentityServer?
 
 ##### Exercício 2)
    
@@ -103,7 +103,7 @@ Quais passos necessários para exibir o nome do usuário nas views do MVC?
 
 ##### Exercício 3)
    
-Por que as claims do usuário logado não aparecem na aplicação MVC?
+Por que as claims (declarações) do usuário logado não aparecem na aplicação MVC?
 
 ##### Exercício 4)
    
@@ -164,13 +164,48 @@ Como envolver um novo projeto Web API no processo de autorização?
 
 ##### Exercício 2)
    
-Qual configuração de Web API é correta?
+Qual configuração de autenticação da Web API é correta?
+
+- (x) a.
+```csharp
+services
+.AddAuthentication("Bearer")
+.AddIdentityServerAuthentication(options =>
+{
+    options.ApiName = "Codigo_da_API";
+    options.ApiSecret = "segredo_da_api";
+    options.Authority = Configuration["IdentityUrl"];
+});
+```
+
+- (x) b.
+```csharp   
+services
+.AddAuthentication()
+.AddOpenIdConnect(options =>
+{
+    options.ClientId = "Codigo_da_API";
+    options.ClientSecret = "segredo_da_api";
+    options.Authority = Configuration["IdentityUrl"];
+});
+```
+
+- (x) c.
+```csharp
+var builder = services.AddIdentityServer(options =>
+{
+    options.Events.RaiseErrorEvents = true;
+    options.Events.RaiseInformationEvents = true;
+    options.Events.RaiseFailureEvents = true;
+    options.Events.RaiseSuccessEvents = true;
+})
+.AddInMemoryIdentityResources(Config.GetIdentityResources())
+.AddInMemoryApiResources(Config.GetApis())
+.AddInMemoryClients(Config.GetClients(Configuration["CallbackUrl"]))
+.AddAspNetIdentity<ApplicationUser>();
+```
 
 ##### Exercício 3)
-   
-Qual a sequência de passos necessários para autorizar esta Web API?
-
-##### Exercício 4)
    
 Como fazer chamadas autorizadas HTTP Post ao serviço Web API a partir da aplicação cliente MVC?
 
