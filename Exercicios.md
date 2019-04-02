@@ -95,17 +95,78 @@ Quais actions de controller da aplicação devem ser protegidos pelo atributo `[Au
 
 ##### Exercício 1)
    
-Como fazer o processo de logout em um cliente MVC numa solução que envolve IdentityServer?
+Você está tentando exibir o nome do usuário conectado nas views da aplicação cliente MVC.
+Para isso, você adiciona as seguintes linhas ao arquivo `_layout.cshtml`:
+
+```csharp
+@using System.Linq;
+@using System.Security.Claims;
+@{
+    string name = null;
+    if (!true.Equals(ViewData["signed-out"]))
+    {
+        name = @User.FindFirst("name")?.Value;
+    }
+}
+```
+```html
+<div class="navbar-collapse collapse">
+    @if (!string.IsNullOrWhiteSpace(name))
+    {
+        <ul class="nav navbar-nav pull-right">
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">@name <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li><a asp-action="Logout" asp-controller="Pedido">Logout</a></li>
+                </ul>
+            </li>
+        </ul>
+    }
+</div>
+```
+
+Entretanto, ao consultar as declarações do usuário (claims), você nota que está faltando a declaração (claim) com o nome do usuário:
+
+```csharp
+Context.User.Claims.ToList()
+Count = 4
+    [0]: {sid: a7a7a086af6a1ae87c682638a80824c1}
+    [1]: {http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier: 5f1aaf2e-3f22-467b-bd96-60a5cd4ec095}
+    [2]: {http://schemas.microsoft.com/identity/claims/identityprovider: local}
+    [3]: {http://schemas.microsoft.com/claims/authnmethodsreferences: pwd}
+```
+
+O que você precisa fazer para que a claim com o nome do usuário esteja presente nessa lista?
+
+a. 
+Adicionar esta opção na configuração do cliente MVC:
+```csharp
+options.GetClaimsFromUserInfoEndpoint = true;
+```
+
+b. 
+Adicionar esta opção na configuração do servidor IdentityServer:
+```csharp
+options.GetClaimsFromUserInfoEndpoint = true;
+```
+
+c. 
+Adicionar esta opção na configuração do cliente MVC:
+```csharp
+options.SaveTokens = true;
+```
+
+d. 
+Adicionar esta opção na configuração do servidor IdentityServer:
+```csharp
+options.SaveTokens = true;
+```
 
 ##### Exercício 2)
    
-Quais passos necessários para exibir o nome do usuário nas views do MVC?
-
-##### Exercício 3)
-   
 Por que as claims (declarações) do usuário logado não aparecem na aplicação MVC?
 
-##### Exercício 4)
+##### Exercício 3)
    
 O que acontece quando o usuário conectado faz logout na tela de carrinho?
  
