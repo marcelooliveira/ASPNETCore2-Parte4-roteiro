@@ -223,24 +223,34 @@ public async Task Logout()
 ### Item04 - Pedidos de Clientes
 
 ##### Exercício 1)
-   
+  
 O que é JWT?
 
 - (x) a. Os JSON Web Tokens são um padrão aberto da indústria para representar declarações do usuário (claims) com segurança entre duas partes.
+Correto. Usamos esse padrão nos projetos ASP.NET Core para transmitir claims entre aplicações MVC, IdentityServer e Web API.
 - ( ) b. Os JSON Web Tokens são um padrão proprietário criado pela Microsoft para representar declarações do usuário (claims) com segurança entre duas partes.
+Incorreto. JWTs não são padrão proprietário.
 - ( ) c. Os JSON Web Tokens são um padrão aberto da indústria para realizar chamadas AJAX com segurança entre duas partes.
+Incorreto. É possível utilizar tokens JWT com AJAX, mas eles não limitados a requisições AJAX.
 - ( ) d. Os JSON Web Tokens são um padrão proprietário criado pela Microsoft para realizar chamadas AJAX com segurança entre duas partes.
+Incorreto. JWTs não são padrão proprietário, e além disso é possível utilizar tokens JWT com AJAX, mas eles não limitados a requisições AJAX.
 
 ##### Exercício 2)
    
 Selecione abaixo quais são exemplos de claims existentes em um JWT (Jason Web Token):
 
 - (x) a. Nome do cliente
+Correto. O nome do cliente é um atributo do cliente que poderia ser transmitido através de um token JWT.
 - (x) b. CPF do cliente
+Correto. O CPF do cliente é um atributo do cliente que poderia ser transmitido através de um token JWT.
 - (x) c. Data de nascimento do cliente
+Correto. A data de nascimento do cliente é um atributo do cliente que poderia ser transmitido através de um token JWT.
 - ( ) d. Cookies
+Incorreto. Cookies não são claims (declarações do usuário). Eles são arquivos transmitidos junto com requisições web e nas respostas a essas requisições.
 - ( ) e. Jason Web Tokens
+Incorreto. Jason Web Tokens não são claims (declarações do usuário), mas sim um padrão de transmissão de claims.
 - ( ) f. Endereço do servidor IdentityServer
+Incorreto. O endereço do servidor IdentityServer não é uma informação do usuário.
 
 ##### Exercício 3)
    
