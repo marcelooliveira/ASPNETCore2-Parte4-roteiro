@@ -158,30 +158,37 @@ Adicionar esta opção na configuração do cliente MVC:
 ```csharp
 options.GetClaimsFromUserInfoEndpoint = true;
 ```
+Correto. A propriedade `GetClaimsFromUserInfoEndpoint` define se o manipulador 
+deve ir até o endpoint de informações do usuário para recuperar declarações 
+adicionais ou não após criar uma identidade a partir do id_token recebido do 
+endpoint do token. O padrão é falso'.
 
 b. 
 Adicionar esta opção na configuração do servidor IdentityServer:
 ```csharp
 options.GetClaimsFromUserInfoEndpoint = true;
 ```
+Incorreto. Essa configuração não deve ser feita no servidor IdentityServer.
 
 c. 
 Adicionar esta opção na configuração do cliente MVC:
 ```csharp
 options.SaveTokens = true;
 ```
+Incorreto. `SaveTokens` apenas define se os tokens de acesso devem ser armazenados nas propriedades de autenticação após uma autorização bem-sucedida.
 
 d. 
 Adicionar esta opção na configuração do servidor IdentityServer:
 ```csharp
 options.SaveTokens = true;
 ```
+Incorreto. `SaveTokens` apenas define se os tokens de acesso devem ser armazenados nas propriedades de autenticação após uma autorização bem-sucedida.
 
 ##### Exercício 2)
    
 Você precisa programar uma action em um controller para desconectar o usuário logado numa aplicação cliente que trabalha com IdentityServer.
 
-Escolha o código adequado para implementar essa action
+Escolha o código adequado para implementar essa action:
 
 a. 
 ```csharp
@@ -192,17 +199,9 @@ public async Task Logout()
     await HttpContext.SignOutAsync(OpenIdConnectDefaults.AuthenticationScheme);
 }
 ```
+Correto. O método `HttpContext.SignOutAsync` nessas duas linhas exclui os cookies usadosna autenticação.  Isso efetivamente desconecta o usuário, forçando-o a um novo login da próxima vez que ele tentar acessar um recurso protegido.
 
 b. 
-```csharp
-[Authorize]
-public async Task Logout()
-{
-    await _signInManager.SignOutAsync();
-}
-```
-
-c. 
 ```csharp
 [Authorize]
 public IActionResult Logout()
@@ -210,8 +209,9 @@ public IActionResult Logout()
     return View("LoggedOut", vm);
 }
 ```
+Incorreto. Esse código apenas irá redirecionar o usuário para uma outra view, sem efetivamente desconectá-lo.
 
-d. 
+c. 
 ```csharp
 [Authorize]
 public async Task Logout()
@@ -219,6 +219,8 @@ public async Task Logout()
     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 }
 ```
+Incorreto. Precisamos fazer um sign-out, não um sign-in.
+
 
 ### Item04 - Pedidos de Clientes
 
