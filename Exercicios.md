@@ -77,12 +77,18 @@ Porém, a manipulação de pedidos deve ser feita somente por usuários devidamente 
 Quais actions de controller da aplicação devem ser protegidos pelo atributo `[Authorize]`?
 
 - (x) a. Carrinho
+Correto. O carrinho de compras é exclusivo do usuário, e deveria ser protegido.
 - (x) b. Cadastro
-- (x) c. Resumo
+Correto. Um cadastro é confidencial e sempre exclusivo de um usuário, e deveria ser protegido.
+- (x) c. Resumo do pedido
+Correto. Os dados do pedido são confidenciais e exclusivos de um usuário, e deveria ser protegido.
 - (x) d. UpdateQuantidade
+Correto. A atualização de quantidade se refere a um item de pedido. Os dados do pedido são confidenciais e exclusivos de um usuário, e deveria ser protegido.
 - ( ) e. Carrossel
+Incorreto. O carrossel de produtos não possui nenhuma informação sobre o pedido, deveria ficar desprotegido, para consulta de usuários desconectados.
 - ( ) f. BuscaProdutos
- 
+Incorreto. A busca de produtos não possui nenhuma informação sobre o pedido, deveria ficar desprotegido, para consulta de usuários desconectados. 
+
 ### Item03 - Fluxo de Logout
 
 ##### Exercício 1)
