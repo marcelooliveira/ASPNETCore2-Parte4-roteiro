@@ -260,14 +260,21 @@ O que fazer?
 Como envolver um novo projeto Web API no processo de autorização?
 
 - (x) a. Proteger uma ou mais actions do novo projeto Web API com o atributo `[Authorize]`
+Correto. O atributo `[Authorize]` especifica que o acesso a um controlador ou método de ação é restrito a usuários que atendem ao requisito de autorização.
 - (x) b. Instalar no projeto Web API o pacote `IdentityServer4.AccessTokenValidation`
+Correto. Esse pacote permite adicionar autenticação com o método de extensão `AddIdentityServerAuthentication`.
 - (x) c. Configurar autenticação na classe Startup do projeto Web API 
+Correto. A autenticação da Web API precisa ser configurada, passando código da API, segredo e url da autoridade (servidor IdentityServer).
 - (x) d. Configurar o novo projeto Web API como ApiResource e escopo no projeto IdentityServer
+Correto. O projeto IdentityServer deve ser configurado para que ele reconheça e permita acesso à Web API.
 - ( ) e. Proteger uma ou mais actions do novo projeto Web API com o atributo `[Authenticate]`
+Incorreto. Não existe um atributo `AuthenticateAttribute` para permitir ou restringir acesso a métodos da aplicaçãpo.
 - ( ) f. Instalar no projeto MVC o pacote `IdentityServer4.AccessTokenValidation`
+Incorreto. Esse pacote não deve ser instalado na aplicação cliente MVC.
 - ( ) g. Configurar autenticação na classe Startup do projeto IdentityServer
+Incorreto. Não se deve modificar a autenticação no projeto Startup apenas para acomodar uma nova Web API.
 - ( ) h. Configurar o novo projeto Web API como Client no projeto IdentityServer
-
+Incorreto. Um Web API não deve ser configurado como cliente.
 
 ##### Exercício 2)
    
